@@ -1,0 +1,12 @@
+{
+    "name": "MixendMod",
+    "description": "MixendMod by Mixend. Provides fishing utils (Crimson Isle only for now)",
+    "version": "0.0.1",
+    "author": "Mixend",
+    "entry": "index.js",
+    "requires": [
+        "PogData",
+        "Vigilance",
+        "RenderLib"
+    ]
+}
