@@ -1,16 +1,31 @@
 # Ongoing changes
 
+# Released
+
 ## 0.0.4
 
-### Changes
+**Screen alerts:**
 
-- Display command to open settings when loading module
-- Fix coord sent in chat to fit patcher
+- Grim Reaper & Phantom
+- Mining speed boost use/available
+- Deep Sea Orb
+
+**Party pings:**
+
+- Magic find drop toggle options
+- Vanquisher spawning
+
+**GUI:**
+
+- Tracked mob (Jawbus Thunder Vanquisher) HP in GUI
+
+**Other:**
+
+- Detect nearby Vanquishers
 - Removed Plhlegblast detection
-- Added Vanquisher detection and party ping
-- Added Tracked mob (Jawbus Thunder Vanquisher) HP in GUI
-
-# Released
+- Fix coord sent in chat to fit patcher
+- Display command to open settings when loading module
+- Added /mixshow supported arguments
 
 ## 0.0.3
 
