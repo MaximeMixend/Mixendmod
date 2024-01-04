@@ -1,3 +1,4 @@
+import settings from "../settings";
 import { BOLD, DARK_GREEN, BLUE, DARK_RED, GOLD } from "../utils/constants";
 
 export let activePet = {
@@ -48,6 +49,19 @@ register("chat", (pet, event) => {
 register("chat", () => {
     Client.showTitle(`${BLUE + BOLD}THUNDER BOTTLE FULL`, "", 0, 100, 10);
 }).setCriteria("> Your bottle of thunder has fully charged!");
+
+// -----------------------------------
+// Vanquisher
+// -----------------------------------
+register("chat", () => {
+    if (settings.sendVanquisherPing) {
+        let x = Math.round(Player.getX());
+        let y = Math.round(Player.getY());
+        let z = Math.round(Player.getZ());
+        coord = `x: ${x}, y: ${y}, z: ${z}`
+        ChatLib.command(`pc ${coord} (✿◠‿◠) VANQUISHER SPAWNED`);
+    }
+}).setCriteria("A Vanquisher is spawning nearby!");
 
 // -----------------------------------
 // Party command

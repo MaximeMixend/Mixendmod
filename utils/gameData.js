@@ -1,44 +1,86 @@
-import { DARK_BLUE, DARK_PURPLE, DARK_RED, LIGHT_PURPLE } from "./constants";
+import settings from "../settings";
+import { BLACK, DARK_BLUE, DARK_PURPLE, DARK_RED, GOLD, GREEN, LIGHT_PURPLE } from "./constants";
 
-export const dropData = {
-    "Radioactive Vial": {
-        color: LIGHT_PURPLE
-    },
-    "Lucky Clover Core": {
-        color: DARK_PURPLE
+/**
+ * Return relevant data about the drop
+ * @param {String} itemName 
+ */
+export function dropData(itemName) {
+    switch (itemName) {
+        case "Radioactive Vial": return {
+            color: LIGHT_PURPLE,
+            dropPing: settings.sendRadioactiveVialPing
+        }
+        case "Lucky Clover Core": return {
+            color: GREEN,
+            dropPing: settings.sendLuckyCloverCorePing
+        }
+        case "Deep Sea Orb": return {
+            color: DARK_PURPLE,
+            dropPing: settings.sendDeepSeaOrbPing
+        }
+        default:
+            return false;
+
     }
 }
-
-export const seaCreatureData = {
-    "lord_jawbus": {
-        color: DARK_RED,
-        sendCoords: true,
-        tracked_loot: "Radioactive Vial",
-        track_avg: true
-    },
-    "thunder": {
-        color: DARK_BLUE,
-        sendCoords: false,
-        tracked_loot: undefined,
-        track_avg: true
-    },
-    "plhlegblast": {
-        color: DARK_PURPLE,
-        sendCoords: true,
-        tracked_loot: undefined,
-        track_avg: false
-    },
-    "carrot_king": {
-        color: DARK_PURPLE,
-        sendCoords: false,
-        tracked_loot: "Lucky Clover Core",
-        track_avg: false
-    },
-    "sea_emperor": {
-        color: DARK_RED,
-        sendCoords: false,
-        tracked_loot: undefined,
-        track_avg: false
+/**
+ * Return relevant data about the mob
+ * @param {String} mobName 
+ */
+export function seaCreatureData(mobName) {
+    switch (mobName) {
+        case "lord_jawbus": return {
+            color: DARK_RED,
+            sendCoords: true,
+            tracked_loot: "Radioactive Vial",
+            track_avg: true,
+            catchPing: settings.sendJawbusCatch
+        }
+        case "thunder": return {
+            color: DARK_BLUE,
+            sendCoords: false,
+            tracked_loot: undefined,
+            track_avg: true,
+            catchPing: settings.sendThunderCatch
+        }
+        case "plhlegblast": return {
+            color: DARK_PURPLE,
+            sendCoords: true,
+            tracked_loot: undefined,
+            track_avg: false,
+            catchPing: settings.sendPlhlegblastCatch
+        }
+        case "carrot_king": return {
+            color: DARK_PURPLE,
+            sendCoords: false,
+            tracked_loot: "Lucky Clover Core",
+            track_avg: false,
+            catchPing: settings.sendCarrotKingCatch
+        }
+        case "sea_emperor": return {
+            color: DARK_RED,
+            sendCoords: false,
+            tracked_loot: undefined,
+            track_avg: false,
+            catchPing: settings.sendSeaEmperorCatch
+        }
+        case "grim_reaper": return {
+            color: BLACK,
+            sendCoords: false,
+            tracked_loot: "Deep Sea Orb",
+            track_avg: false,
+            catchPing: settings.sendGrimReaperCatch
+        }
+        case "phantom_fisherman": return {
+            color: GOLD,
+            sendCoords: false,
+            tracked_loot: "Deep Sea Orb",
+            track_avg: false,
+            catchPing: settings.sendPhantomFishermanCatch
+        }
+        default:
+            return false;
     }
 }
 
@@ -69,7 +111,7 @@ export const waterCatch = {
     "You've discovered a Guardian Defender of the sea.": "guardian_defender",
     "You have awoken the Deep Sea Protector, prepare for a battle!": "deep_sea_protector",
     "The Water Hydra has come to test your strength.": "water_hydra",
-    "Sea Emperor arises from the depths.": "sea_emperor",
+    "The Sea Emperor arises from the depths.": "sea_emperor",
     "Your Chumcap Bucket trembles, it's an Agarimoo.": "agarimoo"
 };
 

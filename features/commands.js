@@ -1,3 +1,4 @@
+import settings from "../settings";
 import { BOLD, DARK_BLUE, DARK_RED, GOLD, WHITE } from "../utils/constants";
 import { playerData } from "../utils/data";
 import { formatMilliseconds } from "../utils/functions";
@@ -19,8 +20,11 @@ register("command", (arg, event) => {
             ChatLib.chat(`${GOLD + BOLD}==================`);
             break;
         default:
-            ChatLib.chat(`${arg} argument not supported.`)
+            ChatLib.chat(`${arg} argument not supported. Valid are "last", and more to come.`)
             break;
-
     }
 }).setName("mixshow", true);
+
+register("command", (arg, event) => {
+    ChatLib.chat(settings.guiCatchRateMode);
+}).setName("mixtest", true);

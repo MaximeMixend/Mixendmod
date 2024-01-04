@@ -2,13 +2,13 @@ import { announceDrop, renderEntity, formatMilliseconds, findFormattedKey, annou
 import { playerData, fileData, catchHistory } from "../utils/data";
 import settings from "../settings";
 import { DARK_BLUE, DARK_PURPLE, DARK_RED, BOLD, DETECTED_SOUND, GOLD, RED, BLUE, RESET, GREEN } from "../utils/constants";
-import { crimsonIsleCatch, doubleHookCatch, seaCreatureData, waterCatch } from "../utils/gameData";
+import { crimsonIsleCatch, doubleHookCatch, dropData, seaCreatureData, waterCatch } from "../utils/gameData";
 import { activePet } from "./general";
 
 
 // TRACK MOBS
 let mobTracker = []; // Entity of tracked entities
-let validNames = ["Lord Jawbus", "Thunder", "Plhlegblast"];
+let validNames = ["Lord Jawbus", "Thunder", "Vanquisher"];
 // SC RATES
 let rateSc = 0;
 let startTime = Date.now();
@@ -51,8 +51,8 @@ function catchMythicCreature(mobName, sendCatch) {
     let coord = "";
 
     // Add coords to party ping for relevant mobs
-    if (seaCreatureData[mobName].sendCoords) {
-        coord = ` @ x: ${x}, y: ${y}, z: ${z}, `
+    if (seaCreatureData(mobName).sendCoords) {
+        coord = ` @ x: ${x}, y: ${y}, z: ${z}`
     };
 
     // Announce mob to party
@@ -60,13 +60,11 @@ function catchMythicCreature(mobName, sendCatch) {
         announceMob(partyMsg, playerData.COUNTER[mobName], catchInterval, coord);
     };
 
-    // Update tracked loot (eg Radioactive Vial coutner for Jawbus)
-    if (seaCreatureData[mobName].tracked_loot) {
-        ChatLib.chat("Track loot");
-        ChatLib.chat(playerData[seaCreatureData[mobName].tracked_loot].current_count);
-        playerData[seaCreatureData[mobName].tracked_loot].current_count += fileData.doubleHook ? 2 : 1;
+    // Update tracked loot (eg Radioactive Vial counter for Jawbus)
+    if (seaCreatureData(mobName).tracked_loot) {
+        playerData[seaCreatureData(mobName).tracked_loot].current_count += fileData.doubleHook ? 2 : 1;
     };
-    if (seaCreatureData[mobName].track_avg) {
+    if (seaCreatureData(mobName).track_avg) {
         playerData.AVG_DATA[mobName].push(playerData.COUNTER[mobName]);
         playerData.AVG_DATA[mobName + "_avg"] = calcAvg(playerData.AVG_DATA[mobName]).toFixed(0);
     }
@@ -124,23 +122,15 @@ register("chat", (expression, event) => {
         case "thunder":
             catchMythicCreature(mobName, settings.sendThunderCatch);
             playerData.COUNTER["lord_jawbus"] += 1;
-            playerData.COUNTER["plhlegblast"] += 1;
             break;
         case "lord_jawbus":
             catchMythicCreature(mobName, settings.sendJawbusCatch);
-            playerData.COUNTER["plhlegblast"] += 1;
-            playerData.COUNTER["thunder"] += 1;
-            break;
-        case "plhlegblast":
-            catchMythicCreature(mobName, settings.sendPlhlegblastCatch);
-            playerData.COUNTER["lord_jawbus"] += 1;
             playerData.COUNTER["thunder"] += 1;
             break;
         default:
             if (fileData.doubleHook && settings.sendDoubleHook) {
                 ChatLib.command(`pc ${settings.doubleHookMsg}`);
             };
-            playerData.COUNTER["plhlegblast"] += 1;
             playerData.COUNTER["lord_jawbus"] += 1;
             playerData.COUNTER["thunder"] += 1;
             break;
@@ -200,10 +190,11 @@ register("chat", (expression, event) => {
 
 //========================================
 // DROPS
+// Need to find a way to read settings on the fly from a key:settings.blabla typebeat
 //========================================
 // Chat register RARE DROPS
 register("chat", (drop, mf, event) => {
-    if (playerData[drop]) {
+    if ((settings.alertDrops) && dropData(drop).dropPing) {
         playerData[drop]["count_to_drop"].push(playerData[drop]["current_count"]);
         playerData[drop]["magic_find"].push(parseInt(mf));
         playerData[drop]["current_count"] = 0;
@@ -227,7 +218,7 @@ register("step", (event) => {
         // Not tracked
         if (mobTracker.filter(trackedMob => trackedMob.getUUID() === worldMob.getUUID()).length < 1) {
             let color = worldMob.getName().includes("Lord Jawbus") ? DARK_RED : worldMob.getName().includes("Thunder") ? DARK_BLUE : DARK_PURPLE;
-            let beacon = worldMob.getName().includes("Lord Jawbus") ? DARK_RED + "LORD JAWBUS" : worldMob.getName().includes("Thunder") ? DARK_BLUE + "THUNDER" : DARK_PURPLE + "PLHLEGBLAST";
+            let beacon = worldMob.getName().includes("Lord Jawbus") ? DARK_RED + "LORD JAWBUS" : worldMob.getName().includes("Thunder") ? DARK_BLUE + "THUNDER" : DARK_PURPLE + "VANQUISHER";
             mobTracker.push(worldMob);
             // Screen alert
             Client.showTitle(`DETECTED${BOLD + color} ${beacon}`, "", 5, 60, 25);
@@ -320,8 +311,14 @@ register("renderoverlay", () => {
         if (settings.guiBobberCount) {
             addGuiText(`${GREEN + BOLD} Bobber: ${GOLD + BOLD + bobbers.length} `, 3, 2);
         }
+        let deltaRow = 1;
+        mobTracker.forEach(entity => {
+            addGuiText(`${entity.getName()}`, 2, deltaRow + 2);
+            deltaRow += 1;
+        })
     }
 });
+
 
 register("worldUnload", () => {
     mobTracker = [];
@@ -330,7 +327,3 @@ register("worldUnload", () => {
     catchHistory.history = [];
     catchHistory.save();
 });
-
-register("command", () => {
-    ChatLib.chat(playerData.COUNTER["carrot_king"]);
-}).setName("mixtest");

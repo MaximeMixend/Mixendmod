@@ -11,10 +11,9 @@ export function announceDrop(item, mf) {
     if (settings.partyPingDrops) {
         ChatLib.command(`pc MIXEND DROP! ${item} (+${mf}% ✯ Magic Find)`);
     }
-    if (settings.alertDrops) {
-        let color = dropData[item].color ? dropData[item].color : GOLD;
-        Client.showTitle(`${BOLD + color} ${item}${BOLD + LIGHT_PURPLE} (+${mf}% ✯ Magic Find)`, "", 5, 60, 25);
-    }
+    let color = dropData(item).color ? dropData(item).color : GOLD;
+    Client.showTitle(`${BOLD + color} ${item}${BOLD + LIGHT_PURPLE} (+${mf}% ✯ Magic Find)`, "", 5, 60, 25);
+
 };
 
 /**

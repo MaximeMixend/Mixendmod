@@ -1,6 +1,14 @@
-[[_TOC_]]
-
 # Ongoing changes
+
+## 0.0.4
+
+### Changes
+
+- Display command to open settings when loading module
+- Fix coord sent in chat to fit patcher
+- Removed Plhlegblast detection
+- Added Vanquisher detection and party ping
+- Added Tracked mob (Jawbus Thunder Vanquisher) HP in GUI
 
 # Released
 
@@ -40,7 +48,7 @@
 ### HOW TO USE
 
 - Unzip the release in **.minecraft\config\ChatTriggers\modules**
-- Rename to "mixendmod"
+- Rename to "MixendMod"
 - /ct reload in game I guess?
 - Enjoy
 - /mixend in game to open settings

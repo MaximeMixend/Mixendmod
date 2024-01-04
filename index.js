@@ -1,6 +1,7 @@
 import settings from "./settings";
 import "./features/fishing.js";
 import "./features/commands.js";
+import "./features/mining.js";
 import "./utils/functions.js";
 import { BOLD, DARK_GREEN, DARK_RED, GOLD } from "./utils/constants.js";
 
@@ -13,4 +14,4 @@ register("command", () => {
     settings.openGUI()
 }).setName("mixend");
 
-ChatLib.chat(`${GOLD}[${DARK_RED + BOLD}MixendMod${GOLD}] ${DARK_GREEN + BOLD}Loaded.`);
+ChatLib.chat(`${GOLD}[${DARK_RED + BOLD}MixendMod${GOLD}] ${DARK_GREEN + BOLD}Loaded. Use /mixend to open the settings!`);

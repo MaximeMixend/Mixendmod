@@ -51,6 +51,12 @@ export let playerData = new PogObject("MixendMod", {
         "count_to_drop": [],
         "magic_find": []
     },
+    "Deep Sea Orb": {
+        "time_drop": 0,
+        "current_count": 0,
+        "count_to_drop": [],
+        "magic_find": []
+    },
     "COUNTER": {
         "lord_jawbus": 0,
         "plhlegblast": 0,

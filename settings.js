@@ -17,7 +17,7 @@ const TABname = " > ";
 
 @Vigilant("MixendMod", "MixendMod", {
     getCategoryComparator: () => (a, b) => {
-        const categories = ["Informations", "Fishing", "Notifications", "Worm fishing"];
+        const categories = ["Informations", "Fishing", "Notifications", "Worm fishing", "Mining"];
         return categories.indexOf(a.name) - categories.indexOf(b.name);
     }
 })
@@ -35,17 +35,23 @@ class Settings {
         this.addDependency(`${TABname}Thunder`, "Catch party pings");
         this.addDependency(`${TABname}Jawbus`, "Catch party pings");
         this.addDependency(`${TABname}Plhlegblast`, "Catch party pings");
+        this.addDependency(`${TABname}Carrot King`, "Catch party pings");
+        this.addDependency(`${TABname}Sea Emperor`, "Catch party pings");
+        this.addDependency(`${TABname}Phantom Fisherman`, "Catch party pings");
+        this.addDependency(`${TABname}Grim Reaper`, "Catch party pings");
 
         this.addDependency(`${TABname}Mythic creature count`, "Fishing GUI");
         this.addDependency(`${TABname}Bobber`, "Fishing GUI");
         this.addDependency(`${TABname}Active pet`, "Fishing GUI");
-        this.addDependency(`${TABname}Catch rate`, "Fishing GUI");
 
-        this.addDependency(`${TABname + TABname}Catching rate window length`, `${TABname}Catch rate`);
-        this.addDependency(`${TABname + TABname}Average mode`, `${TABname}Catch rate`);
+        this.addDependency(`${TABname}Catch rate`, "Fishing GUI");
+        this.addDependency(`${TABname + TABname}Catching rate window length`, "Fishing GUI");
+        this.addDependency(`${TABname + TABname}Average mode`, "Fishing GUI");
 
         this.addDependency(`${TABname}Cap threshold`, "Ping worm cap");
-
+        this.addDependency(`${TABname}Radioactive Vial`, "Magic Find party ping");
+        this.addDependency(`${TABname}Lucky Clover Core`, "Magic Find party ping");
+        this.addDependency(`${TABname}Deep Sea Orb`, "Magic Find party ping");
     }
 
     // -----------------------------------
@@ -130,6 +136,22 @@ class Settings {
     })
     sendSeaEmperorCatch = true;
 
+    @CheckboxProperty({
+        name: `${TABname}Phantom Fisherman`,
+        description: `Enable Phantom Fisherman catch party ping`,
+        category: "Fishing",
+        subcategory: "Catch pings",
+    })
+    sendPhantomFishermanCatch = true;
+
+    @CheckboxProperty({
+        name: `${TABname}Grim Reaper`,
+        description: `Enable Grim Reaper catch party ping`,
+        category: "Fishing",
+        subcategory: "Catch pings",
+    })
+    sendGrimReaperCatch = true;
+
     // -----------------------------------
     // FISHING double hook
     // -----------------------------------
@@ -162,6 +184,7 @@ class Settings {
         subcategory: "GUI"
     })
     guiEnable = true;
+
 
     // ******************************
 
@@ -205,7 +228,7 @@ class Settings {
         name: `${TABname + TABname}Catching rate window length`,
         description: `Set window duration for moving average computation (minutes)`,
         category: "Fishing",
-        subcategory: "GUI",
+        subcategory: "GUI Catch rate",
         min: 5,
         max: 60
     })
@@ -215,7 +238,7 @@ class Settings {
         name: `${TABname + TABname}Average mode`,
         description: `ON: per hour, OFF: per minute`,
         category: "Fishing",
-        subcategory: "GUI"
+        subcategory: "GUI Catch rate"
     })
     guiCatchRateMode = true;
     // -----------------------------------
@@ -234,9 +257,41 @@ class Settings {
         name: "Magic Find party ping",
         description: "Send a party message when dropping a Magic Find item",
         category: "Notifications",
-        subcategory: "Magic Find",
+        subcategory: "Drop Party ping",
     })
     partyPingDrops = true;
+
+    @CheckboxProperty({
+        name: `${TABname}Radioactive Vial`,
+        description: `Enable Radioactive Vial drop party ping`,
+        category: "Notifications",
+        subcategory: "Drop Party ping",
+    })
+    sendRadioactiveVialPing = true;
+
+    @CheckboxProperty({
+        name: `${TABname}Lucky Clover Core`,
+        description: `Enable Lucky Clover Core drop party ping`,
+        category: "Notifications",
+        subcategory: "Drop Party ping",
+    })
+    sendLuckyCloverCorePing = true;
+
+    @CheckboxProperty({
+        name: `${TABname}Deep Sea Orb`,
+        description: `Enable Deep Sea Orb drop party ping`,
+        category: "Notifications",
+        subcategory: "Drop Party ping",
+    })
+    sendDeepSeaOrbPing = true;
+
+    @CheckboxProperty({
+        name: `Vanquisher`,
+        description: `Enable Vanquisher spawn party ping`,
+        category: "Notifications",
+        subcategory: "Mob party ping",
+    })
+    sendVanquisherPing = false;
 
     // -----------------------------------
     // Worms
@@ -257,6 +312,18 @@ class Settings {
         max: 60
     })
     wormCapThreshold = 59;
+
+    // -----------------------------------
+    // Mining
+    // -----------------------------------
+
+    @SwitchProperty({
+        name: `Mining speed boost alert`,
+        description: "Screen alert when Mining speed boost is used/available",
+        category: "Mining"
+    })
+    alertMiningSpeedBoost = true;
+
 }
 
 
