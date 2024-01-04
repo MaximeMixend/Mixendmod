@@ -1,5 +1,9 @@
 # Ongoing changes
 
+## 0.0.5
+
+- Gui placement options?
+
 # Released
 
 ## 0.0.4
