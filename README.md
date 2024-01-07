@@ -6,6 +6,7 @@
 - TODO Read chat coord and place beacon + block esp + name or whatever + distance for a set time(options?)
 - TODO Bait reminder
 - TODO /mix alias
+- TODO Fix mythix detect alert on screen option to toggle off (no work rn)
 
 # Released
 
