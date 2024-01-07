@@ -2,9 +2,10 @@
 
 ## 0.0.5
 
-- Gui placement options?
-- Read chat coord and place beacon + block esp + name or whatever + distance for a set time(options?)
-- 
+- TODO Gui placement options?
+- TODO Read chat coord and place beacon + block esp + name or whatever + distance for a set time(options?)
+- TODO Bait reminder
+- TODO /mix alias
 
 # Released
 
