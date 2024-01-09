@@ -7,6 +7,7 @@
 - TODO Bait reminder
 - TODO /mix alias
 - TODO Fix mythix detect alert on screen option to toggle off (no work rn)
+- TODO settings for party command (blacklist / on off)
 
 # Released
 
