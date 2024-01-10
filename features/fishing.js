@@ -209,6 +209,8 @@ register("chat", (drop, mf, event) => {
 // SC TRACKER
 //========================================
 register("step", (event) => {
+    if (!settings.alertMythic){return;}
+
     let mobList = World.getAllEntities().filter(obj => {
         let name = obj.getName();
         return validNames.some(validName => name.includes(validName));
