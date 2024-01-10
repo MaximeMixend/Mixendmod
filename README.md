@@ -10,6 +10,7 @@
 - TODO settings for party command (blacklist / on off)
 - Endstone sword timer
 - add back plhlegblast ping or remove setting
+- Fix SC counter not reset after min time set in settings (time reset, counter not, this is fixed)
 
 # Released
 

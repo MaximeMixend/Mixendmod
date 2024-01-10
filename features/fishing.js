@@ -209,7 +209,7 @@ register("chat", (drop, mf, event) => {
 // SC TRACKER
 //========================================
 register("step", (event) => {
-    if (!settings.alertMythic){return;}
+    if (!settings.alertMythic) { return; }
 
     let mobList = World.getAllEntities().filter(obj => {
         let name = obj.getName();
@@ -266,6 +266,7 @@ register("step", (event) => {
         myList = myList.filter(value => value > now - settings.scRateWindowMin * 1000 * 60);
     };
     if (!myList.length) {
+        rateMobCount = 0;
         rateSc = 0;
         startTime = Date.now();
     }
@@ -279,6 +280,7 @@ register("step", (event) => {
 register("command", () => {
     startTime = Date.now();
     rateMobCount = 0;
+    rateSc = 0;
     catchHistory.history = [];
     catchHistory.save()
 }).setName("mixresettrack", true);
