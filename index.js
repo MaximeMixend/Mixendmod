@@ -12,6 +12,6 @@ ChatLib.chat(`${GOLD}[${DARK_RED + BOLD}MixendMod${GOLD}] ${BOLD}Loading...`);
 // -----------------------------------
 register("command", () => {
     settings.openGUI()
-}).setName("mixend");
+}).setName("mixend").setAliases("mix");
 
 ChatLib.chat(`${GOLD}[${DARK_RED + BOLD}MixendMod${GOLD}] ${DARK_GREEN + BOLD}Loaded. Use /mixend to open the settings!`);
