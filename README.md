@@ -7,7 +7,7 @@
 - TODO Bait reminder
 - Added /mix alias to open settings
 - Fix not working setting to turn off scren alert when detecting mythic sea creature
-- TODO settings for party command (blacklist / on off)
+- Settings for party command (global and specific ON OFF)
 - Endstone sword timer
 - add back plhlegblast ping or remove setting
 - Fix SC counter not reset after min time set in settings (time reset, counter not, this is fixed)

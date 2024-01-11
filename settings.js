@@ -17,7 +17,7 @@ const TABname = " > ";
 
 @Vigilant("MixendMod", "MixendMod", {
     getCategoryComparator: () => (a, b) => {
-        const categories = ["Informations", "Fishing", "Notifications", "Worm fishing", "Mining"];
+        const categories = ["General", "Fishing", "Notifications", "Worm fishing", "Mining"];
         return categories.indexOf(a.name) - categories.indexOf(b.name);
     }
 })
@@ -53,6 +53,34 @@ class Settings {
         this.addDependency(`${TABname}Lucky Clover Core`, "Magic Find party ping");
         this.addDependency(`${TABname}Deep Sea Orb`, "Magic Find party ping");
     }
+
+    // -----------------------------------
+    // General
+    // -----------------------------------
+
+    @SwitchProperty({
+        name: "Enable party commands",
+        description: "Allows other party members to access some party commands",
+        category: "General",
+        subcategory: "Party commands",
+    })
+    enablePartyCommands = true;
+
+    @CheckboxProperty({
+        name: `${TABname}Enable party warp`,
+        description: `Enable !warp to warp the party to the leader lobby`,
+        category: "General",
+        subcategory: "Party commands",
+    })
+    enablePartyWarp = true;
+
+    @CheckboxProperty({
+        name: `${TABname}Enable party warp`,
+        description: `Enable !pt <PlayerName> to transfer the party to the specified player`,
+        category: "General",
+        subcategory: "Party commands",
+    })
+    enablePartyTransfer = true;
 
     // -----------------------------------
     // FISHING alerts
