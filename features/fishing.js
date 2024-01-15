@@ -194,15 +194,17 @@ register("chat", (expression, event) => {
 //========================================
 // Chat register RARE DROPS
 register("chat", (drop, mf, event) => {
-    if ((settings.alertDrops) && dropData(drop).dropPing) {
+    if (settings.alertDrops && dropData(drop).dropPing) {
         announceDrop(drop, mf, playerData[drop]["current_count"], playerData[drop]["time_drop"]);
-        playerDtimeata[drop]["count_to_drop"].push(playerData[drop]["current_count"]);
+    }
+    if (playerData[drop]) {
+        playerData[drop]["count_to_drop"].push(playerData[drop]["current_count"]);
         playerData[drop]["magic_find"].push(parseInt(mf));
         playerData[drop]["current_count"] = 0;
         playerData[drop]["time_drop"] = Date.now();
-
         playerData.save();
     }
+
 }).setCriteria("RARE DROP! ${drop} (+${mf}% ✯ Magic Find)");
 
 // TODO: Find a way to get flash and such
