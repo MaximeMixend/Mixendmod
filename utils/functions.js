@@ -7,9 +7,9 @@ export function announceMob(partyMsg, counter, interval, coord) {
     ChatLib.command(`pc ┌( ಠ_ಠ)┘ ${partyMsg} [${counter} in ${formatMilliseconds(interval)}] ${coord}`);
 };
 
-export function announceDrop(item, mf) {
+export function announceDrop(item, mf, count, time) {
     if (settings.partyPingDrops) {
-        ChatLib.command(`pc MIXEND DROP! ${item} (+${mf}% ✯ Magic Find)`);
+        ChatLib.command(`pc MIXEND DROP! ${item} (+${mf}% ✯ Magic Find) [${count} in ${formatMilliseconds(time)}]`);
     }
     let color = dropData(item).color ? dropData(item).color : GOLD;
     Client.showTitle(`${BOLD + color} ${item}${BOLD + LIGHT_PURPLE} (+${mf}% ✯ Magic Find)`, "", 5, 60, 25);

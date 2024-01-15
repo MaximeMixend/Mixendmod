@@ -5,6 +5,7 @@
 - TODO Gui placement options?
 - TODO Read chat coord and place beacon + block esp + name or whatever + distance for a set time(options?)
 - TODO Bait reminder
+- Display kills and time since last RARE DROP
 - Added /mix alias to open settings
 - Fix not working setting to turn off scren alert when detecting mythic sea creature
 - Settings for party command (global and specific ON OFF)
