@@ -1,4 +1,3 @@
-import settings from "../settings";
 import { BOLD, DARK_BLUE, DARK_RED, GOLD, WHITE } from "../utils/constants";
 import { playerData } from "../utils/data";
 import { formatMilliseconds } from "../utils/functions";
@@ -24,7 +23,3 @@ register("command", (arg, event) => {
             break;
     }
 }).setName("mixshow", true);
-
-register("command", (arg, event) => {
-    ChatLib.chat(settings.guiCatchRateMode);
-}).setName("mixtest", true);

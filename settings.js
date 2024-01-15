@@ -110,6 +110,14 @@ class Settings {
     })
     alertJawbusSound = true;
 
+    @SwitchProperty({
+        name: `${TABname}Plhlegblast sound`,
+        description: "Alert sound when close to a Plhlegblast",
+        category: "Fishing",
+        subcategory: "Alert",
+    })
+    alertPlhlegblastSound = true;
+
     // -----------------------------------
     // FISHING pings
     // -----------------------------------
@@ -320,6 +328,14 @@ class Settings {
         subcategory: "Mob party ping",
     })
     sendVanquisherPing = false;
+
+    @SwitchProperty({
+        name: `${TABname}Vanquisher sound`,
+        description: "Alert sound when close to a Vanquisher",
+        category: "Fishing",
+        subcategory: "Alert",
+    })
+    alertVanquisherSound = true;
 
     // -----------------------------------
     // Worms

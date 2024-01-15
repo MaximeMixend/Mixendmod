@@ -8,7 +8,7 @@ import { activePet } from "./general";
 
 // TRACK MOBS
 let mobTracker = []; // Entity of tracked entities
-let validNames = ["Lord Jawbus", "Thunder", "Vanquisher"];
+let validNames = ["Lord Jawbus", "Thunder", "Vanquisher", "Plhlegblast"];
 // SC RATES
 let rateSc = 0;
 let startTime = Date.now();
@@ -195,11 +195,12 @@ register("chat", (expression, event) => {
 // Chat register RARE DROPS
 register("chat", (drop, mf, event) => {
     if ((settings.alertDrops) && dropData(drop).dropPing) {
-        playerData[drop]["count_to_drop"].push(playerData[drop]["current_count"]);
+        announceDrop(drop, mf, playerData[drop]["current_count"], playerData[drop]["time_drop"]);
+        playerDtimeata[drop]["count_to_drop"].push(playerData[drop]["current_count"]);
         playerData[drop]["magic_find"].push(parseInt(mf));
         playerData[drop]["current_count"] = 0;
         playerData[drop]["time_drop"] = Date.now();
-        announceDrop(drop, mf);
+
         playerData.save();
     }
 }).setCriteria("RARE DROP! ${drop} (+${mf}% ✯ Magic Find)");
@@ -211,27 +212,46 @@ register("chat", (drop, mf, event) => {
 register("step", (event) => {
     if (!settings.alertMythic) { return; }
 
+    // Get tracked mobs list
     let mobList = World.getAllEntities().filter(obj => {
         let name = obj.getName();
         return validNames.some(validName => name.includes(validName));
     });
-    // If detects a Jawbus
-    mobList.forEach(worldMob => {
-        // Not tracked
-        if (mobTracker.filter(trackedMob => trackedMob.getUUID() === worldMob.getUUID()).length < 1) {
-            let color = worldMob.getName().includes("Lord Jawbus") ? DARK_RED : worldMob.getName().includes("Thunder") ? DARK_BLUE : DARK_PURPLE;
-            let beacon = worldMob.getName().includes("Lord Jawbus") ? DARK_RED + "LORD JAWBUS" : worldMob.getName().includes("Thunder") ? DARK_BLUE + "THUNDER" : DARK_PURPLE + "VANQUISHER";
-            mobTracker.push(worldMob);
-            // Screen alert
-            Client.showTitle(`DETECTED${BOLD + color} ${beacon}`, "", 5, 60, 25);
 
-            // Not that great but for now its ok
-            if (color == DARK_RED && settings.alertJawbusSound) {
-                DETECTED_SOUND?.play();
+    // Detect each mob
+    mobList.forEach(worldMob => {
+        if (mobTracker.filter(trackedMob => trackedMob.getUUID() === worldMob.getUUID()).length < 1) {
+            let mobFound = "";
+            let playSound = true;
+            switch (true) {
+                case worldMob.getName().includes("Lord Jawbus"):
+                    color = DARK_RED + "LORD JAWBUS";
+                    mobFound = "lord_jawbus"
+                    playSound = settings.alertJawbusSound
+                    break;
+                case worldMob.getName().includes("Thunder"):
+                    color = DARK_BLUE + "THUNDER";
+                    mobFound = "thunder"
+                    playSound = settings.alertThunderSound
+                    break;
+                case worldMob.getName().includes("Plhlegblast"):
+                    color = DARK_PURPLE + "PLHLEGBLAST";
+                    playSound = settings.alertPlhlegblastSound
+                    mobFound = "plhlegblast"
+                    break;
+                case worldMob.getName().includes("Vanquisher"):
+                    color = DARK_PURPLE + "VANQUISHER";
+                    playSound = settings.alertVanquisherSound
+                    mobFound = "vanquisher"
+                    break;
+                default:
+                    break;
             }
-            else if (color == DARK_BLUE && settings.alertThunderSound) {
-                DETECTED_SOUND?.play();
-            }
+            // Send to render mob position in game
+            mobTracker.push(worldMob);
+
+            Client.showTitle(`DETECTED${BOLD + color}`, "", 5, 60, 25);
+            if (playSound) { DETECTED_SOUND?.play(); }
         };
     });
 
