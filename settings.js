@@ -75,7 +75,7 @@ class Settings {
     enablePartyWarp = true;
 
     @CheckboxProperty({
-        name: `${TABname}Enable party warp`,
+        name: `${TABname}Enable party transfer`,
         description: `Enable !pt <PlayerName> to transfer the party to the specified player`,
         category: "General",
         subcategory: "Party commands",
@@ -332,8 +332,8 @@ class Settings {
     @SwitchProperty({
         name: `${TABname}Vanquisher sound`,
         description: "Alert sound when close to a Vanquisher",
-        category: "Fishing",
-        subcategory: "Alert",
+        category: "Notifications",
+        subcategory: "Mob party ping",
     })
     alertVanquisherSound = true;
 
