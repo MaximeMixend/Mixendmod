@@ -38,6 +38,16 @@ export let playerData = new PogObject("MixendMod", {
         "thunder": 0,
         "lord_jawbus": 0
     },
+    DIANA: {
+        "minos_hunter": 0,
+        "siamese_lynx": 0,
+        "minotaur": 0,
+        "gaia_construct": 0,
+        "minos_champion": 0,
+        "minos_inquisitor": 0,
+        "griffin_feather": 0,
+        "coins": 0
+    },
     "Radioactive Vial": {
         "time_drop": 0,
         "current_count": 0,
@@ -45,6 +55,12 @@ export let playerData = new PogObject("MixendMod", {
         "magic_find": []
     },
     "Lucky Clover Core": {
+        "time_drop": 0,
+        "current_count": 0,
+        "count_to_drop": [],
+        "magic_find": []
+    },
+    "Daedalus Stick": {
         "time_drop": 0,
         "current_count": 0,
         "count_to_drop": [],
@@ -68,7 +84,8 @@ export let playerData = new PogObject("MixendMod", {
         "plhlegblast": 0,
         "thunder": 0,
         "carrot_king": 0,
-        "sea_emperor": 0
+        "sea_emperor": 0,
+        "minos_inquisitor": 0
     },
     "AVG_DATA": {
         "lord_jawbus": [],

@@ -2,6 +2,7 @@ import settings from "./settings";
 import "./features/fishing.js";
 import "./features/commands.js";
 import "./features/mining.js";
+import "./features/diana.js";
 import "./utils/functions.js";
 import { BOLD, DARK_GREEN, DARK_RED, GOLD } from "./utils/constants.js";
 
