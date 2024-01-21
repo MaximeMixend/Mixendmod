@@ -67,19 +67,19 @@ register("chat", () => {
 // Party command
 // -----------------------------------
 register("chat", () => {
-    if (settings.enablePartyCommands){
+    if (settings.enablePartyCommands) {
         ChatLib.command(`pc [Commands] !pt <playername> | !warp`);
     }
 }).setCriteria("Party ${*}: !help");
 
 register("chat", (player) => {
-    if (settings.enablePartyCommands && settings.enablePartyTransfer){
+    if (settings.enablePartyCommands && settings.enablePartyTransfer) {
         ChatLib.command(`p transfer ${player}`);
     }
 }).setCriteria("Party ${*}: !pt ${player}");
 
 register("chat", () => {
-    if (settings.enablePartyCommands && settings.enablePartyWarp){
-    ChatLib.command("p warp");
-}
+    if (settings.enablePartyCommands && settings.enablePartyWarp) {
+        ChatLib.command("p warp");
+    }
 }).setCriteria("Party ${*}: !warp");

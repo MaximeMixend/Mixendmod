@@ -113,7 +113,7 @@ register("chat", () => {
 // DOUBLE HOOK
 register("chat", (event) => {
     fileData.doubleHook = true;
-}).setCriteria(doubleHookCatch);
+    }).setCriteria(doubleHookCatch);
 
 // LAVA CATCH
 register("chat", (expression, event) => {
@@ -252,7 +252,7 @@ register("step", (event) => {
             // Send to render mob position in game
             mobTracker.push(worldMob);
 
-            Client.showTitle(`DETECTED${BOLD + color}`, "", 5, 60, 25);
+            Client.showTitle(`DETECTED ${BOLD + color}`, "", 5, 60, 25);
             if (playSound) { DETECTED_SOUND?.play(); }
         };
     });
