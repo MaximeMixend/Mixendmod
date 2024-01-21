@@ -13,9 +13,6 @@ let validNames = ["Lord Jawbus", "Thunder", "Vanquisher", "Plhlegblast"];
 let rateSc = 0;
 let startTime = Date.now();
 let rateMobCount = 0;
-// GUI
-let baseX = 80;
-let baseY = 6;
 
 const EntityFishHook = Java.type("net.minecraft.entity.projectile.EntityFishHook")
 
@@ -298,36 +295,60 @@ register("command", () => {
 //========================================
 // GUI
 //========================================
+
+// move graph event
+let movedisplay = new Gui();
+
+register("command", () => {
+    if (settings.guiEnable) {
+        movedisplay.open()
+    }
+}).setName("mixgui");
+
+register("guimouseclick", (x, y, button, gui, event) => {
+    if (movedisplay.isOpen()) {
+        fileData.baseX = x;
+        fileData.baseY = y;
+        fileData.save();
+    }
+})
+
 function addGuiText(text, col, row) {
-    let sx = Renderer.screen.getWidth();
+    // let sx = Renderer.screen.getWidth();
     let deltaX = 82;
     let deltaY = 12;
-    new Text(`${text}`, sx - col * deltaX - baseX, baseY + row * deltaY).setShadow(true).draw();
+    new Text(`${text}`, fileData.baseX + col * deltaX, fileData.baseY + row * deltaY).setShadow(true).draw();
 }
 
 register("renderoverlay", () => {
+
+    if (movedisplay.isOpen()) {
+        new Text(`${RED + BOLD}ECHAP to save position`, Renderer.screen.getWidth() / 2, 20).draw();
+        new Text(`${GREEN + BOLD}Click to place to left corner of GUI`, Renderer.screen.getWidth() / 2, 30).draw();
+    }
+
     // Track bobbers
     if (settings.guiEnable) {
         let bobbers = World.getAllEntitiesOfType(EntityFishHook).filter(dist => dist.distanceTo(Player.getPlayer()) < 30);
 
         if (settings.guiMythicCount) {
-            addGuiText(`${RED + BOLD}Jawbus: ${GOLD + BOLD + playerData.COUNTER["lord_jawbus"]} [${playerData.AVG_DATA["lord_jawbus_avg"]}] `, 1, 0);
-            addGuiText(`${BLUE + BOLD} Thunder: ${GOLD + BOLD + playerData.COUNTER["thunder"]} [${playerData.AVG_DATA["thunder_avg"]}]`, 3, 0);
+            addGuiText(`${BLUE + BOLD}Thunder: ${GOLD + BOLD + playerData.COUNTER["thunder"]} [${playerData.AVG_DATA["thunder_avg"]}]`, 0, 0);
+            addGuiText(`${RED + BOLD}Jawbus: ${GOLD + BOLD + playerData.COUNTER["lord_jawbus"]} [${playerData.AVG_DATA["lord_jawbus_avg"]}]`, 2, 0);
         }
         if (settings.guiActivePet) {
-            addGuiText(`[${GOLD + BOLD + activePet.level + RESET}] ${BOLD + activePet.name} `, 1, 2);
+            addGuiText(`[${GOLD + BOLD + activePet.level + RESET}] ${BOLD + activePet.name} `, 0, 1);
         }
         if (settings.guiCatchRate) {
             let rateMode = settings.guiCatchRateMode ? "hr" : "min";
-            addGuiText(`${GREEN + BOLD} Sc / ${rateMode}: ${GOLD + BOLD + rateSc.toFixed(1)} (${rateMobCount} in ${formatMilliseconds(Date.now() - startTime)})`, 3, 1);
+            addGuiText(`${GREEN + BOLD}Sc / ${rateMode}: ${GOLD + BOLD + rateSc.toFixed(1)} (${rateMobCount} in ${formatMilliseconds(Date.now() - startTime)})`, 0, 2);
         }
 
         if (settings.guiBobberCount) {
-            addGuiText(`${GREEN + BOLD} Bobber: ${GOLD + BOLD + bobbers.length} `, 3, 2);
+            addGuiText(`${GREEN + BOLD} Bobber: ${GOLD + BOLD + bobbers.length} `, 2, 2);
         }
         let deltaRow = 1;
         mobTracker.forEach(entity => {
-            addGuiText(`${entity.getName()}`, 2, deltaRow + 2);
+            addGuiText(`${entity.getName()} `, 2, deltaRow + 2);
             deltaRow += 1;
         })
     }
