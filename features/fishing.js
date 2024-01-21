@@ -350,7 +350,7 @@ register("renderoverlay", () => {
         }
 
         if (settings.guiBobberCount) {
-            addGuiText(`${GREEN + BOLD} Bobber: ${GOLD + BOLD + bobbers.length} `, 2, 2);
+            addGuiText(`${GREEN + BOLD} Bobber: ${GOLD + BOLD + bobbers.length} `, 2, 1);
         }
         let deltaRow = 1;
         mobTracker.forEach(entity => {
