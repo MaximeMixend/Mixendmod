@@ -28,9 +28,14 @@ class Settings {
         this.setCategoryDescription(`General information about MixendMod`);
         this.setCategoryDescription("Fishing", `Fishing related settings`);
 
+        this.addDependency(`${TABname}Enable party transfer`, "Enable party commands");
+        this.addDependency(`${TABname}Enable party warp`, "Enable party commands");
+
+
         this.addDependency(`${TABname}Double hook message`, "Double hook");
         this.addDependency(`${TABname}Thunder sound`, "Mythic screen alert");
         this.addDependency(`${TABname}Lord Jawbus sound`, "Mythic screen alert");
+        this.addDependency(`${TABname}Plhlegblast sound`, "Mythic screen alert");
 
         this.addDependency(`${TABname}Thunder`, "Catch party pings");
         this.addDependency(`${TABname}Jawbus`, "Catch party pings");
@@ -45,8 +50,8 @@ class Settings {
         this.addDependency(`${TABname}Active pet`, "Fishing GUI");
 
         this.addDependency(`${TABname}Catch rate`, "Fishing GUI");
-        this.addDependency(`${TABname + TABname}Catching rate window length`, "Fishing GUI");
-        this.addDependency(`${TABname + TABname}Average mode`, "Fishing GUI");
+        this.addDependency(`${TABname}Catching rate window length`, "Fishing GUI");
+        this.addDependency(`${TABname}Average mode`, "Fishing GUI");
 
         this.addDependency(`${TABname}Cap threshold`, "Ping worm cap");
         this.addDependency(`${TABname}Radioactive Vial`, "Magic Find party ping");
@@ -94,7 +99,7 @@ class Settings {
     })
     alertMythic = true;
 
-    @SwitchProperty({
+    @CheckboxProperty({
         name: `${TABname}Thunder sound`,
         description: "Alert sound when close to a Thunder",
         category: "Fishing",
@@ -102,7 +107,7 @@ class Settings {
     })
     alertThunderSound = true;
 
-    @SwitchProperty({
+    @CheckboxProperty({
         name: `${TABname}Lord Jawbus sound`,
         description: "Alert sound when close to a Lord Jawbus",
         category: "Fishing",
@@ -110,7 +115,7 @@ class Settings {
     })
     alertJawbusSound = true;
 
-    @SwitchProperty({
+    @CheckboxProperty({
         name: `${TABname}Plhlegblast sound`,
         description: "Alert sound when close to a Plhlegblast",
         category: "Fishing",
@@ -224,7 +229,7 @@ class Settings {
 
     // ******************************
 
-    @SwitchProperty({
+    @CheckboxProperty({
         name: `${TABname}Mythic creature count`,
         description: `Display creature catch since mythic. Jawbus & Thunder`,
         category: "Fishing",
@@ -232,7 +237,7 @@ class Settings {
     })
     guiMythicCount = true;
 
-    @SwitchProperty({
+    @CheckboxProperty({
         name: `${TABname}Bobber`,
         description: `Display bobber count. Requires bobbers to be rendered in your game`,
         category: "Fishing",
@@ -240,7 +245,7 @@ class Settings {
     })
     guiBobberCount = true;
 
-    @SwitchProperty({
+    @CheckboxProperty({
         name: `${TABname}Active pet`,
         description: `Display active pet. Requires to summon your pet again, or trigger a pet rule to activate`,
         category: "Fishing",
@@ -249,9 +254,9 @@ class Settings {
     guiActivePet = true;
 
 
-    @SwitchProperty({
+    @CheckboxProperty({
         name: `${TABname}Catch rate`,
-        description: `Display sea creature catch rate. Value is sea creature per minutes over the last <10 minutes by default. Use /mixresettrack to start a new session`,
+        description: `Display sea creature catch rate. Value is sea creature per minutes over the last 20 minutes by default. Use /mixresettrack to start a new session`,
         category: "Fishing",
         subcategory: "GUI"
     })
@@ -261,17 +266,17 @@ class Settings {
     // ******************************
 
     @SliderProperty({
-        name: `${TABname + TABname}Catching rate window length`,
+        name: `${TABname}Catching rate window length`,
         description: `Set window duration for moving average computation (minutes)`,
         category: "Fishing",
         subcategory: "GUI Catch rate",
-        min: 5,
+        min: 1,
         max: 60
     })
     scRateWindowMin = 20;
 
     @SwitchProperty({
-        name: `${TABname + TABname}Average mode`,
+        name: `${TABname}Average mode`,
         description: `ON: per hour, OFF: per minute`,
         category: "Fishing",
         subcategory: "GUI Catch rate"
@@ -280,15 +285,7 @@ class Settings {
     // -----------------------------------
     // NOTIFICATIONS
     // -----------------------------------
-
-    @SwitchProperty({
-        name: "Magic find screen alert",
-        description: "Alert on screen when dropping a Magic Find item",
-        category: "Notifications",
-        subcategory: "Magic Find",
-    })
-    alertDrops = true;
-
+    // ----------------Drop Party ping-------------------
     @SwitchProperty({
         name: "Magic Find party ping",
         description: "Send a party message when dropping a Magic Find item",
@@ -322,18 +319,38 @@ class Settings {
     sendDeepSeaOrbPing = true;
 
     @CheckboxProperty({
+        name: `${TABname}Daedalus Stick`,
+        description: `Enable Daedalus Stick drop party ping`,
+        category: "Notifications",
+        subcategory: "Drop Party ping",
+    })
+    sendDaedalusStickPing = true;
+
+    // ----------------Magic Find-------------------
+
+    @SwitchProperty({
+        name: "Magic find screen alert",
+        description: "Alert on screen when dropping a Magic Find item",
+        category: "Notifications",
+        subcategory: "Magic Find",
+    })
+    alertDrops = true;
+
+    // ----------------Vanquishers-------------------
+
+    @CheckboxProperty({
         name: `Vanquisher`,
         description: `Enable Vanquisher spawn party ping`,
         category: "Notifications",
-        subcategory: "Mob party ping",
+        subcategory: "Vanquishers",
     })
     sendVanquisherPing = false;
 
     @SwitchProperty({
-        name: `${TABname}Vanquisher sound`,
+        name: `Vanquisher sound`,
         description: "Alert sound when close to a Vanquisher",
         category: "Notifications",
-        subcategory: "Mob party ping",
+        subcategory: "Vanquishers",
     })
     alertVanquisherSound = true;
 
