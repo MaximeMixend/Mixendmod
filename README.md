@@ -1,6 +1,10 @@
 # Ongoing changes
 
-Surprise surprise
+## 0.0.6
+
+- Diana Inquisitor ping and tracking
+- Move gui with /mixgui
+- Fixed typos
 
 # Released
 
@@ -10,10 +14,6 @@ Surprise surprise
 
 - Fixed mythic alert setting option 
 - Plhlegblast detect
-
-**Party pings:**
-
-**GUI:**
 
 **Other:**
 
