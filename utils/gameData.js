@@ -1,5 +1,5 @@
 import settings from "../settings";
-import { BLACK, DARK_BLUE, DARK_PURPLE, DARK_RED, GOLD, GREEN, LIGHT_PURPLE } from "./constants";
+import { BLACK, DARK_BLUE, DARK_PURPLE, DARK_RED, GOLD, LIGHT_PURPLE } from "./constants";
 
 /**
  * Return relevant data about the drop
@@ -12,12 +12,16 @@ export function dropData(itemName) {
             dropPing: settings.sendRadioactiveVialPing
         }
         case "Lucky Clover Core": return {
-            color: GREEN,
+            color: DARK_PURPLE,
             dropPing: settings.sendLuckyCloverCorePing
         }
         case "Deep Sea Orb": return {
             color: DARK_PURPLE,
             dropPing: settings.sendDeepSeaOrbPing
+        }
+        case "Daedalus Stick": return {
+            color: GOLD,
+            dropPing: settings.sendDaedalusStickPing
         }
         default:
             return false;

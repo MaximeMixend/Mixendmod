@@ -38,7 +38,7 @@ export let playerData = new PogObject("MixendMod", {
         "thunder": 0,
         "lord_jawbus": 0
     },
-    DIANA: {
+    "DIANA": {
         "minos_hunter": 0,
         "siamese_lynx": 0,
         "minotaur": 0,
@@ -77,7 +77,8 @@ export let playerData = new PogObject("MixendMod", {
         "plhlegblast": 0,
         "thunder": 0,
         "carrot_king": 0,
-        "sea_emperor": 0
+        "sea_emperor": 0,
+        "minos_inquisitor": 13
     },
     "TIME": {
         "lord_jawbus": 0,

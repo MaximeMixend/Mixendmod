@@ -24,15 +24,12 @@ register("chat", (whatever, mob) => {
             let x = Math.round(Player.getX());
             let y = Math.round(Player.getY());
             let z = Math.round(Player.getZ());
-            coord = `x: ${x}, y: ${y}, z: ${z}`
+            coord = `x: ${x}, y: ${y}, z: ${z}`;
             setTimeout(() => {
-                ChatLib.command(`pc coord INQUISITOR [${playerData.COUNTER["minos_inquisitor"]} in ${formatMilliseconds(playerData.TIME["minos_inquisitor"])}]`);
-            }, 250)
-            setTimeout(() => {
+                ChatLib.command(`pc ${coord} INQUISITOR [${playerData.COUNTER["minos_inquisitor"]} in ${formatMilliseconds(Date.now() - playerData.TIME["minos_inquisitor"])}]`);
                 playerData.COUNTER["minos_inquisitor"] = 0;
                 playerData.TIME["minos_inquisitor"] = Date.now();
-                ChatLib.command("patcher sendcoords");
-            }, 500)
+            }, 250);
             break;
         case "minotaur":
             playerData["Daedalus Stick"].current_count += 1;
@@ -61,7 +58,7 @@ register("chat", (whatever, mob) => {
     }
     else {
         playerData.COUNTER["minos_inquisitor"] += 1;
-        ChatLib.chat(`&6&lLast INQUISITOR: ${playerData.COUNTER["minos_inquisitor"]}`)
+        ChatLib.chat(`&6&lBurrows since INQUISITOR: ${playerData.COUNTER["minos_inquisitor"]} in ${formatMilliseconds(Date.now() - playerData.TIME["minos_inquisitor"])}`)
     }
     playerData.save()
 }).setCriteria("${whatever}! You dug out ${mob}!");;
