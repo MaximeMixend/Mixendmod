@@ -1,4 +1,4 @@
-import { announceDrop, renderEntity, formatMilliseconds, findFormattedKey, announceMob } from "../utils/functions";
+import { announceDrop, renderEntity, formatMilliseconds, findFormattedKey, announceMob, calcAvg } from "../utils/functions";
 import { playerData, fileData, catchHistory } from "../utils/data";
 import settings from "../settings";
 import { DARK_BLUE, DARK_PURPLE, DARK_RED, BOLD, DETECTED_SOUND, GOLD, RED, BLUE, RESET, GREEN } from "../utils/constants";
@@ -23,17 +23,6 @@ const EntityFishHook = Java.type("net.minecraft.entity.projectile.EntityFishHook
 // Functions
 // Somehow PogObject write does not work/save/whatever when these are in utils/functions???
 //========================================
-
-
-/**
- * Computes average of list
- * @param {List[Int]} list 
- */
-function calcAvg(list) {
-    let sum = 0;
-    list.forEach(elem => { sum += elem; });
-    return sum / list.length;
-}
 
 /**
  * Sets of instructions for mythic creatures catch
@@ -113,7 +102,7 @@ register("chat", () => {
 // DOUBLE HOOK
 register("chat", (event) => {
     fileData.doubleHook = true;
-    }).setCriteria(doubleHookCatch);
+}).setCriteria(doubleHookCatch);
 
 // LAVA CATCH
 register("chat", (expression, event) => {
@@ -190,7 +179,6 @@ register("chat", (expression, event) => {
 
 //========================================
 // DROPS
-// Need to find a way to read settings on the fly from a key:settings.blabla typebeat
 //========================================
 // Chat register RARE DROPS
 register("chat", (drop, mf, event) => {

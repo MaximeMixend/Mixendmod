@@ -88,3 +88,13 @@ export function renderEntity(entity, r, g, b, title, delta = 0.5, fill = true) {
 export function findFormattedKey(mapping) {
     return new RegExp(`^(${Object.keys(mapping).map((key) => key.replace(/[.*+?^${}()|[\]\\]/g, '\\$&')).join('|')})$`);
 };
+
+/**
+* Computes average of list
+* @param {List[Int]} list 
+*/
+export function calcAvg(list) {
+    let sum = 0;
+    list.forEach(elem => { sum += elem; });
+    return sum / list.length;
+}
