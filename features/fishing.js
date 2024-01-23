@@ -354,7 +354,7 @@ register("renderoverlay", () => {
         }
         let deltaRow = 1;
         mobTracker.forEach(entity => {
-            addGuiText(`${entity.getName()} `, 2, deltaRow + 2);
+            addGuiText(`${entity.getName()} `, 0, deltaRow + 2);
             deltaRow += 1;
         })
     }

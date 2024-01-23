@@ -1,10 +1,6 @@
 # Ongoing changes
 
-## 0.0.6
-
-- Diana Inquisitor ping and tracking
-- Move gui with /mixgui
-- Fixed typos
+ 
 
 # Released
 
