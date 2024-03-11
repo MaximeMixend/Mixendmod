@@ -1,5 +1,6 @@
 import settings from "../settings";
 import { BOLD, DARK_GREEN, BLUE, DARK_RED, GOLD } from "../utils/constants";
+import { fileData } from "../utils/data";
 
 export let activePet = {
     level: "Lvl 0", name: "undefined"
@@ -25,7 +26,7 @@ register("chat", (pet, level) => {
         color = DARK_GREEN;
         Client.showTitle(`${color + BOLD + pet.toUpperCase()} LEVEL ${level}`, "", 10, 120, 10);
     }
-    else if (parseInt(level) > 96) {
+    else if (parseInt(level) > 96 && parseInt(level) < 100) {
         Client.showTitle(`${color + BOLD + pet.toUpperCase()} LEVEL ${level}`, "", 10, 120, 10);
     }
     else { }
@@ -83,3 +84,28 @@ register("chat", () => {
         ChatLib.command("p warp");
     }
 }).setCriteria("Party ${*}: !warp");
+
+register("chat", (mf) => {
+    if (!fileData.magmacores) {
+        fileData.magmacores = 0
+    }
+    fileData.magmacores += 1;
+    ChatLib.command(`pc ${fileData.magmacores}th core! [+${mf}% ✯]`);
+    fileData.save();
+}).setCriteria("RARE DROP! Magma Core (+${mf}% ✯ Magic Find)");
+
+register("chat", (mf) => {
+    fileData.eternalring += 1;
+    fileData.save();
+}).setCriteria("RARE DROP! Eternal Flame Ring (+${mf}% ✯ Magic Find)");
+
+register("command", () => {
+    fileData.magmacores = 0;
+    fileData.eternalring = 0;
+    fileData.save();
+}).setName("mixresetcores");
+
+register("command", () => {
+    let avg = fileData.eternalring / 2.5
+    ChatLib.chat(`${GOLD + BOLD}[${fileData.magmacores} cores | ${fileData.eternalring} rings] [avg: ${avg.toFixed(2)} cores]`);
+}).setName("mixcore");

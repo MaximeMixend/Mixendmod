@@ -38,7 +38,7 @@ function catchMythicCreature(mobName, sendCatch) {
 
     // Add coords to party ping for relevant mobs
     if (seaCreatureData(mobName).sendCoords) {
-        coord = ` @ x: ${x}, y: ${y}, z: ${z}`
+        coord = `x: ${x}, y: ${y}, z: ${z} `
     };
 
     // Announce mob to party
@@ -61,25 +61,33 @@ function catchMythicCreature(mobName, sendCatch) {
 };
 
 
-let lastCaptime = 0;
+let lastCaptime = Date.now();
 let isCapped = false;
 register("step", () => {
     if (settings.wormCapPing) {
         let wormCount = 0;
+        let wormCount2 = 0;
         World.getAllEntities().forEach(entity => {
-            if (entity.getName().includes("Silverfish")) {
+            if (entity.getName().includes("Lava Pigman")) {
                 wormCount += 1;
             }
         });
+        World.getAllEntities().forEach(entity => {
+            if (entity.getName().includes("Lava Blaze")) {
+                wormCount2 += 1;
+            }
+        });
         // Send ping once threshold reached, pings only once
-        if (wormCount >= settings.wormCapThreshold && !isCapped) {
-            ChatLib.command(`pc > > > WORMS CAP! [${wormCount} worms] [${formatMilliseconds(Date.now() - lastCaptime)}] < < <`);
+        if ((wormCount + wormCount2) >= settings.wormCapThreshold && !isCapped) {
+            ChatLib.command(`pc CORE CAP! [${wormCount} pigs & ${wormCount2} blazes] [${formatMilliseconds(Date.now() - lastCaptime)}]`);
             isCapped = true;
         }
         // Given cap was reached, if worms are cleared, starts counting until next cap
-        else if (isCapped && wormCount < 10) {
+        else if (isCapped && (wormCount + wormCount2) < 2) {
             isCapped = false;
             lastCaptime = Date.now();
+            let avg = fileData.eternalring / 2.5
+            ChatLib.command(`pc [${fileData.magmacores} cores | ${fileData.eternalring} rings] [avg: ${avg.toFixed(2)} cores]`);
         }
         else { }
 
@@ -208,28 +216,23 @@ register("step", (event) => {
     // Detect each mob
     mobList.forEach(worldMob => {
         if (mobTracker.filter(trackedMob => trackedMob.getUUID() === worldMob.getUUID()).length < 1) {
-            let mobFound = "";
             let playSound = true;
             switch (true) {
                 case worldMob.getName().includes("Lord Jawbus"):
                     color = DARK_RED + "LORD JAWBUS";
-                    mobFound = "lord_jawbus"
                     playSound = settings.alertJawbusSound
                     break;
                 case worldMob.getName().includes("Thunder"):
                     color = DARK_BLUE + "THUNDER";
-                    mobFound = "thunder"
                     playSound = settings.alertThunderSound
                     break;
                 case worldMob.getName().includes("Plhlegblast"):
                     color = DARK_PURPLE + "PLHLEGBLAST";
                     playSound = settings.alertPlhlegblastSound
-                    mobFound = "plhlegblast"
                     break;
                 case worldMob.getName().includes("Vanquisher"):
                     color = DARK_PURPLE + "VANQUISHER";
                     playSound = settings.alertVanquisherSound
-                    mobFound = "vanquisher"
                     break;
                 default:
                     break;
