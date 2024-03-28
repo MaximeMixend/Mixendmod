@@ -268,7 +268,7 @@ register("step", (event) => {
             if (mobData.sound) { DETECTED_SOUND?.play(); }
             mobTracker.push(mob)
         })
-    })                      zz 
+    })
     // Remove tracked mobs inexistent in the world 
     mobTracker = mobTracker.filter(entity => {
         return worldMobs.some(mob => mob.getUUID() === entity.getUUID())
