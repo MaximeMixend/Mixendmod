@@ -4,7 +4,9 @@ import { dropData } from "./gameData";
 import RenderLib from "../../RenderLib/index.js";
 
 export function announceMob(partyMsg, counter, interval, coord) {
-    ChatLib.command(`pc ${coord}┌( ಠ_ಠ)┘ ${partyMsg} [${counter} in ${formatMilliseconds(interval)}]`);
+    let value = counter / (interval / 1000 / 3600)
+    ChatLib.command(`pc ┌( ಠ_ಠ)┘ ${partyMsg} [${counter} at ${value.toFixed(1)}/h] ${coord}`);
+    // ChatLib.command(`pc ┌( ಠ_ಠ)┘ ${partyMsg} [${counter} in ${formatMilliseconds(interval)}] ${coord}`);
 };
 
 export function announceDrop(item, mf, count, time) {
