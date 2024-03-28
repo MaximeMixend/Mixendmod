@@ -57,6 +57,21 @@ class Settings {
         this.addDependency(`${TABname}Radioactive Vial`, "Magic Find party ping");
         this.addDependency(`${TABname}Lucky Clover Core`, "Magic Find party ping");
         this.addDependency(`${TABname}Deep Sea Orb`, "Magic Find party ping");
+
+        // LORD JAWBUS
+        this.addDependency(`${TABname}Lord Jawbus catch`, "Lord Jawbus settings");
+        this.addDependency(`${TABname}Lord Jawbus sound`, "Lord Jawbus settings");
+        this.addDependency(`${TABname}Lord Jawbus alert`, "Lord Jawbus settings");
+
+        // THUNDER
+        this.addDependency(`${TABname}Thunder catch`, "Thunder settings");
+        this.addDependency(`${TABname}Thunder sound`, "Thunder settings");
+        this.addDependency(`${TABname}Thunder alert`, "Thunder settings");
+
+        // VANQUISHER
+        this.addDependency(`${TABname}Vanquisher catch`, "Vanquisher settings");
+        this.addDependency(`${TABname}Vanquisher sound`, "Vanquisher settings");
+        this.addDependency(`${TABname}Vanquisher alert`, "Vanquisher settings");
     }
 
     // -----------------------------------
@@ -90,6 +105,140 @@ class Settings {
     // -----------------------------------
     // FISHING alerts
     // -----------------------------------
+
+    //#region Lord Jawbus
+
+    @SwitchProperty({
+        name: `Lord Jawbus settings`,
+        description: `Turn ON/OFF Lord Jawbus related settings`,
+        category: "Fishing",
+        subcategory: "Lord Jawbus",
+    })
+    jawbusSettings = true;
+
+    @CheckboxProperty({
+        name: `${TABname}Lord Jawbus catch`,
+        description: "Party ping on catch",
+        category: "Fishing",
+        subcategory: "Lord Jawbus",
+    })
+    jawbusCatch = true;
+
+    @CheckboxProperty({
+        name: `${TABname}Lord Jawbus sound`,
+        description: "Sound alert on detection",
+        category: "Fishing",
+        subcategory: "Lord Jawbus",
+    })
+    jawbusSoundAlert = true;
+
+    @CheckboxProperty({
+        name: `${TABname}Lord Jawbus alert`,
+        description: "Screen alert on detection",
+        category: "Fishing",
+        subcategory: "Lord Jawbus",
+    })
+    jawbusScreenAlert = true;
+    //#endregion
+    //#region Thunder
+    @SwitchProperty({
+        name: `Thunder settings`,
+        description: `Turn ON/OFF Thunder related settings`,
+        category: "Fishing",
+        subcategory: "Thunder",
+    })
+    thunderSettings = true;
+
+    @CheckboxProperty({
+        name: `${TABname}Thunder catch`,
+        description: "Party ping on catch",
+        category: "Fishing",
+        subcategory: "Thunder",
+    })
+    thunderCatch = true;
+
+    @CheckboxProperty({
+        name: `${TABname}Thunder sound`,
+        description: "Sound alert on detection",
+        category: "Fishing",
+        subcategory: "Thunder",
+    })
+    thunderSoundAlert = true;
+
+    @CheckboxProperty({
+        name: `${TABname}Thunder alert`,
+        description: "Screen alert on detection",
+        category: "Fishing",
+        subcategory: "Thunder",
+    })
+    thunderScreenAlert = true;
+    //#endregion
+    //#region Vanquisher
+    @SwitchProperty({
+        name: `Vanquisher settings`,
+        description: `Turn ON/OFF Vanquisher related settings`,
+        category: "Fishing",
+        subcategory: "Vanquisher",
+    })
+    vanquisherSettings = true;
+
+    @CheckboxProperty({
+        name: `${TABname}Vanquisher catch`,
+        description: "Party ping on catch",
+        category: "Fishing",
+        subcategory: "Vanquisher",
+    })
+    vanquisherCatch = true;
+
+    @CheckboxProperty({
+        name: `${TABname}Vanquisher sound`,
+        description: "Sound alert on detection",
+        category: "Fishing",
+        subcategory: "Vanquisher",
+    })
+    vanquisherSoundAlert = true;
+
+    @CheckboxProperty({
+        name: `${TABname}Vanquisher alert`,
+        description: "Screen alert on detection",
+        category: "Fishing",
+        subcategory: "Vanquisher",
+    })
+    vanquisherScreenAlert = true;
+    //#endregion
+    //#region Plhlegblast
+    @SwitchProperty({
+        name: `Plhlegblast settings`,
+        description: `Turn ON/OFF Plhlegblast related settings`,
+        category: "Fishing",
+        subcategory: "Plhlegblast",
+    })
+    plhlegblastSettings = true;
+
+    @CheckboxProperty({
+        name: `${TABname}Plhlegblast catch`,
+        description: "Party ping on catch",
+        category: "Fishing",
+        subcategory: "Plhlegblast",
+    })
+    plhlegblastCatch = true;
+
+    @CheckboxProperty({
+        name: `${TABname}Plhlegblast sound`,
+        description: "Sound alert on detection",
+        category: "Fishing",
+        subcategory: "Plhlegblast",
+    })
+    plhlegblastSoundAlert = true;
+
+    @CheckboxProperty({
+        name: `${TABname}Plhlegblast alert`,
+        description: "Screen alert on detection",
+        category: "Fishing",
+        subcategory: "Plhlegblast",
+    })
+    plhlegblastScreenAlert = true;
+    //#endregion
 
     @SwitchProperty({
         name: "Mythic screen alert",

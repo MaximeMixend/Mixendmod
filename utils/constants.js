@@ -26,3 +26,13 @@ export const RESET = '&r';
 
 // Sound
 export const DETECTED_SOUND = new Sound({ source: "jawbus.ogg" });
+
+// Entites
+
+export const entitiesList = {
+    FishHook: Java.type("net.minecraft.entity.projectile.EntityFishHook"),
+    Jawbus: Java.type("net.minecraft.entity.monster.EntityIronGolem"),
+    Thunder: Java.type("net.minecraft.entity.monster.EntityGuardian"),
+    Vanquisher: Java.type("net.minecraft.entity.boss.EntityWither"),
+    Plhlegblast: Java.type("net.minecraft.entity.passive.EntitySquid")
+}

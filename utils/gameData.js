@@ -28,6 +28,37 @@ export function dropData(itemName) {
 
     }
 }
+
+
+export function detectMobData(mobName) {
+    switch (mobName) {
+        case "lord_jawbus": return {
+            color: DARK_RED,
+            name: "Lord Jawbus",
+            type: Java.type("net.minecraft.entity.monster.EntityIronGolem")
+        }
+        case "thunder": return {
+            color: DARK_BLUE,
+            name: "Thunder",
+            type: Java.type("net.minecraft.entity.monster.EntityGuardian")
+        }
+        case "vanquisher": return {
+            color: DARK_PURPLE,
+            name: "Vanquisher",
+            type: Java.type("net.minecraft.entity.boss.EntityWither")
+        }
+        default:
+            return false;
+    }
+}
+
+export const entitiesList = {
+    FishHook: Java.type("net.minecraft.entity.projectile.EntityFishHook"),
+    Jawbus: Java.type("net.minecraft.entity.monster.EntityIronGolem"),
+    Thunder: Java.type("net.minecraft.entity.monster.EntityGuardian"),
+    Vanquisher: Java.type("net.minecraft.entity.boss.EntityWither"),
+    Plhlegblast: Java.type("net.minecraft.entity.passive.EntitySquid")
+}
 /**
  * Return relevant data about the mob
  * @param {String} mobName 
@@ -39,7 +70,7 @@ export function seaCreatureData(mobName) {
             sendCoords: true,
             tracked_loot: "Radioactive Vial",
             track_avg: true,
-            catchPing: settings.sendJawbusCatch
+            catchPing: settings.sendJawbusCatch,
         }
         case "thunder": return {
             color: DARK_BLUE,

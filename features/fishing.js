@@ -1,7 +1,7 @@
 import { announceDrop, renderEntity, formatMilliseconds, findFormattedKey, announceMob, calcAvg } from "../utils/functions";
 import { playerData, fileData, catchHistory } from "../utils/data";
 import settings from "../settings";
-import { DARK_BLUE, DARK_PURPLE, DARK_RED, BOLD, DETECTED_SOUND, GOLD, RED, BLUE, RESET, GREEN } from "../utils/constants";
+import { DARK_BLUE, DARK_PURPLE, DARK_RED, BOLD, DETECTED_SOUND, GOLD, RED, BLUE, RESET, GREEN, entitiesList, DARK_GRAY } from "../utils/constants";
 import { crimsonIsleCatch, doubleHookCatch, dropData, seaCreatureData, waterCatch } from "../utils/gameData";
 import { activePet } from "./general";
 
@@ -14,7 +14,6 @@ let rateSc = 0;
 let startTime = Date.now();
 let rateMobCount = 0;
 
-const EntityFishHook = Java.type("net.minecraft.entity.projectile.EntityFishHook")
 
 //========================================
 // Functions
@@ -204,53 +203,79 @@ register("chat", (drop, mf, event) => {
 //========================================
 // SC TRACKER
 //========================================
+//#region Detect creatures
+let trackedMobs = ["lord_jawbus", "thunder", "vanquisher", "plhlegblast"];
+function detectMobData(mobName) {
+    switch (mobName) {
+        case "lord_jawbus": return {
+            color: DARK_RED,
+            name: "Lord Jawbus",
+            type: Java.type("net.minecraft.entity.monster.EntityIronGolem"),
+            detect: settings.jawbusSettings,
+            sound: settings.jawbusSoundAlert,
+            alert: settings.jawbusScreenAlert
+        }
+        case "thunder": return {
+            color: DARK_BLUE,
+            name: "Thunder",
+            type: Java.type("net.minecraft.entity.monster.EntityGuardian"),
+            detect: settings.thunderSettings,
+            sound: settings.thunderSoundAlert,
+            alert: settings.thunderScreenAlert
+        }
+        case "vanquisher": return {
+            color: DARK_PURPLE,
+            name: "Vanquisher",
+            type: Java.type("net.minecraft.entity.boss.EntityWither"),
+            detect: settings.vanquisherSettings,
+            sound: settings.vanquisherSoundAlert,
+            alert: settings.vanquisherScreenAlert
+        }
+        case "plhlegblast": return {
+            color: DARK_GRAY,
+            name: "Plhlegblast",
+            type: Java.type("net.minecraft.entity.passive.EntitySquid"),
+            detect: settings.plhlegblastSettings,
+            sound: settings.plhlegblastSoundAlert,
+            alert: settings.plhlegblastScreenAlert
+        }
+        default:
+            return false;
+    }
+}
 register("step", (event) => {
     if (!settings.alertMythic) { return; }
+    let worldMobs = [];
 
-    // Get tracked mobs list
-    let mobList = World.getAllEntities().filter(obj => {
-        let name = obj.getName();
-        return validNames.some(validName => name.includes(validName));
-    });
+    trackedMobs.forEach(name => {
+        let mobData = detectMobData(name);
 
-    // Detect each mob
-    mobList.forEach(worldMob => {
-        if (mobTracker.filter(trackedMob => trackedMob.getUUID() === worldMob.getUUID()).length < 1) {
-            let playSound = true;
-            switch (true) {
-                case worldMob.getName().includes("Lord Jawbus"):
-                    color = DARK_RED + "LORD JAWBUS";
-                    playSound = settings.alertJawbusSound
-                    break;
-                case worldMob.getName().includes("Thunder"):
-                    color = DARK_BLUE + "THUNDER";
-                    playSound = settings.alertThunderSound
-                    break;
-                case worldMob.getName().includes("Plhlegblast"):
-                    color = DARK_PURPLE + "PLHLEGBLAST";
-                    playSound = settings.alertPlhlegblastSound
-                    break;
-                case worldMob.getName().includes("Vanquisher"):
-                    color = DARK_PURPLE + "VANQUISHER";
-                    playSound = settings.alertVanquisherSound
-                    break;
-                default:
-                    break;
+        // Exit if mob not to be detected
+        if (!mobData.detect) { return; }
+
+        // Get all entites
+        let detectedMobs = World.getAllEntitiesOfType(mobData.type).filter(entity => entity.getName().includes(mobData.name));
+
+        if (detectedMobs.length > 0) { worldMobs.push(...detectedMobs); }
+
+        // Perform actions based on settings for that mob
+        detectedMobs.forEach(mob => {
+            // If mob already tracked
+            if (mobTracker.filter(trackedMob => trackedMob.getUUID() === mob.getUUID()).length > 0) { return; }
+            if (mobData.alert) {
+                Client.showTitle(`Detected ${BOLD + mobData.color + mobData.name}`, "", 5, 60, 25);
             }
-            // Send to render mob position in game
-            mobTracker.push(worldMob);
-
-            Client.showTitle(`DETECTED ${BOLD + color}`, "", 5, 60, 25);
-            if (playSound) { DETECTED_SOUND?.play(); }
-        };
+            if (mobData.sound) { DETECTED_SOUND?.play(); }
+            mobTracker.push(mob)
+        })
+    })                      zz 
+    // Remove tracked mobs inexistent in the world 
+    mobTracker = mobTracker.filter(entity => {
+        return worldMobs.some(mob => mob.getUUID() === entity.getUUID())
     });
-
-    // Remove tracked jawbus not in world
-    let filteredJawbusTracker = mobTracker.filter(entity => {
-        return mobList.some(jawbus => jawbus.getUUID() === entity.getUUID())
-    });
-    mobTracker = filteredJawbusTracker;
 }).setFps(1);
+
+//#endregion
 
 register("renderWorld", () => {
     mobTracker.forEach(mob => {
@@ -338,7 +363,7 @@ register("renderoverlay", () => {
 
     // Track bobbers
     if (settings.guiEnable) {
-        let bobbers = World.getAllEntitiesOfType(EntityFishHook).filter(dist => dist.distanceTo(Player.getPlayer()) < 30);
+        let bobbers = World.getAllEntitiesOfType(entitiesList.FishHook).filter(dist => dist.distanceTo(Player.getPlayer()) < 30);
 
         if (settings.guiMythicCount) {
             addGuiText(`${BLUE + BOLD}Thunder: ${GOLD + BOLD + playerData.COUNTER["thunder"]} [${playerData.AVG_DATA["thunder_avg"]}]`, 0, 0);
