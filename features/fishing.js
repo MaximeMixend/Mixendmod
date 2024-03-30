@@ -66,20 +66,26 @@ function catchMythicCreature(mobName, sendCatch) {
 let lastCaptime = Date.now();
 let isCapped = false;
 register("step", () => {
-    if (!settings.wormCapPing) {
+    if (settings.wormCapPing) {
         let wormCount = 0;
+        let wormCount2 = 0;
         World.getAllEntities().forEach(entity => {
-            if (entity.getName().includes("Flaming Worm")) {
+            if (entity.getName().includes("Lava Pigman")) {
                 wormCount += 1;
             }
         });
+        World.getAllEntities().forEach(entity => {
+            if (entity.getName().includes("Lava Blaze")) {
+                wormCount2 += 1;
+            }
+        });
         // Send ping once threshold reached, pings only once
-        if (wormCount >= settings.wormCapThreshold && !isCapped) {
-            ChatLib.command(`pc WORM CAP! [${formatMilliseconds(Date.now() - lastCaptime)}]`);
+        if ((wormCount + wormCount2) >= settings.wormCapThreshold && !isCapped) {
+            ChatLib.command(`pc CORE CAP! [${wormCount} pigs & ${wormCount2} blazes] [${formatMilliseconds(Date.now() - lastCaptime)}]`);
             isCapped = true;
         }
         // Given cap was reached, if worms are cleared, starts counting until next cap
-        else if (isCapped && wormCount < 2) {
+        else if (isCapped && (wormCount + wormCount2) < 2) {
             isCapped = false;
             lastCaptime = Date.now();
         }
