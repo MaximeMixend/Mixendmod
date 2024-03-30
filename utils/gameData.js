@@ -70,21 +70,21 @@ export function seaCreatureData(mobName) {
             sendCoords: true,
             tracked_loot: "Radioactive Vial",
             track_avg: true,
-            catchPing: settings.sendJawbusCatch,
+            catchPing: settings.jawbusCatch,
         }
         case "thunder": return {
             color: DARK_BLUE,
             sendCoords: false,
             tracked_loot: undefined,
             track_avg: true,
-            catchPing: settings.sendThunderCatch
+            catchPing: settings.thunderCatch
         }
         case "plhlegblast": return {
             color: DARK_PURPLE,
             sendCoords: true,
             tracked_loot: undefined,
             track_avg: false,
-            catchPing: settings.sendPlhlegblastCatch
+            catchPing: settings.plhlegblastCatch
         }
         case "carrot_king": return {
             color: DARK_PURPLE,

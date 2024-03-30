@@ -1,7 +1,7 @@
 import { announceDrop, renderEntity, formatMilliseconds, findFormattedKey, announceMob, calcAvg } from "../utils/functions";
 import { playerData, fileData, catchHistory } from "../utils/data";
 import settings from "../settings";
-import { DARK_BLUE, DARK_PURPLE, DARK_RED, BOLD, DETECTED_SOUND, GOLD, RED, BLUE, RESET, GREEN, entitiesList, DARK_GRAY } from "../utils/constants";
+import { DARK_BLUE, DARK_PURPLE, DARK_RED, BOLD, DETECTED_SOUND, GOLD, RED, BLUE, RESET, GREEN, entitiesList, DARK_GRAY, BLACK } from "../utils/constants";
 import { crimsonIsleCatch, doubleHookCatch, dropData, seaCreatureData, waterCatch } from "../utils/gameData";
 import { activePet } from "./general";
 
@@ -60,38 +60,33 @@ function catchMythicCreature(mobName, sendCatch) {
 };
 
 
+//========================================
+// WORMS
+//========================================
 let lastCaptime = Date.now();
 let isCapped = false;
 register("step", () => {
-    if (settings.wormCapPing) {
+    if (!settings.wormCapPing) {
         let wormCount = 0;
-        let wormCount2 = 0;
         World.getAllEntities().forEach(entity => {
-            if (entity.getName().includes("Lava Pigman")) {
+            if (entity.getName().includes("Flaming Worm")) {
                 wormCount += 1;
             }
         });
-        World.getAllEntities().forEach(entity => {
-            if (entity.getName().includes("Lava Blaze")) {
-                wormCount2 += 1;
-            }
-        });
         // Send ping once threshold reached, pings only once
-        if ((wormCount + wormCount2) >= settings.wormCapThreshold && !isCapped) {
-            ChatLib.command(`pc CORE CAP! [${wormCount} pigs & ${wormCount2} blazes] [${formatMilliseconds(Date.now() - lastCaptime)}]`);
+        if (wormCount >= settings.wormCapThreshold && !isCapped) {
+            ChatLib.command(`pc WORM CAP! [${formatMilliseconds(Date.now() - lastCaptime)}]`);
             isCapped = true;
         }
         // Given cap was reached, if worms are cleared, starts counting until next cap
-        else if (isCapped && (wormCount + wormCount2) < 2) {
+        else if (isCapped && wormCount < 2) {
             isCapped = false;
             lastCaptime = Date.now();
         }
         else { }
-
     }
 }).setDelay(2);
 
-//temp
 register("chat", () => {
     catchHistory.history.push(Date.now());
     rateMobCount += 1;
@@ -101,7 +96,6 @@ register("chat", () => {
 //========================================
 // CATCH
 //========================================
-// DOUBLE HOOK
 register("chat", (event) => {
     fileData.doubleHook = true;
 }).setCriteria(doubleHookCatch);
@@ -246,7 +240,6 @@ function detectMobData(mobName) {
     }
 }
 register("step", (event) => {
-    if (!settings.alertMythic) { return; }
     let worldMobs = [];
 
     trackedMobs.forEach(name => {
@@ -360,9 +353,7 @@ function addGuiText(text, col, row) {
 register("renderoverlay", () => {
 
     if (Renderer.screen.getWidth() < fileData.baseX || Renderer.screen.getHeight() < fileData.baseY) {
-        new Text(`${RED + BOLD}[${DARK_RED + BOLD}MixendModGUI${RED + BOLD}] GUI OUT OF SCREEN`, Renderer.screen.getWidth() / 2, Renderer.screen.getHeight() / 2).draw();
-        new Text(`${RED + BOLD}[${DARK_RED + BOLD}MixendModGUI${RED + BOLD}] GUI OUT OF SCREEN`, (Renderer.screen.getWidth() / 2), Renderer.screen.getHeight() / 2 - 8).draw();
-        new Text(`${RED + BOLD}[${DARK_RED + BOLD}MixendModGUI${RED + BOLD}] GUI OUT OF SCREEN`, (Renderer.screen.getWidth() / 2), Renderer.screen.getHeight() / 2 - 16).draw();
+        new Text(`${BLACK + BOLD}[${DARK_RED + BOLD}MixendModGUI${BLACK + BOLD}] ${BLACK + BOLD}GUI OUT OF SCREEN`, Renderer.screen.getWidth() / 4, Renderer.screen.getHeight() / 3).draw();
     }
 
     if (movedisplay.isOpen()) {
@@ -383,7 +374,7 @@ register("renderoverlay", () => {
         }
         if (settings.guiCatchRate) {
             let rateMode = settings.guiCatchRateMode ? "hr" : "min";
-            addGuiText(`${GREEN + BOLD}Sc / ${rateMode}: ${GOLD + BOLD + rateSc.toFixed(1)} (${rateMobCount} in ${formatMilliseconds(Date.now() - startTime)})`, 0, 2);
+            addGuiText(`${GREEN + BOLD}Sc/${rateMode}: ${GOLD + BOLD + rateSc.toFixed(1)} (${rateMobCount} in ${formatMilliseconds(Date.now() - startTime)})`, 0, 2);
         }
 
         if (settings.guiBobberCount) {
@@ -396,7 +387,6 @@ register("renderoverlay", () => {
         })
     }
 });
-
 
 register("worldUnload", () => {
     mobTracker = [];

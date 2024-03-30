@@ -33,13 +33,7 @@ class Settings {
 
 
         this.addDependency(`${TABname}Double hook message`, "Double hook");
-        this.addDependency(`${TABname}Thunder sound`, "Mythic screen alert");
-        this.addDependency(`${TABname}Lord Jawbus sound`, "Mythic screen alert");
-        this.addDependency(`${TABname}Plhlegblast sound`, "Mythic screen alert");
 
-        this.addDependency(`${TABname}Thunder`, "Catch party pings");
-        this.addDependency(`${TABname}Jawbus`, "Catch party pings");
-        this.addDependency(`${TABname}Plhlegblast`, "Catch party pings");
         this.addDependency(`${TABname}Carrot King`, "Catch party pings");
         this.addDependency(`${TABname}Sea Emperor`, "Catch party pings");
         this.addDependency(`${TABname}Phantom Fisherman`, "Catch party pings");
@@ -62,6 +56,11 @@ class Settings {
         this.addDependency(`${TABname}Lord Jawbus catch`, "Lord Jawbus settings");
         this.addDependency(`${TABname}Lord Jawbus sound`, "Lord Jawbus settings");
         this.addDependency(`${TABname}Lord Jawbus alert`, "Lord Jawbus settings");
+
+        // PLHLEGBLAST
+        this.addDependency(`${TABname}Plhlegblast catch`, "Plhlegblast settings");
+        this.addDependency(`${TABname}Plhlegblast sound`, "Plhlegblast settings");
+        this.addDependency(`${TABname}Plhlegblast alert`, "Plhlegblast settings");
 
         // THUNDER
         this.addDependency(`${TABname}Thunder catch`, "Thunder settings");
@@ -231,38 +230,6 @@ class Settings {
     plhlegblastScreenAlert = true;
     //#endregion
 
-    @SwitchProperty({
-        name: "Mythic screen alert",
-        description: "Alert on screen when close to a legendary sea creature",
-        category: "Fishing",
-        subcategory: "Alert",
-    })
-    alertMythic = true;
-
-    @CheckboxProperty({
-        name: `${TABname}Thunder sound`,
-        description: "Alert sound when close to a Thunder",
-        category: "Fishing",
-        subcategory: "Alert",
-    })
-    alertThunderSound = true;
-
-    @CheckboxProperty({
-        name: `${TABname}Lord Jawbus sound`,
-        description: "Alert sound when close to a Lord Jawbus",
-        category: "Fishing",
-        subcategory: "Alert",
-    })
-    alertJawbusSound = true;
-
-    @CheckboxProperty({
-        name: `${TABname}Plhlegblast sound`,
-        description: "Alert sound when close to a Plhlegblast",
-        category: "Fishing",
-        subcategory: "Alert",
-    })
-    alertPlhlegblastSound = true;
-
     // -----------------------------------
     // FISHING pings
     // -----------------------------------
@@ -276,30 +243,6 @@ class Settings {
     sendCatchPing = true;
 
     // ******************************
-
-    @CheckboxProperty({
-        name: `${TABname}Thunder`,
-        description: `Enable Thunder catch party ping`,
-        category: "Fishing",
-        subcategory: "Catch pings",
-    })
-    sendThunderCatch = true;
-
-    @CheckboxProperty({
-        name: `${TABname}Jawbus`,
-        description: `Enable Jawbus catch party ping`,
-        category: "Fishing",
-        subcategory: "Catch pings",
-    })
-    sendJawbusCatch = true;
-
-    @CheckboxProperty({
-        name: `${TABname}Plhlegblast`,
-        description: `Enable Plhlegblast catch party ping`,
-        category: "Fishing",
-        subcategory: "Catch pings",
-    })
-    sendPlhlegblastCatch = true;
 
     @CheckboxProperty({
         name: `${TABname}Carrot King`,
