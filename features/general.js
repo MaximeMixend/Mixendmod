@@ -46,7 +46,6 @@ register("chat", (pet, event) => {
 // -----------------------------------
 // THUNDER BOTTLE
 // -----------------------------------
-
 register("chat", () => {
     setTimeout(() => {
         Client.showTitle(`${BLUE + BOLD}THUNDER BOTTLE FULL`, "", 0, 100, 10);
