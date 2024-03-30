@@ -17,7 +17,7 @@ const TABname = " > ";
 
 @Vigilant("MixendMod", "MixendMod", {
     getCategoryComparator: () => (a, b) => {
-        const categories = ["General", "Fishing", "Notifications", "Worm fishing", "Mining"];
+        const categories = ["General", "Fishing", "Notifications", "Worm fishing", "Mining", "Diana"];
         return categories.indexOf(a.name) - categories.indexOf(b.name);
     }
 })
