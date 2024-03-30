@@ -105,17 +105,17 @@ register("chat", (expression, event) => {
     let mobName = crimsonIsleCatch[expression.match(findFormattedKey(crimsonIsleCatch))[0]];
     switch (mobName) {
         case "thunder":
-            catchMythicCreature(mobName, settings.sendThunderCatch);
+            catchMythicCreature(mobName, settings.thunderCatch);
             playerData.COUNTER["plhlegblast"] += 1;
             playerData.COUNTER["lord_jawbus"] += 1;
             break;
         case "lord_jawbus":
-            catchMythicCreature(mobName, settings.sendJawbusCatch);
+            catchMythicCreature(mobName, settings.jawbusCatch);
             playerData.COUNTER["plhlegblast"] += 1;
             playerData.COUNTER["thunder"] += 1;
             break;
         case "plhlegblast":
-            catchMythicCreature(mobName, settings.sendJawbusCatch);
+            catchMythicCreature(mobName, settings.plhlegblastCatch);
             playerData.COUNTER["lord_jawbus"] += 1;
             playerData.COUNTER["thunder"] += 1;
             break;
