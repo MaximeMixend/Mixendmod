@@ -90,22 +90,16 @@ register("chat", (mf) => {
         fileData.magmacores = 0
     }
     fileData.magmacores += 1;
-    ChatLib.command(`pc ${fileData.magmacores}th core! [+${mf}% ✯]`);
+    ChatLib.command(`pc core #${fileData.magmacores}! [+${mf}% ✯]`);
     fileData.save();
 }).setCriteria("RARE DROP! Magma Core (+${mf}% ✯ Magic Find)");
 
 register("chat", (mf) => {
-    fileData.eternalring += 1;
     fileData.save();
 }).setCriteria("RARE DROP! Eternal Flame Ring (+${mf}% ✯ Magic Find)");
 
 register("command", () => {
     fileData.magmacores = 0;
-    fileData.eternalring = 0;
     fileData.save();
 }).setName("mixresetcores");
 
-register("command", () => {
-    let avg = fileData.eternalring / 2.5
-    ChatLib.chat(`${GOLD + BOLD}[${fileData.magmacores} cores | ${fileData.eternalring} rings] [avg: ${avg.toFixed(2)} cores]`);
-}).setName("mixcore");

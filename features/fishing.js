@@ -85,8 +85,6 @@ register("step", () => {
         else if (isCapped && (wormCount + wormCount2) < 2) {
             isCapped = false;
             lastCaptime = Date.now();
-            let avg = fileData.eternalring / 2.5
-            ChatLib.command(`pc [${fileData.magmacores} cores | ${fileData.eternalring} rings] [avg: ${avg.toFixed(2)} cores]`);
         }
         else { }
 
@@ -210,7 +208,6 @@ function detectMobData(mobName) {
         case "lord_jawbus": return {
             color: DARK_RED,
             name: "Lord Jawbus",
-            type: Java.type("net.minecraft.entity.monster.EntityIronGolem"),
             detect: settings.jawbusSettings,
             sound: settings.jawbusSoundAlert,
             alert: settings.jawbusScreenAlert
@@ -218,7 +215,6 @@ function detectMobData(mobName) {
         case "thunder": return {
             color: DARK_BLUE,
             name: "Thunder",
-            type: Java.type("net.minecraft.entity.monster.EntityGuardian"),
             detect: settings.thunderSettings,
             sound: settings.thunderSoundAlert,
             alert: settings.thunderScreenAlert
@@ -226,7 +222,6 @@ function detectMobData(mobName) {
         case "vanquisher": return {
             color: DARK_PURPLE,
             name: "Vanquisher",
-            type: Java.type("net.minecraft.entity.boss.EntityWither"),
             detect: settings.vanquisherSettings,
             sound: settings.vanquisherSoundAlert,
             alert: settings.vanquisherScreenAlert
@@ -234,7 +229,6 @@ function detectMobData(mobName) {
         case "plhlegblast": return {
             color: DARK_GRAY,
             name: "Plhlegblast",
-            type: Java.type("net.minecraft.entity.passive.EntitySquid"),
             detect: settings.plhlegblastSettings,
             sound: settings.plhlegblastSoundAlert,
             alert: settings.plhlegblastScreenAlert
@@ -254,7 +248,7 @@ register("step", (event) => {
         if (!mobData.detect) { return; }
 
         // Get all entites
-        let detectedMobs = World.getAllEntitiesOfType(mobData.type).filter(entity => entity.getName().includes(mobData.name));
+        let detectedMobs = World.getAllEntitiesOfType(Java.type("net.minecraft.entity.item.EntityArmorStand")).filter(entity => entity.getName().includes(mobData.name));
 
         if (detectedMobs.length > 0) { worldMobs.push(...detectedMobs); }
 
@@ -282,6 +276,13 @@ register("renderWorld", () => {
         renderEntity(mob, 0.7, 0.7, 0, mob.getName().toUpperCase());
     });
 });
+
+register("command", () => {
+    mobTracker.forEach(element => {
+        console.log(element)
+        console.log("a")
+    });
+}).setName("mixdebug");
 
 // Updates rates based on catch history (duration in settings)
 register("step", (event) => {

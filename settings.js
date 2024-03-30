@@ -69,7 +69,6 @@ class Settings {
         this.addDependency(`${TABname}Thunder alert`, "Thunder settings");
 
         // VANQUISHER
-        this.addDependency(`${TABname}Vanquisher catch`, "Vanquisher settings");
         this.addDependency(`${TABname}Vanquisher sound`, "Vanquisher settings");
         this.addDependency(`${TABname}Vanquisher alert`, "Vanquisher settings");
     }
@@ -181,14 +180,6 @@ class Settings {
         subcategory: "Vanquisher",
     })
     vanquisherSettings = true;
-
-    @CheckboxProperty({
-        name: `${TABname}Vanquisher catch`,
-        description: "Party ping on catch",
-        category: "Fishing",
-        subcategory: "Vanquisher",
-    })
-    vanquisherCatch = true;
 
     @CheckboxProperty({
         name: `${TABname}Vanquisher sound`,
