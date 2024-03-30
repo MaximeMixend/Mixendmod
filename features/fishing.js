@@ -112,10 +112,17 @@ register("chat", (expression, event) => {
     switch (mobName) {
         case "thunder":
             catchMythicCreature(mobName, settings.sendThunderCatch);
+            playerData.COUNTER["plhlegblast"] += 1;
             playerData.COUNTER["lord_jawbus"] += 1;
             break;
         case "lord_jawbus":
             catchMythicCreature(mobName, settings.sendJawbusCatch);
+            playerData.COUNTER["plhlegblast"] += 1;
+            playerData.COUNTER["thunder"] += 1;
+            break;
+        case "plhlegblast":
+            catchMythicCreature(mobName, settings.sendJawbusCatch);
+            playerData.COUNTER["lord_jawbus"] += 1;
             playerData.COUNTER["thunder"] += 1;
             break;
         default:
@@ -123,6 +130,7 @@ register("chat", (expression, event) => {
                 ChatLib.command(`pc ${settings.doubleHookMsg}`);
             };
             playerData.COUNTER["lord_jawbus"] += 1;
+            playerData.COUNTER["plhlegblast"] += 1;
             playerData.COUNTER["thunder"] += 1;
             break;
     };
