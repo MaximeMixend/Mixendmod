@@ -48,7 +48,9 @@ register("chat", (pet, event) => {
 // -----------------------------------
 
 register("chat", () => {
-    Client.showTitle(`${BLUE + BOLD}THUNDER BOTTLE FULL`, "", 0, 100, 10);
+    setTimeout(() => {
+        Client.showTitle(`${BLUE + BOLD}THUNDER BOTTLE FULL`, "", 0, 100, 10);
+    }, 1000);
 }).setCriteria("> Your bottle of thunder has fully charged!");
 
 // -----------------------------------
