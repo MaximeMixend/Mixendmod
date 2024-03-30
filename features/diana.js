@@ -1,6 +1,7 @@
 
 import { playerData } from "../utils/data";
 import { formatMilliseconds } from "../utils/functions";
+import settings from "../settings";
 
 const dianaMapping = {
     "a Minos Hunter": "minos_hunter",
@@ -17,6 +18,7 @@ const dianaMapping = {
 //##########################
 
 register("chat", (whatever, mob) => {
+    if (!settings.enableDiana) { return; }
     let mobKey = dianaMapping[mob];
     var intValue = 1;
     switch (mobKey) {

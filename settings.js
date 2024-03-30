@@ -468,6 +468,16 @@ class Settings {
     })
     alertMiningSpeedBoost = true;
 
+    // -----------------------------------
+    // DIANA
+    // -----------------------------------
+
+    @SwitchProperty({
+        name: `Enable diana features`,
+        description: "Ping party on inq, track stuff, etc.",
+        category: "Diana"
+    })
+    enableDiana = true;
 }
 
 
