@@ -2,7 +2,7 @@ import { announceDrop, renderEntity, formatMilliseconds, findFormattedKey, annou
 import { playerData, fileData, catchHistory } from "../utils/data";
 import settings from "../settings";
 import { DARK_BLUE, DARK_PURPLE, DARK_RED, BOLD, DETECTED_SOUND, GOLD, RED, BLUE, RESET, GREEN, entitiesList, DARK_GRAY, BLACK } from "../utils/constants";
-import { crimsonIsleCatch, doubleHookCatch, dropData, seaCreatureData, waterCatch, spookyCatch } from "../utils/gameData";
+import { crimsonIsleCatch, doubleHookCatch, dropData, seaCreatureData, waterCatch } from "../utils/gameData";
 import { activePet } from "./general";
 
 
