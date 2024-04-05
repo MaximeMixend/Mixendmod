@@ -4,6 +4,22 @@
 
 # Released
 
+## 0.6.1
+
+Change version naming
+Quick fix GUI
+
+## 0.0.6
+
+**Changes**
+
+- Changed mob detection
+- Better settings
+- Delay for charged thudner bottle (to not be overwritten by thunder catch)
+- **MOVEABLE GUI OMG**
+- Diana stuff
+- idk probably other stuff I forgot
+
 ## 0.0.5
 
 **Screen alerts:**
