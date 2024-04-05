@@ -5,8 +5,9 @@ import RenderLib from "../../RenderLib/index.js";
 
 export function announceMob(partyMsg, counter, interval, coord) {
     let value = counter / (interval / 1000 / 3600)
-    // ChatLib.command(`pc ┌( ಠ_ಠ)┘ ${partyMsg} [${counter} at ${value.toFixed(1)}/h] ${coord}`);
-    ChatLib.command(`pc ┌( ಠ_ಠ)┘ ${partyMsg} [${counter} in ${formatMilliseconds(interval)}] ${coord}`);
+    if (settings.catchPingMode) { ChatLib.command(`pc ┌( ಠ_ಠ)┘ ${partyMsg} [${counter} at ${value.toFixed(1)}/h] ${coord}`); }
+    else { ChatLib.command(`pc ┌( ಠ_ಠ)┘ ${partyMsg} [${counter} in ${formatMilliseconds(interval)}] ${coord}`); }
+
 };
 
 export function announceDrop(item, mf, count, time) {

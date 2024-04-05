@@ -147,15 +147,13 @@ export const waterCatch = {
     "You have awoken the Deep Sea Protector, prepare for a battle!": "deep_sea_protector",
     "The Water Hydra has come to test your strength.": "water_hydra",
     "The Sea Emperor arises from the depths.": "sea_emperor",
-    "Your Chumcap Bucket trembles, it's an Agarimoo.": "agarimoo"
-};
-
-export const spookyCatch = {
+    "Your Chumcap Bucket trembles, it's an Agarimoo.": "agarimoo",
     "Phew! It's only a Scarecrow.": "scarecrow",
     "You hear trotting from beneath the waves, you caught a Nightmare.": "nightmare",
     "It must be a full moon, a Werewolf appears.": "werewolf",
-    "The spirit of a long lost Phantom Fisherman has come to haunt you.": "phantom_fisherman",
+    "The spirit of a long lost Phantom Fisher has come to haunt you.": "phantom_fisherman",
     "This can't be! The manifestation of death himself!": "grim_reaper"
-}
+};
+
 
 export const doubleHookCatch = /^(It\'s a Double Hook\! Woot woot\!|It's a Double Hook\!|Double Hook\!)$/;

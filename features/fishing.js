@@ -2,13 +2,12 @@ import { announceDrop, renderEntity, formatMilliseconds, findFormattedKey, annou
 import { playerData, fileData, catchHistory } from "../utils/data";
 import settings from "../settings";
 import { DARK_BLUE, DARK_PURPLE, DARK_RED, BOLD, DETECTED_SOUND, GOLD, RED, BLUE, RESET, GREEN, entitiesList, DARK_GRAY, BLACK } from "../utils/constants";
-import { crimsonIsleCatch, doubleHookCatch, dropData, seaCreatureData, waterCatch } from "../utils/gameData";
+import { crimsonIsleCatch, doubleHookCatch, dropData, seaCreatureData, waterCatch, spookyCatch } from "../utils/gameData";
 import { activePet } from "./general";
 
 
 // TRACK MOBS
 let mobTracker = []; // Entity of tracked entities
-let validNames = ["Lord Jawbus", "Thunder", "Vanquisher", "Plhlegblast"];
 // SC RATES
 let rateSc = 0;
 let startTime = Date.now();
@@ -109,6 +108,10 @@ register("chat", (event) => {
 // LAVA CATCH
 register("chat", (expression, event) => {
     let mobName = crimsonIsleCatch[expression.match(findFormattedKey(crimsonIsleCatch))[0]];
+    let add = 1;
+    if (fileData.doubleHook) {
+        add = 2;
+    }
     switch (mobName) {
         case "thunder":
             catchMythicCreature(mobName, settings.thunderCatch);
@@ -137,7 +140,7 @@ register("chat", (expression, event) => {
     // Update catch tracking
     catchHistory.history.push(Date.now());
     playerData.LAVA_SC[mobName] += 1;
-    rateMobCount += 1;
+    rateMobCount += add;
 
     // Reset flags
     fileData.doubleHook = false;
@@ -155,6 +158,8 @@ register("chat", (expression, event) => {
     switch (mobName) {
         case "carrot_king":
             catchMythicCreature(mobName, settings.sendCarrotKingCatch);
+            playerData.COUNTER["grim_reaper"] += 1;
+            playerData.COUNTER["phantom_fisherman"] += 1;
             playerData.COUNTER["sea_emperor"] += 1;
             // Update tracking data
             playerData.TIME[mobName] = Date.now();
@@ -162,12 +167,24 @@ register("chat", (expression, event) => {
             break;
         case "sea_emperor":
             catchMythicCreature(mobName, settings.sendSeaEmperorCatch);
+            playerData.COUNTER["phantom_fisherman"] += 1;
+            playerData.COUNTER["grim_reaper"] += 1;
             playerData.COUNTER["carrot_king"] += 1;
+            break;
+        case "grim_reaper":
+            catchMythicCreature(mobName, settings.sendGrimReaperCatch);
+            playerData.COUNTER["phantom_fisherman"] += 1;
+            break;
+        case "phantom_fisherman":
+            catchMythicCreature(mobName, settings.sendPhantomFishermanCatch);
+            playerData.COUNTER["grim_reaper"] += 1;
             break;
         default:
             if (fileData.doubleHook && settings.sendDoubleHook) {
                 ChatLib.command(`pc ${settings.doubleHookMsg}`);
             };
+            playerData.COUNTER["grim_reaper"] += 1;
+            playerData.COUNTER["phantom_fisherman"] += 1;
             playerData.COUNTER["sea_emperor"] += 1;
             playerData.COUNTER["carrot_king"] += 1;
             break;
@@ -210,7 +227,7 @@ register("chat", (drop, mf, event) => {
 // SC TRACKER
 //========================================
 //#region Detect creatures
-let trackedMobs = ["lord_jawbus", "thunder", "vanquisher", "plhlegblast"];
+let trackedMobs = ["lord_jawbus", "thunder", "vanquisher", "plhlegblast", "grim_reaper", 'phantom_fisherman'];
 function detectMobData(mobName) {
     switch (mobName) {
         case "lord_jawbus": return {
@@ -240,6 +257,20 @@ function detectMobData(mobName) {
             detect: settings.plhlegblastSettings,
             sound: settings.plhlegblastSoundAlert,
             alert: settings.plhlegblastScreenAlert
+        }
+        case "grim_reaper": return {
+            color: DARK_PURPLE,
+            name: "Grim Reaper",
+            detect: true,
+            sound: true,
+            alert: true
+        }
+        case "phantom_fisherman": return {
+            color: DARK_PURPLE,
+            name: "Phantom Fisherman",
+            detect: true,
+            sound: true,
+            alert: true
         }
         default:
             return false;
@@ -358,8 +389,9 @@ function addGuiText(text, col, row) {
 
 register("renderoverlay", () => {
 
-    if (Renderer.screen.getWidth() < fileData.baseX || Renderer.screen.getHeight() < fileData.baseY) {
-        new Text(`${BLACK + BOLD}[${DARK_RED + BOLD}MixendModGUI${BLACK + BOLD}] ${BLACK + BOLD}GUI OUT OF SCREEN`, Renderer.screen.getWidth() / 4, Renderer.screen.getHeight() / 3).draw();
+    if (settings.guiEnable & (Renderer.screen.getWidth() < fileData.baseX || Renderer.screen.getHeight() < fileData.baseY)) {
+        new Text(`${BLACK + BOLD}[${DARK_RED + BOLD}MixendModGUI${BLACK + BOLD}] ${BLACK + BOLD}GUI OUT OF SCREEN`, Renderer.screen.getWidth() / 10, Renderer.screen.getHeight() / 3).draw();
+        new Text(`${BLACK + BOLD}[${DARK_RED + BOLD}MixendModGUI${BLACK + BOLD}] ${BLACK + BOLD}Use /mixgui and click the screen`, Renderer.screen.getWidth() / 10, Renderer.screen.getHeight() / 3 - 10).draw();
     }
 
     if (movedisplay.isOpen()) {

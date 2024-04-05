@@ -235,6 +235,14 @@ class Settings {
     // -----------------------------------
 
     @SwitchProperty({
+        name: "Catch party pings mode",
+        description: "change msg type",
+        category: "Fishing",
+        subcategory: "Catch pings",
+    })
+    catchPingMode = true;
+
+    @SwitchProperty({
         name: "Catch party pings",
         description: "Send a party message when catching a specific sea creature",
         category: "Fishing",
