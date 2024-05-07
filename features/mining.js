@@ -17,6 +17,7 @@ register("chat", () => {
     }
 }).setCriteria("Mining Speed Boost is now available!");
 
+<<<<<<< HEAD
 
 register("chat", () => {
     Client.showTitle(`${GOLD + BOLD}[${LIGHT_PURPLE + OBFUSCATED}a${GOLD + BOLD}] ${GREEN + BOLD}SHAFT ${GOLD + BOLD}[${LIGHT_PURPLE + OBFUSCATED}a${GOLD + BOLD}]`, "", 10, 100, 10);
@@ -86,3 +87,34 @@ register("step", () => {
         pibngLava = false;
     }
 }).setFps(2);
+=======
+// Scrap message
+register("chat", () => {
+    ChatLib.command("pc [SCRAP] Got my one");
+}).setCriteria("EXCAVATOR! You found a Suspicious Scrap!");
+
+// Mineshaft message
+register("chat", () => {
+    ChatLib.command("pc [MINESHAFT] Hi");
+    setTimeout(() => {
+        ChatLib.command(`pc ${mineshaftMessage}`);
+    }, 500);
+}).setCriteria("WOW! You found a Glacite Mineshaft portal!");
+
+// Extra party transfer options
+register("chat", (player) => {
+        ChatLib.command(`p transfer ${player}`);
+}).setCriteria("Party > ${*} ${player}: !pt");
+
+register("chat", (player) => {
+    ChatLib.command(`p transfer ${player}`);
+}).setCriteria("Party > ${*} ${player}: !ptme");
+
+register("chat", (player) => {
+    ChatLib.command(`p transfer ${player}`);
+}).setCriteria("Party > ${*} ${player}: .transfer");
+
+register("worldUnload", () => {
+    tracked = [];
+});
+>>>>>>> 017d29c7f2eea8f2bc3f22ed89e4891519b7accd
