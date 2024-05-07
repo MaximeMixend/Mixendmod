@@ -1,8 +1,8 @@
 import { announceDrop, renderEntity, formatMilliseconds, findFormattedKey, announceMob, calcAvg } from "../utils/functions";
-import { playerData, fileData, catchHistory } from "../utils/data";
+import { playerData, fileData, catchHistory, currentSession } from "../utils/data";
 import settings from "../settings";
-import { DARK_BLUE, DARK_PURPLE, DARK_RED, BOLD, DETECTED_SOUND, GOLD, RED, BLUE, RESET, GREEN, entitiesList, DARK_GRAY, BLACK } from "../utils/constants";
-import { crimsonIsleCatch, doubleHookCatch, dropData, seaCreatureData, waterCatch } from "../utils/gameData";
+import { DARK_BLUE, DARK_PURPLE, DARK_RED, BOLD, DETECTED_SOUND, GOLD, RED, BLUE, RESET, GREEN, entitiesList, DARK_GRAY, BLACK, GRAY, WHITE } from "../utils/constants";
+import { crimsonIsleCatch, doubleHookCatch, dropData, lavaDict, seaCreatureData, waterCatch } from "../utils/gameData";
 import { activePet } from "./general";
 
 
@@ -92,11 +92,83 @@ register("step", () => {
     }
 }).setDelay(2);
 
+let lastCaptime2 = Date.now();
+let isCapped2 = false;
+register("step", () => {
+    if (settings.wormCapPing) {
+        let wormCount = 0;
+        World.getAllEntities().forEach(entity => {
+            if (entity.getName().includes("Flaming Worm")) {
+                wormCount += 1;
+            }
+        });
+
+        // Send ping once threshold reached, pings only once
+        if ((wormCount) >= settings.wormCapThreshold && !isCapped2) {
+            ChatLib.command(`pc WORM CAP! [${wormCount} in ${formatMilliseconds(Date.now() - lastCaptime2)}]`);
+            setTimeout(() => {
+                ChatLib.command(`pc Killing in 5`);
+            }, 1000);
+            setTimeout(() => {
+                ChatLib.command(`pc Killing in 4`);
+            }, 2000);
+            setTimeout(() => {
+                ChatLib.command(`pc Killing in 3`);
+            }, 3000);
+            setTimeout(() => {
+                ChatLib.command(`pc Killing in 2`);
+            }, 4000);
+            setTimeout(() => {
+                ChatLib.command(`pc Killing in 1`);
+            }, 5000);
+
+            isCapped2 = true;
+        }
+        // Given cap was reached, if worms are cleared, starts counting until next cap
+        else if (isCapped2 && (wormCount) < 2) {
+            isCapped2 = false;
+            lastCaptime2 = Date.now();
+        }
+        else { }
+    }
+}).setDelay(2);
+
 register("chat", () => {
+    let add = 1;
+    if (fileData.doubleHook) {
+        add = 2;
+    }
     catchHistory.history.push(Date.now());
-    rateMobCount += 1;
+    rateMobCount += add;
     catchHistory.save();
+    fileData.doubleHook = false;
+    fileData.save();
 }).setCriteria("A Flaming Worm surfaces from the depths!");
+
+register("chat", () => {
+    let add = 1;
+    if (fileData.doubleHook) {
+        add = 2;
+    }
+    catchHistory.history.push(Date.now());
+    rateMobCount += add;
+    catchHistory.save();
+    fileData.doubleHook = false;
+    fileData.save();
+}).setCriteria("A Lava Blaze has surfaced from the depths!");
+
+register("chat", () => {
+    let add = 1;
+    if (fileData.doubleHook) {
+        add = 2;
+    }
+    catchHistory.history.push(Date.now());
+    rateMobCount += add;
+    catchHistory.save();
+    fileData.doubleHook = false;
+    fileData.save();
+
+}).setCriteria("A Lava Pigman arose from the depths!");
 
 //========================================
 // CATCH
@@ -140,6 +212,9 @@ register("chat", (expression, event) => {
     // Update catch tracking
     catchHistory.history.push(Date.now());
     playerData.LAVA_SC[mobName] += 1;
+    currentSession.CURRENT_TRACK[mobName] += 1;
+    currentSession.TOTAL += 1;
+    playerData.TOTAL += 1;
     rateMobCount += add;
 
     // Reset flags
@@ -147,6 +222,7 @@ register("chat", (expression, event) => {
 
     // Save data
     playerData.save();
+    currentSession.save();
     catchHistory.save();
     fileData.save();
 
@@ -356,6 +432,20 @@ register("command", () => {
     rateMobCount = 0;
     rateSc = 0;
     catchHistory.history = [];
+    currentSession.CURRENT_TRACK = {
+        "plhlegblast": 0,
+        "magma_slug": 0,
+        "moogma": 0,
+        "lava_leech": 0,
+        "pyroclastic_worm": 0,
+        "lava_flame": 0,
+        "fire_eel": 0,
+        "taurus": 0,
+        "thunder": 0,
+        "lord_jawbus": 0
+    }
+    currentSession.TOTAL = 0;
+    currentSession.save()
     catchHistory.save()
 }).setName("mixresettrack", true);
 
@@ -402,6 +492,31 @@ register("renderoverlay", () => {
     // Track bobbers
     if (settings.guiEnable) {
         let bobbers = World.getAllEntitiesOfType(entitiesList.FishHook).filter(dist => dist.distanceTo(Player.getPlayer()) < 30);
+
+        let total = currentSession.TOTAL;
+        let listFish = currentSession.CURRENT_TRACK;
+        if (settings.statMode) {
+            total = playerData.TOTAL;
+            listFish = playerData.LAVA_SC;
+        }
+
+        new Text(`${RED + BOLD}Total: ${WHITE}${total}`, 10, 40).setShadow(true).draw();
+        let percentage = 0;
+        let count = 0;
+        let color = RED;
+        for (let i = 0; i < 10; i++) {
+            count = listFish[lavaDict[i].id];
+            if (count == 0) {
+                percentage = 0;
+            } else {
+                percentage = (count / total) * 100;
+            }
+            if (i > 7) {
+                color = RED + BOLD;
+            }
+            new Text(`${WHITE}${count} (${percentage.toFixed(2)}%) ${color}${lavaDict[i].name}`, 10, 50 + 10 * i).setShadow(true).draw();
+        }
+
 
         if (settings.guiMythicCount) {
             addGuiText(`${BLUE + BOLD}Thunder: ${GOLD + BOLD + playerData.COUNTER["thunder"]} [${playerData.AVG_DATA["thunder_avg"]}]`, 0, 0);

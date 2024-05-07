@@ -30,6 +30,7 @@ export function dropData(itemName) {
 }
 
 
+
 export function detectMobData(mobName) {
     switch (mobName) {
         case "lord_jawbus": return {
@@ -131,6 +132,32 @@ export const crimsonIsleCatch = {
     "You hear a massive rumble as Thunder emerges.": "thunder",
     "You have angered a legendary creature... Lord Jawbus has arrived.": "lord_jawbus"
 };
+
+export const lavaDict = {
+    0: { id: "plhlegblast", name: "Plhlegblast" },
+    1: { id: "magma_slug", name: "Magma Slug" },
+    2: { id: "moogma", name: "Moogma Cow" },
+    3: { id: "lava_leech", name: "Lava leech" },
+    4: { id: "pyroclastic_worm", name: "Pyroclastic worm" },
+    5: { id: "lava_flame", name: "Lava flame" },
+    6: { id: "fire_eel", name: "Fire eel" },
+    7: { id: "taurus", name: "Taurus" },
+    8: { id: "thunder", name: "Thunder" },
+    9: { id: "lord_jawbus", name: "Lord Jawbus" },
+}
+
+export const lavaNames = {
+    0: "plhlegblast",
+    1: "magma_slug",
+    2: "moogma",
+    3: "lava_leech",
+    4: "pyroclastic_worm",
+    5: "lava_flame",
+    6: "fire_eel",
+    7: "taurus",
+    8: "thunder",
+    9: "lord_jawbus",
+}
 
 export const waterCatch = {
     "A Squid appeared.": "squid",

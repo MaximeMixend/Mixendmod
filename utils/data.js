@@ -93,5 +93,33 @@ export let playerData = new PogObject("MixendMod", {
         "thunder": [],
         "lord_jawbus_avg": 0,
         "thunder_avg": 0
-    }
+    },
+    "CURRENT_TRACK": {
+        "plhlegblast": 0,
+        "magma_slug": 0,
+        "moogma": 0,
+        "lava_leech": 0,
+        "pyroclastic_worm": 0,
+        "lava_flame": 0,
+        "fire_eel": 0,
+        "taurus": 0,
+        "thunder": 0,
+        "lord_jawbus": 0
+    }, "TOTAL": 0
 }, "data/data.json")
+
+export let currentSession = new PogObject("MixendMod", {
+    "CURRENT_TRACK": {
+        "plhlegblast": 0,
+        "magma_slug": 0,
+        "moogma": 0,
+        "lava_leech": 0,
+        "pyroclastic_worm": 0,
+        "lava_flame": 0,
+        "fire_eel": 0,
+        "taurus": 0,
+        "thunder": 0,
+        "lord_jawbus": 0
+    },
+    "TOTAL": 0
+}, "data/current_session.json");

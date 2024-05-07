@@ -243,6 +243,14 @@ class Settings {
     catchPingMode = true;
 
     @SwitchProperty({
+        name: "Mob recap global/current session",
+        description: "Toggle global/current session on stats",
+        category: "Fishing",
+        subcategory: "Stat mode",
+    })
+    statMode = true;
+
+    @SwitchProperty({
         name: "Catch party pings",
         description: "Send a party message when catching a specific sea creature",
         category: "Fishing",
@@ -475,6 +483,13 @@ class Settings {
         category: "Mining"
     })
     alertMiningSpeedBoost = true;
+
+    @TextProperty({
+        name: `${TABname}Mineshaft`,
+        description: `Custom message sent when mineshaft`,
+        category: "Mining",
+    })
+    mineshaftMessage = "!ptme";
 
     // -----------------------------------
     // DIANA

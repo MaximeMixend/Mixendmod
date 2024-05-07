@@ -1,5 +1,5 @@
 import settings from "../settings";
-import { BOLD, DARK_GREEN, BLUE, DARK_RED, GOLD } from "../utils/constants";
+import { BOLD, DARK_GREEN, BLUE, DARK_RED, GOLD, DETECTED_SOUND } from "../utils/constants";
 import { fileData } from "../utils/data";
 
 export let activePet = {
@@ -80,6 +80,14 @@ register("chat", (player) => {
     }
 }).setCriteria("Party ${*}: !pt ${player}");
 
+register("chat", (playername) => {
+    ChatLib.command(`p transfer ${playername}`);
+}).setCriteria("Party > ${*} ${playername}: !pt");
+
+register("chat", (playername) => {
+    ChatLib.command(`p transfer ${playername}`);
+}).setCriteria("Party > ${*} ${playername}: !ptme");
+
 register("chat", () => {
     if (settings.enablePartyCommands && settings.enablePartyWarp) {
         ChatLib.command("p warp");
@@ -104,3 +112,67 @@ register("command", () => {
     fileData.save();
 }).setName("mixresetcores");
 
+
+register("chat", () => {
+    DETECTED_SOUND?.play();
+    Client.showTitle(`GO GET EGGS`, "", 5, 60, 25);
+}).setCriteria("HOPPITY'S HUNT A Chocolate Breakfast Egg has appeared!");
+
+const magicFindRegex = /Magic Find (I|II|III|IV|V|VI|VII|VIII|IX|X)/
+const blazingfortuneRegex = /Blazing Fortune (I|II|III|IV|V|VI|VII|VIII|IX|X)/
+const fishingExperienceRegex = /Fishing Experience (I|II|III|IV|V|VI|VII|VIII|IX|X)/
+const flashRegex = /Flash (I|II|III|IV|V|VI|VII|VIII|IX|X)/
+const ImportantDropsRender = {
+    "Enchanted Book": [0, 0],
+    "Slug Boots": [15, 5000],
+    "Moogma Leggings": [20, 10000],
+    "Flaming Chestplate": [25, 25000],
+    "Taurus Helmet": [30, 50000],
+    "Staff of the Volcano": [10, 5000],
+    "Blade of the Volcano": [10, 5000],
+    "Pitchin' Koi": [0, 22222],
+    "Thunderbolt Necklace": [0, 0],
+    "Thunder Helmet": [0, 0],
+    "Thunder Chestplate": [0, 0],
+    "Thunder Leggings": [0, 0],
+    "Thunder Boots": [0, 0],
+    "Magma Lord Helmet": [0, 0],
+    "Magma Lord Chestplate": [0, 0],
+    "Magma Lord Leggings": [0, 0],
+    "Magma Lord Boots": [0, 0]
+};
+register('renderslot', (slot, gui, event) => {
+    if (true) {
+        // Get inventory item
+        if (slot == null) return;
+
+        item = slot.getItem()
+        if (item == null) return;
+
+        piece = false
+        Object.keys(ImportantDropsRender).forEach(drop => {
+            if (item.getName().includes(drop)) {
+                piece = true
+            }
+        })
+
+        if (!piece) return;
+
+        lore = item.getLore().reduce((all, now) => all + `\n${now}`, ``);
+        magicFindRegex.lastIndex = 0;
+        blazingfortuneRegex.lastIndex = 0;
+
+        if (magicFindRegex.test(lore)) {
+            ItemText = new Text("&0&lMF", slot.getDisplayX(), slot.getDisplayY()).setShadow(true).setScale(0.5);
+            ItemText.draw();
+        }
+        if (blazingfortuneRegex.test(lore)) {
+            ItemText = new Text("&0&lBF", slot.getDisplayX() + 10, slot.getDisplayY()).setShadow(true).setScale(0.5);
+            ItemText.draw();
+        }
+        if (fishingExperienceRegex.test(lore)) {
+            ItemText = new Text("&0&lFE", slot.getDisplayX(), slot.getDisplayY() + 10).setShadow(true).setScale(0.5);
+            ItemText.draw();
+        }
+    }
+})
