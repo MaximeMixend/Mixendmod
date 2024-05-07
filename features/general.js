@@ -172,7 +172,7 @@ register('renderslot', (slot, gui, event) => {
         }
         if (fishingExperienceRegex.test(lore)) {
             ItemText = new Text("&0&lFE", slot.getDisplayX(), slot.getDisplayY() + 10).setShadow(true).setScale(0.5);
-            ItemText.draw();
+            ItemText.depthFunc(-1).draw();
         }
     }
 })
