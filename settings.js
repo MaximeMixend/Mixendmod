@@ -485,20 +485,12 @@ class Settings {
     alertMiningSpeedBoost = true;
 
     @TextProperty({
-<<<<<<< HEAD
-        name: `${TABname}Mineshaft`,
-        description: `Custom message sent when mineshaft`,
-        category: "Mining",
-    })
-    mineshaftMessage = "!ptme";
-=======
         name: `${TABname}Mineshaft message`,
         description: `Custom message sent to the party when finding a mineshaft`,
         category: "Mining",
         subcategory: "Mineshaft"
     })
     mineshaftMessage = "!pt";
->>>>>>> 017d29c7f2eea8f2bc3f22ed89e4891519b7accd
 
     // -----------------------------------
     // DIANA
