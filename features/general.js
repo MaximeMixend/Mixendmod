@@ -163,16 +163,19 @@ register('renderslot', (slot, gui, event) => {
         blazingfortuneRegex.lastIndex = 0;
 
         if (magicFindRegex.test(lore)) {
-            ItemText = new Text("&0&lMF", slot.getDisplayX(), slot.getDisplayY()).setShadow(true).setScale(0.5);
-            ItemText.draw();
+            Renderer.scale(0.5, 0.5);
+            Renderer.translate(slot.getDisplayX(), slot.getDisplayY(), 300.0);
+            Renderer.drawStringWithShadow("&7&lMF", slot.getDisplayX(), slot.getDisplayY());
         }
         if (blazingfortuneRegex.test(lore)) {
-            ItemText = new Text("&0&lBF", slot.getDisplayX() + 10, slot.getDisplayY()).setShadow(true).setScale(0.5);
-            ItemText.draw();
+            Renderer.scale(0.5, 0.5);
+            Renderer.translate(slot.getDisplayX() + 10, slot.getDisplayY(), 300.0);
+            Renderer.drawStringWithShadow("&7&lBF", slot.getDisplayX() + 10, slot.getDisplayY());
         }
         if (fishingExperienceRegex.test(lore)) {
-            ItemText = new Text("&0&lFE", slot.getDisplayX(), slot.getDisplayY() + 10).setShadow(true).setScale(0.5);
-            ItemText.depthFunc(-1).draw();
+            Renderer.scale(0.5, 0.5);
+            Renderer.translate(slot.getDisplayX(), slot.getDisplayY() + 10, 300.0);
+            Renderer.drawStringWithShadow("&7&lFE", slot.getDisplayX(), slot.getDisplayY() + 10);
         }
     }
 })
