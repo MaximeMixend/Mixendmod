@@ -31,7 +31,6 @@ register("chat", () => {
 
 }).setCriteria("EXCAVATOR! You found a Suspicious Scrap!");
 
-
 let foundGrotto = false;
 let pingGrotto = true;
 register("step", () => {
@@ -86,3 +85,5 @@ register("step", () => {
         pibngLava = false;
     }
 }).setFps(2);
+
+
