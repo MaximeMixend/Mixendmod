@@ -56,9 +56,18 @@ const miniNameToKey = {
 // Miniboss GUI
 // ====================================================
 
-register("command", () => {
-    if (settings.guiMiniboss) {
-        moveGui.open()
+register("command", (arg) => {
+    if (!settings.guiMiniboss) { return; }
+    switch (arg) {
+        case "reset":
+        case "-r":
+            fileData.miniGuiX = 10;
+            fileData.miniGuiY = 170;
+            fileData.save();
+            break;
+        default:
+            moveGui.open()
+            break;
     }
 }).setName("mixguimini");
 

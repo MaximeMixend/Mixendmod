@@ -441,12 +441,6 @@ register("command", () => {
 // move graph event
 let movedisplay = new Gui();
 
-register("command", () => {
-    if (settings.guiEnable) {
-        movedisplay.open()
-    }
-}).setName("mixgui");
-
 register("guimouseclick", (x, y, button, gui, event) => {
     if (movedisplay.isOpen()) {
         fileData.baseX = x;
@@ -465,13 +459,13 @@ function addGuiText(text, col, row) {
 register("renderoverlay", () => {
 
     if (settings.guiEnable & (Renderer.screen.getWidth() < fileData.baseX || Renderer.screen.getHeight() < fileData.baseY)) {
-        new Text(`${BLACK + BOLD}[${DARK_RED + BOLD}MixendModGUI${BLACK + BOLD}] ${BLACK + BOLD}GUI OUT OF SCREEN`, Renderer.screen.getWidth() / 10, Renderer.screen.getHeight() / 3).draw();
-        new Text(`${BLACK + BOLD}[${DARK_RED + BOLD}MixendModGUI${BLACK + BOLD}] ${BLACK + BOLD}Use /mixgui and click the screen`, Renderer.screen.getWidth() / 10, Renderer.screen.getHeight() / 3 - 10).draw();
+        new Text(`${BLACK + BOLD}[${DARK_RED + BOLD}MixendModGUI${BLACK + BOLD}] ${BLACK + BOLD}GUI OUT OF SCREEN`, Renderer.screen.getWidth() / 10, Renderer.screen.getHeight() / 3).setShadow(true).draw();
+        new Text(`${BLACK + BOLD}[${DARK_RED + BOLD}MixendModGUI${BLACK + BOLD}] ${BLACK + BOLD}Use /mixgui fish and click the screen`, Renderer.screen.getWidth() / 10, Renderer.screen.getHeight() / 3 - 10).setShadow(true).draw();
     }
 
     if (movedisplay.isOpen()) {
-        new Text(`${RED + BOLD}ECHAP to save position`, Renderer.screen.getWidth() / 2, 20).draw();
-        new Text(`${GREEN + BOLD}Click to place to left corner of GUI`, Renderer.screen.getWidth() / 2, 30).draw();
+        new Text(`${RED + BOLD}ECHAP to save position`, 10, 10).setShadow(true).draw();
+        new Text(`${GREEN + BOLD}Click to place to left corner of GUI`, 10, 20).setShadow(true).draw();
     }
 
     // Track bobbers
@@ -504,16 +498,6 @@ register("renderoverlay", () => {
 // Session GUI
 let moveGuiSession = new Gui();
 
-register("command", (arg) => {
-    if (arg == 'reset') {
-        fileData.sessionGuiX = 10;
-        fileData.sessionGuiY = 50;
-        fileData.save();
-    }
-    else if (settings.guiEnable) {
-        moveGuiSession.open()
-    }
-}).setName("mixguisession", true);
 
 register("guimouseclick", (x, y, button, gui, event) => {
     if (moveGuiSession.isOpen()) {
@@ -530,8 +514,8 @@ register("renderoverlay", () => {
     let xPos = fileData.sessionGuiX;
     let yPos = fileData.sessionGuiY;
     if (moveGuiSession.isOpen()) {
-        new Text(`${RED + BOLD}ECHAP to save position`, Renderer.screen.getWidth() / 2, 20).draw();
-        new Text(`${GREEN + BOLD}Click to place to left corner of GUI`, Renderer.screen.getWidth() / 2, 30).draw();
+        new Text(`${RED + BOLD}ECHAP to save position`, 10, 10).setShadow(true).draw();
+        new Text(`${GREEN + BOLD}Click to place to left corner of GUI`, 10, 20).setShadow(true).draw();
     }
     if (!settings.catchSessionGui) { return; }
 
@@ -558,6 +542,42 @@ register("renderoverlay", () => {
     }
 });
 
+// Move GUIS
+register("command", (arg, arg2) => {
+    switch (arg) {
+        case "session":
+            if (!settings.catchSessionGui) { return; }
+            switch (arg2) {
+                case "reset":
+                case "-r":
+                    fileData.sessionGuiX = 10;
+                    fileData.sessionGuiY = 50;
+                    fileData.save();
+                    break;
+                default:
+                    moveGuiSession.open()
+                    break;
+            }
+            break;
+        case "fish":
+            if (!settings.guiEnable) { return; }
+            switch (arg2) {
+                case "reset":
+                case "-r":
+                    fileData.baseX = 10;
+                    fileData.baseY = 10;
+                    fileData.save();
+                    break;
+                default:
+                    movedisplay.open()
+                    break;
+            }
+            break;
+        default:
+            ChatLib.chat(`${GOLD + BOLD}Usage: /mixgui <session/fish> optional: <reset>`);
+            break;
+    }
+}).setName("mixgui");
 
 register("worldUnload", () => {
     mobTracker = [];

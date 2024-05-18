@@ -10,7 +10,6 @@ import { BOLD, DARK_GREEN, DARK_RED, GOLD } from "./utils/constants.js";
 
 ChatLib.chat(`${GOLD}[${DARK_RED + BOLD}MixendMod${GOLD}] ${BOLD}Loading...`);
 
-
 // -----------------------------------
 // SETTINGS GUI
 // -----------------------------------

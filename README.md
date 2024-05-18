@@ -1,13 +1,18 @@
 # Ongoing changes
 
- 
-
 # Released
 
 ## 0.6.2
 
-- Miniboss GUI tracker while in Crimson Isle
+### Miniboss status while in Crimson Isle
+- /mixguimini
+
+### Detail fishing session tracker
+- /mixgui <session/fish> optional: <reset>
+
+### Other
 - Settings changes for easier navigation (not finished)
+- Other things I forgot
 
 ## 0.6.1
 
