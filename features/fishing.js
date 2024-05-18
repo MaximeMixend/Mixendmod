@@ -60,6 +60,7 @@ function catchMythicCreature(mobName, sendCatch) {
 //========================================
 // WORMS
 //========================================
+//#region Worms
 let lastCaptime = Date.now();
 let isCapped = false;
 register("step", () => {
@@ -130,7 +131,6 @@ register("step", () => {
         else { }
     }
 }).setDelay(2);
-
 register("chat", () => {
     let add = 1;
     if (fileData.doubleHook) {
@@ -154,7 +154,6 @@ register("chat", () => {
     fileData.doubleHook = false;
     fileData.save();
 }).setCriteria("A Lava Blaze has surfaced from the depths!");
-
 register("chat", () => {
     let add = 1;
     if (fileData.doubleHook) {
@@ -167,6 +166,7 @@ register("chat", () => {
     fileData.save();
 
 }).setCriteria("A Lava Pigman arose from the depths!");
+//#endregion Worms
 
 //========================================
 // CATCH
@@ -175,6 +175,7 @@ register("chat", (event) => {
     fileData.doubleHook = true;
 }).setCriteria(doubleHookCatch);
 
+//#region CATCH
 // LAVA CATCH
 register("chat", (expression, event) => {
     let mobName = crimsonIsleCatch[expression.match(findFormattedKey(crimsonIsleCatch))[0]];
@@ -210,9 +211,14 @@ register("chat", (expression, event) => {
     // Update catch tracking
     catchHistory.history.push(Date.now());
     playerData.LAVA_SC[mobName] += 1;
-    currentSession.CURRENT_TRACK[mobName] += 1;
-    currentSession.TOTAL += 1;
-    playerData.TOTAL += 1;
+
+    if (mobName != "plhlegblast") {
+        currentSession.CURRENT_TRACK[mobName] += 1;
+        currentSession.CURRENT_TRACK_TIMER[mobName] = Date.now();;
+        currentSession.TOTAL += 1;
+        playerData.TOTAL += 1;
+    }
+
     rateMobCount += add;
 
     // Reset flags
@@ -277,6 +283,7 @@ register("chat", (expression, event) => {
     fileData.save();
 
 }).setCriteria(findFormattedKey(waterCatch));
+//#endregion CATCH
 
 //========================================
 // DROPS
@@ -380,8 +387,7 @@ register("step", (event) => {
         return worldMobs.some(mob => mob.getUUID() === entity.getUUID())
     });
 }).setFps(1);
-
-//#endregion
+//#endregion Detect creatures
 
 register("renderWorld", () => {
     mobTracker.forEach(mob => {
@@ -437,7 +443,7 @@ register("command", () => {
 //========================================
 // GUI
 //========================================
-
+//#region GUI FISH
 // move graph event
 let movedisplay = new Gui();
 
@@ -457,7 +463,6 @@ function addGuiText(text, col, row) {
 }
 
 register("renderoverlay", () => {
-
     if (settings.guiEnable & (Renderer.screen.getWidth() < fileData.baseX || Renderer.screen.getHeight() < fileData.baseY)) {
         new Text(`${BLACK + BOLD}[${DARK_RED + BOLD}MixendModGUI${BLACK + BOLD}] ${BLACK + BOLD}GUI OUT OF SCREEN`, Renderer.screen.getWidth() / 10, Renderer.screen.getHeight() / 3).setShadow(true).draw();
         new Text(`${BLACK + BOLD}[${DARK_RED + BOLD}MixendModGUI${BLACK + BOLD}] ${BLACK + BOLD}Use /mixgui fish and click the screen`, Renderer.screen.getWidth() / 10, Renderer.screen.getHeight() / 3 - 10).setShadow(true).draw();
@@ -494,10 +499,11 @@ register("renderoverlay", () => {
         })
     }
 });
+//#endregion GUI FISH
 
+//#region GUI SESSION
 // Session GUI
 let moveGuiSession = new Gui();
-
 
 register("guimouseclick", (x, y, button, gui, event) => {
     if (moveGuiSession.isOpen()) {
@@ -528,19 +534,20 @@ register("renderoverlay", () => {
     let percentage = 0;
     let count = 0;
     let color = RED;
-    for (let i = 0; i < 10; i++) {
+    for (let i = 0; i < 9; i++) {
         count = listFish[lavaDict[i].id];
         if (count == 0) {
             percentage = 0;
         } else {
             percentage = (count / total) * 100;
         }
-        if (i > 7) {
+        if (i > 6) {
             color = RED + BOLD;
         }
-        new Text(`${WHITE}${count} (${percentage.toFixed(2)}%) ${color}${lavaDict[i].name}`, xPos, yPos + 10 * (i + 1)).setShadow(true).draw();
+        new Text(`${WHITE}${count} (${percentage.toFixed(2)}%) ${color}${lavaDict[i].name} ${WHITE}[${formatMilliseconds(Date.now() - currentSession.CURRENT_TRACK_TIMER[lavaDict[i].id])}]`, xPos, yPos + 10 * (i + 1)).setShadow(true).draw();
     }
 });
+//#endregion GUI SESSION
 
 // Move GUIS
 register("command", (arg, arg2) => {

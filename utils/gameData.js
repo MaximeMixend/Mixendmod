@@ -131,16 +131,15 @@ export const crimsonIsleCatch = {
 };
 
 export const lavaDict = {
-    0: { id: "plhlegblast", name: "Plhlegblast" },
-    1: { id: "magma_slug", name: "Magma Slug" },
-    2: { id: "moogma", name: "Moogma Cow" },
-    3: { id: "lava_leech", name: "Lava leech" },
-    4: { id: "pyroclastic_worm", name: "Pyroclastic worm" },
-    5: { id: "lava_flame", name: "Lava flame" },
-    6: { id: "fire_eel", name: "Fire eel" },
-    7: { id: "taurus", name: "Taurus" },
-    8: { id: "thunder", name: "Thunder" },
-    9: { id: "lord_jawbus", name: "Lord Jawbus" },
+    0: { id: "magma_slug", name: "Magma Slug" },
+    1: { id: "moogma", name: "Moogma Cow" },
+    2: { id: "lava_leech", name: "Lava leech" },
+    3: { id: "pyroclastic_worm", name: "Pyroclastic worm" },
+    4: { id: "lava_flame", name: "Lava flame" },
+    5: { id: "fire_eel", name: "Fire eel" },
+    6: { id: "taurus", name: "Taurus" },
+    7: { id: "thunder", name: "Thunder" },
+    8: { id: "lord_jawbus", name: "Lord Jawbus" },
 }
 
 export const lavaNames = {
