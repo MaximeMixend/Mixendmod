@@ -56,7 +56,7 @@ register("chat", () => {
 // Vanquisher
 // -----------------------------------
 register("chat", () => {
-    if (settings.sendVanquisherPing) {
+    if (settings.sendVanquisherPing && settings.vanquisherSettings) {
         let x = Math.round(Player.getX());
         let y = Math.round(Player.getY());
         let z = Math.round(Player.getZ());

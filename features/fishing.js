@@ -39,7 +39,7 @@ function catchMythicCreature(mobName, sendCatch) {
     };
 
     // Announce mob to party
-    if (sendCatch && settings.sendCatchPing) {
+    if (sendCatch) {
         announceMob(partyMsg, playerData.COUNTER[mobName], catchInterval, coord);
     };
 

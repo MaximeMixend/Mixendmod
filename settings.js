@@ -17,7 +17,7 @@ const TABname = " > ";
 
 @Vigilant("MixendMod", "MixendMod", {
     getCategoryComparator: () => (a, b) => {
-        const categories = ["General", "Fishing", "Crimson Isle", "Notifications", "Worm fishing", "Mining", "Diana"];
+        const categories = ["General", "Fishing", "Crimson Isle", "Magic Find", "Worm fishing", "Mining", "Diana"];
         return categories.indexOf(a.name) - categories.indexOf(b.name);
     }
 })
@@ -50,6 +50,7 @@ class Settings {
         this.addDependency(`${TABname}Radioactive Vial`, "Magic Find party ping");
         this.addDependency(`${TABname}Lucky Clover Core`, "Magic Find party ping");
         this.addDependency(`${TABname}Deep Sea Orb`, "Magic Find party ping");
+        this.addDependency(`${TABname}Daedalus Stick`, "Magic Find party ping");
 
         // LORD JAWBUS
         this.addDependency(`${TABname}Lord Jawbus catch`, "Lord Jawbus settings");
@@ -69,12 +70,12 @@ class Settings {
         // VANQUISHER
         this.addDependency(`${TABname}Vanquisher sound`, "Vanquisher settings");
         this.addDependency(`${TABname}Vanquisher alert`, "Vanquisher settings");
+        this.addDependency(`${TABname}Vanquisher spawn`, "Vanquisher settings");
     }
 
-    // -----------------------------------
-    // General
-    // -----------------------------------
-
+    // ====================================================
+    //#region General
+    //#region party commands
     @SwitchProperty({
         name: "Enable party commands",
         description: "Allows other party members to access some party commands",
@@ -90,7 +91,6 @@ class Settings {
         subcategory: "Party commands",
     })
     enablePartyWarp = true;
-
     @CheckboxProperty({
         name: `${TABname}Enable party transfer`,
         description: `Enable !pt <PlayerName> to transfer the party to the specified player`,
@@ -98,18 +98,18 @@ class Settings {
         subcategory: "Party commands",
     })
     enablePartyTransfer = true;
+    //#endregion party commands
+    //#endregion General
 
-    // -----------------------------------
-    // FISHING alerts
-    // -----------------------------------
+    // ====================================================
 
+    //#region Fishing
     //#region Lord Jawbus
-
     @SwitchProperty({
         name: `Lord Jawbus settings`,
         description: `Turn ON/OFF Lord Jawbus related settings`,
         category: "Fishing",
-        subcategory: "Lord Jawbus",
+        subcategory: "1. Crimson catch",
     })
     jawbusSettings = true;
 
@@ -117,7 +117,7 @@ class Settings {
         name: `${TABname}Lord Jawbus catch`,
         description: "Party ping on catch",
         category: "Fishing",
-        subcategory: "Lord Jawbus",
+        subcategory: "1. Crimson catch",
     })
     jawbusCatch = true;
 
@@ -125,7 +125,7 @@ class Settings {
         name: `${TABname}Lord Jawbus sound`,
         description: "Sound alert on detection",
         category: "Fishing",
-        subcategory: "Lord Jawbus",
+        subcategory: "1. Crimson catch",
     })
     jawbusSoundAlert = true;
 
@@ -133,16 +133,16 @@ class Settings {
         name: `${TABname}Lord Jawbus alert`,
         description: "Screen alert on detection",
         category: "Fishing",
-        subcategory: "Lord Jawbus",
+        subcategory: "1. Crimson catch",
     })
     jawbusScreenAlert = true;
-    //#endregion
+    //#endregion Lord Jawbus
     //#region Thunder
     @SwitchProperty({
         name: `Thunder settings`,
         description: `Turn ON/OFF Thunder related settings`,
         category: "Fishing",
-        subcategory: "Thunder",
+        subcategory: "1. Crimson catch",
     })
     thunderSettings = true;
 
@@ -150,7 +150,7 @@ class Settings {
         name: `${TABname}Thunder catch`,
         description: "Party ping on catch",
         category: "Fishing",
-        subcategory: "Thunder",
+        subcategory: "1. Crimson catch",
     })
     thunderCatch = true;
 
@@ -158,7 +158,7 @@ class Settings {
         name: `${TABname}Thunder sound`,
         description: "Sound alert on detection",
         category: "Fishing",
-        subcategory: "Thunder",
+        subcategory: "1. Crimson catch",
     })
     thunderSoundAlert = true;
 
@@ -166,17 +166,16 @@ class Settings {
         name: `${TABname}Thunder alert`,
         description: "Screen alert on detection",
         category: "Fishing",
-        subcategory: "Thunder",
+        subcategory: "1. Crimson catch",
     })
     thunderScreenAlert = true;
-    //#endregion
-
+    //#endregion Thunder
     //#region Plhlegblast
     @SwitchProperty({
         name: `Plhlegblast settings`,
         description: `Turn ON/OFF Plhlegblast related settings`,
         category: "Fishing",
-        subcategory: "Plhlegblast",
+        subcategory: "1. Crimson catch",
     })
     plhlegblastSettings = true;
 
@@ -184,7 +183,7 @@ class Settings {
         name: `${TABname}Plhlegblast catch`,
         description: "Party ping on catch",
         category: "Fishing",
-        subcategory: "Plhlegblast",
+        subcategory: "1. Crimson catch",
     })
     plhlegblastCatch = true;
 
@@ -192,7 +191,7 @@ class Settings {
         name: `${TABname}Plhlegblast sound`,
         description: "Sound alert on detection",
         category: "Fishing",
-        subcategory: "Plhlegblast",
+        subcategory: "1. Crimson catch",
     })
     plhlegblastSoundAlert = true;
 
@@ -200,46 +199,44 @@ class Settings {
         name: `${TABname}Plhlegblast alert`,
         description: "Screen alert on detection",
         category: "Fishing",
-        subcategory: "Plhlegblast",
+        subcategory: "1. Crimson catch",
     })
     plhlegblastScreenAlert = true;
-    //#endregion
+    //#endregion Plhlegblast
 
-    // -----------------------------------
-    // FISHING pings
-    // -----------------------------------
-
+    //#region catch session
     @SwitchProperty({
-        name: "Catch party pings mode",
-        description: "change msg type",
+        name: "Display detail catch session",
+        description: "Display catch session for crimson isle fishing",
         category: "Fishing",
-        subcategory: "Catch pings",
+        subcategory: "Catch session",
     })
-    catchPingMode = true;
+    catchSessionGui = true;
 
     @SwitchProperty({
         name: "Mob recap global/current session",
         description: "Toggle global/current session on stats",
         category: "Fishing",
-        subcategory: "Stat mode",
+        subcategory: "Catch session",
     })
     statMode = true;
+    //#endregion catch session
+
+    //#region catch party ping
 
     @SwitchProperty({
         name: "Catch party pings",
-        description: "Send a party message when catching a specific sea creature",
+        description: "change msg type",
         category: "Fishing",
-        subcategory: "Catch pings",
+        subcategory: "2. Other catch",
     })
-    sendCatchPing = true;
-
-    // ******************************
+    catchPingMode = true;
 
     @CheckboxProperty({
         name: `${TABname}Carrot King`,
         description: `Enable Carrot King catch party ping`,
         category: "Fishing",
-        subcategory: "Catch pings",
+        subcategory: "2. Other catch",
     })
     sendCarrotKingCatch = true;
 
@@ -247,7 +244,7 @@ class Settings {
         name: `${TABname}Sea Emperor`,
         description: `Enable Sea Emperor catch party ping`,
         category: "Fishing",
-        subcategory: "Catch pings",
+        subcategory: "2. Other catch",
     })
     sendSeaEmperorCatch = true;
 
@@ -255,7 +252,7 @@ class Settings {
         name: `${TABname}Phantom Fisherman`,
         description: `Enable Phantom Fisherman catch party ping`,
         category: "Fishing",
-        subcategory: "Catch pings",
+        subcategory: "2. Other catch",
     })
     sendPhantomFishermanCatch = true;
 
@@ -263,14 +260,12 @@ class Settings {
         name: `${TABname}Grim Reaper`,
         description: `Enable Grim Reaper catch party ping`,
         category: "Fishing",
-        subcategory: "Catch pings",
+        subcategory: "2. Other catch",
     })
     sendGrimReaperCatch = true;
+    //#endregion catch party ping
 
-    // -----------------------------------
-    // FISHING double hook
-    // -----------------------------------
-
+    //#region double hook
     @SwitchProperty({
         name: "Double hook",
         description: "Enable double hook party ping",
@@ -279,35 +274,29 @@ class Settings {
     })
     sendDoubleHook = true;
 
-    // ******************************
-
     @TextProperty({
         name: `${TABname}Double hook message`,
         description: `Custom message sent to the party`,
         category: "Fishing",
         subcategory: "Double Hook"
     })
-    doubleHookMsg = "2fish4me";
+    doubleHookMsg = "Noot noot >o<";
+    //#endregion double hook
 
-    // -----------------------------------
-    // Catching rates
-    // -----------------------------------
+    //#region fishing gui
     @SwitchProperty({
         name: "Fishing GUI",
         description: "Display fishing GUI. Cannot be moved for now",
         category: "Fishing",
-        subcategory: "GUI"
+        subcategory: "Fishing GUI"
     })
     guiEnable = true;
-
-
-    // ******************************
 
     @CheckboxProperty({
         name: `${TABname}Mythic creature count`,
         description: `Display creature catch since mythic. Jawbus & Thunder`,
         category: "Fishing",
-        subcategory: "GUI"
+        subcategory: "Fishing GUI"
     })
     guiMythicCount = true;
 
@@ -315,7 +304,7 @@ class Settings {
         name: `${TABname}Bobber`,
         description: `Display bobber count. Requires bobbers to be rendered in your game`,
         category: "Fishing",
-        subcategory: "GUI"
+        subcategory: "Fishing GUI"
     })
     guiBobberCount = true;
 
@@ -323,21 +312,20 @@ class Settings {
         name: `${TABname}Active pet`,
         description: `Display active pet. Requires to summon your pet again, or trigger a pet rule to activate`,
         category: "Fishing",
-        subcategory: "GUI"
+        subcategory: "Fishing GUI"
     })
     guiActivePet = true;
-
 
     @CheckboxProperty({
         name: `${TABname}Catch rate`,
         description: `Display sea creature catch rate. Value is sea creature per minutes over the last 20 minutes by default. Use /mixresettrack to start a new session`,
         category: "Fishing",
-        subcategory: "GUI"
+        subcategory: "Fishing GUI"
     })
     guiCatchRate = true;
+    //#endregion fishing gui
 
-    // ******************************
-    // ******************************
+    //#region catching rate settings
 
     @SliderProperty({
         name: `${TABname}Catching rate window length`,
@@ -347,7 +335,7 @@ class Settings {
         min: 1,
         max: 60
     })
-    scRateWindowMin = 20;
+    scRateWindowMin = 5;
 
     @SwitchProperty({
         name: `${TABname}Average mode`,
@@ -356,9 +344,9 @@ class Settings {
         subcategory: "GUI Catch rate"
     })
     guiCatchRateMode = true;
-
+    //#endregion catching rate settings
+    //#endregion Fishing
     //#region Crimson Isle
-
     @SwitchProperty({
         name: `Miniboss GUI`,
         description: `Display miniboss status`,
@@ -391,18 +379,22 @@ class Settings {
         subcategory: "Vanquisher",
     })
     vanquisherScreenAlert = true;
-    //#endregion
+
+    @CheckboxProperty({
+        name: `${TABname}Vanquisher spawn`,
+        description: `Enable Vanquisher spawn party ping`,
+        category: "Crimson Isle",
+        subcategory: "Vanquisher",
+    })
+    sendVanquisherPing = false;
+    //#endregion Vanquisher
     //#endregion Crimson Isle
 
-
-    // -----------------------------------
-    // NOTIFICATIONS
-    // -----------------------------------
-    // ----------------Drop Party ping-------------------
+    //#region Magic Find
     @SwitchProperty({
         name: "Magic Find party ping",
         description: "Send a party message when dropping a Magic Find item",
-        category: "Notifications",
+        category: "Magic Find",
         subcategory: "Drop Party ping",
     })
     partyPingDrops = true;
@@ -410,7 +402,7 @@ class Settings {
     @CheckboxProperty({
         name: `${TABname}Radioactive Vial`,
         description: `Enable Radioactive Vial drop party ping`,
-        category: "Notifications",
+        category: "Magic Find",
         subcategory: "Drop Party ping",
     })
     sendRadioactiveVialPing = true;
@@ -418,7 +410,7 @@ class Settings {
     @CheckboxProperty({
         name: `${TABname}Lucky Clover Core`,
         description: `Enable Lucky Clover Core drop party ping`,
-        category: "Notifications",
+        category: "Magic Find",
         subcategory: "Drop Party ping",
     })
     sendLuckyCloverCorePing = true;
@@ -426,7 +418,7 @@ class Settings {
     @CheckboxProperty({
         name: `${TABname}Deep Sea Orb`,
         description: `Enable Deep Sea Orb drop party ping`,
-        category: "Notifications",
+        category: "Magic Find",
         subcategory: "Drop Party ping",
     })
     sendDeepSeaOrbPing = true;
@@ -434,7 +426,7 @@ class Settings {
     @CheckboxProperty({
         name: `${TABname}Daedalus Stick`,
         description: `Enable Daedalus Stick drop party ping`,
-        category: "Notifications",
+        category: "Magic Find",
         subcategory: "Drop Party ping",
     })
     sendDaedalusStickPing = true;
@@ -444,28 +436,12 @@ class Settings {
     @SwitchProperty({
         name: "Magic find screen alert",
         description: "Alert on screen when dropping a Magic Find item",
-        category: "Notifications",
+        category: "Magic Find",
         subcategory: "Magic Find",
     })
     alertDrops = true;
 
-    // ----------------Vanquishers-------------------
-
-    @CheckboxProperty({
-        name: `Vanquisher`,
-        description: `Enable Vanquisher spawn party ping`,
-        category: "Notifications",
-        subcategory: "Vanquishers",
-    })
-    sendVanquisherPing = false;
-
-    @SwitchProperty({
-        name: `Vanquisher sound`,
-        description: "Alert sound when close to a Vanquisher",
-        category: "Notifications",
-        subcategory: "Vanquishers",
-    })
-    alertVanquisherSound = true;
+    //#endregion Magic Find
 
     // -----------------------------------
     // Worms
@@ -499,7 +475,7 @@ class Settings {
     alertMiningSpeedBoost = true;
 
     @TextProperty({
-        name: `${TABname}Mineshaft message`,
+        name: `Mineshaft message`,
         description: `Custom message sent to the party when finding a mineshaft`,
         category: "Mining",
         subcategory: "Mineshaft"

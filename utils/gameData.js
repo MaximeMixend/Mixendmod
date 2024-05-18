@@ -28,9 +28,6 @@ export function dropData(itemName) {
 
     }
 }
-
-
-
 export function detectMobData(mobName) {
     switch (mobName) {
         case "lord_jawbus": return {
