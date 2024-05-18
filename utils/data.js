@@ -1,7 +1,13 @@
 import PogObject from "../../PogData";
 
 export let fileData = new PogObject("MixendMod", {
-    "doubleHook": false
+    "doubleHook": false,
+    "baseX": 10,
+    "baseY": 10,
+    "sessionGuiX": 10,
+    "sessionGuiY": 50,
+    "miniGuiX": 10,
+    "miniGuiY": 170
 }, "data/variables.json");
 
 export let catchHistory = new PogObject("MixendMod", {
