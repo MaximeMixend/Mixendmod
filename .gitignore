@@ -1,4 +1,4 @@
-data/
+data/*
 config.toml
 private.js
 jsconfig.json
