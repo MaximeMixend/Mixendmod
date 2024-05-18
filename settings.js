@@ -17,7 +17,7 @@ const TABname = " > ";
 
 @Vigilant("MixendMod", "MixendMod", {
     getCategoryComparator: () => (a, b) => {
-        const categories = ["General", "Fishing", "Notifications", "Worm fishing", "Mining", "Diana"];
+        const categories = ["General", "Fishing", "Crimson Isle", "Notifications", "Worm fishing", "Mining", "Diana"];
         return categories.indexOf(a.name) - categories.indexOf(b.name);
     }
 })
@@ -30,7 +30,6 @@ class Settings {
 
         this.addDependency(`${TABname}Enable party transfer`, "Enable party commands");
         this.addDependency(`${TABname}Enable party warp`, "Enable party commands");
-
 
         this.addDependency(`${TABname}Double hook message`, "Double hook");
 
@@ -171,31 +170,7 @@ class Settings {
     })
     thunderScreenAlert = true;
     //#endregion
-    //#region Vanquisher
-    @SwitchProperty({
-        name: `Vanquisher settings`,
-        description: `Turn ON/OFF Vanquisher related settings`,
-        category: "Fishing",
-        subcategory: "Vanquisher",
-    })
-    vanquisherSettings = true;
 
-    @CheckboxProperty({
-        name: `${TABname}Vanquisher sound`,
-        description: "Sound alert on detection",
-        category: "Fishing",
-        subcategory: "Vanquisher",
-    })
-    vanquisherSoundAlert = true;
-
-    @CheckboxProperty({
-        name: `${TABname}Vanquisher alert`,
-        description: "Screen alert on detection",
-        category: "Fishing",
-        subcategory: "Vanquisher",
-    })
-    vanquisherScreenAlert = true;
-    //#endregion
     //#region Plhlegblast
     @SwitchProperty({
         name: `Plhlegblast settings`,
@@ -381,6 +356,45 @@ class Settings {
         subcategory: "GUI Catch rate"
     })
     guiCatchRateMode = true;
+
+    //#region Crimson Isle
+
+    @SwitchProperty({
+        name: `Miniboss GUI`,
+        description: `Display miniboss status`,
+        category: "Crimson Isle",
+        subcategory: "Miniboss"
+    })
+    guiMiniboss = true;
+
+    //#region Vanquisher
+    @SwitchProperty({
+        name: `Vanquisher settings`,
+        description: `Turn ON/OFF Vanquisher related settings`,
+        category: "Crimson Isle",
+        subcategory: "Vanquisher",
+    })
+    vanquisherSettings = true;
+
+    @CheckboxProperty({
+        name: `${TABname}Vanquisher sound`,
+        description: "Sound alert on detection",
+        category: "Crimson Isle",
+        subcategory: "Vanquisher",
+    })
+    vanquisherSoundAlert = true;
+
+    @CheckboxProperty({
+        name: `${TABname}Vanquisher alert`,
+        description: "Screen alert on detection",
+        category: "Crimson Isle",
+        subcategory: "Vanquisher",
+    })
+    vanquisherScreenAlert = true;
+    //#endregion
+    //#endregion Crimson Isle
+
+
     // -----------------------------------
     // NOTIFICATIONS
     // -----------------------------------

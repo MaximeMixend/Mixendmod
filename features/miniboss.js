@@ -1,5 +1,9 @@
 import { BOLD, GOLD, GREEN, RED, WHITE } from "../utils/constants";
+import settings from "../settings";
+import { fileData } from "../utils/data";
 
+//#region Variables
+let moveGui = new Gui();
 const miniBossData = {
     ashfang: {
         name: "ASHFANG",
@@ -45,10 +49,66 @@ const miniNameToKey = {
     "ASHFANG": "ashfang",
     "MAGMA BOSS": "magma_boss"
 };
+//#endregion Variables
 
+//#region GUI
+// ====================================================
+// Miniboss GUI
+// ====================================================
+
+register("command", () => {
+    if (settings.guiMiniboss) {
+        moveGui.open()
+    }
+}).setName("mixguimini");
+
+register("guimouseclick", (x, y, button, gui, event) => {
+    if (moveGui.isOpen()) {
+        fileData.miniGuiX = x;
+        fileData.miniGuiY = y;
+        fileData.save();
+    }
+})
+
+register("renderoverlay", () => {
+    let xPos = fileData.miniGuiX;
+    let yPos = fileData.miniGuiY;
+
+    if (moveGui.isOpen()) {
+        new Text(`${RED + BOLD}ECHAP to save position`, Renderer.screen.getWidth() / 2, 20).draw();
+        new Text(`${GREEN + BOLD}Click to place to left corner of GUI`, Renderer.screen.getWidth() / 2, 30).draw();
+    }
+
+    if (!settings.guiMiniboss) { return; }
+
+    for (let key in miniBossData) {
+        let mini = miniBossData[key];
+        let color = RED;
+        let displayText = "HIT!";
+
+        if (mini.status === false && mini.timer <= 0) {
+            color = GOLD;
+        } else if (mini.timer > 0) {
+            displayText = `${mini.timer}s`;
+        }
+        if (mini.status === true && mini.timer <= 0) {
+            color = GREEN;
+            displayText = "";
+        }
+
+        new Text(`${color + BOLD}${mini.name} ${WHITE + displayText}`, xPos, yPos).setShadow(true).draw();
+        yPos += 10;
+    }
+});
+//#endregion Variables
+
+//#region Track
+
+// ====================================================
+// Track miniboss status
+// ====================================================
 
 register("step", (event) => {
-
     for (let key in miniBossData) {
         let mini = miniBossData[key];
         let detectedMobs = World.getAllEntitiesOfType(Java.type("net.minecraft.entity.item.EntityArmorStand")).filter(entity => entity.getName().toLowerCase().includes(mini.name.toLowerCase()));
@@ -66,29 +126,6 @@ register("step", (event) => {
     }
 }).setFps(1);
 
-register("renderoverlay", () => {
-    let yPos = 200;
-
-    for (let key in miniBossData) {
-        let mini = miniBossData[key];
-        let color = RED;
-        let displayText = "HIT!";
-
-        if (mini.status === false && mini.timer <= 0) {
-            color = GOLD;
-        } else if (mini.timer > 0) {
-            displayText = `${mini.timer}s`;
-        }
-        if (mini.status === true && mini.timer <= 0) {
-            color = GREEN;
-            displayText = "";
-        }
-
-        new Text(`${color + BOLD}${mini.name} ${WHITE + displayText}`, 10, yPos).setShadow(true).draw();
-        yPos += 10;
-    }
-});
-
 register("chat", (bossName) => {
     const trimmedBossName = bossName.trim();
     const miniKey = miniNameToKey[trimmedBossName];
@@ -97,6 +134,12 @@ register("chat", (bossName) => {
         miniBossData[miniKey].timer = 120;
     }
 }).setCriteria("${bossName} DOWN!");
+//#endregion Variables
+
+//#region reset
+// ====================================================
+// Reset
+// ====================================================
 
 register("worldUnload", () => {
     for (let key in miniBossData) {
@@ -105,3 +148,4 @@ register("worldUnload", () => {
         mini.status = false;
     }
 });
+//#endregion reset

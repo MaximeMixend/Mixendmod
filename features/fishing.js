@@ -478,31 +478,6 @@ register("renderoverlay", () => {
     if (settings.guiEnable) {
         let bobbers = World.getAllEntitiesOfType(entitiesList.FishHook).filter(dist => dist.distanceTo(Player.getPlayer()) < 30);
 
-        let total = currentSession.TOTAL;
-        let listFish = currentSession.CURRENT_TRACK;
-        if (settings.statMode) {
-            total = playerData.TOTAL;
-            listFish = playerData.LAVA_SC;
-        }
-
-        new Text(`${RED + BOLD}Total: ${WHITE}${total}`, 10, 40).setShadow(true).draw();
-        let percentage = 0;
-        let count = 0;
-        let color = RED;
-        for (let i = 0; i < 10; i++) {
-            count = listFish[lavaDict[i].id];
-            if (count == 0) {
-                percentage = 0;
-            } else {
-                percentage = (count / total) * 100;
-            }
-            if (i > 7) {
-                color = RED + BOLD;
-            }
-            new Text(`${WHITE}${count} (${percentage.toFixed(2)}%) ${color}${lavaDict[i].name}`, 10, 50 + 10 * i).setShadow(true).draw();
-        }
-
-
         if (settings.guiMythicCount) {
             addGuiText(`${BLUE + BOLD}Thunder: ${GOLD + BOLD + playerData.COUNTER["thunder"]} [${playerData.AVG_DATA["thunder_avg"]}]`, 0, 0);
             addGuiText(`${RED + BOLD}Jawbus: ${GOLD + BOLD + playerData.COUNTER["lord_jawbus"]} [${playerData.AVG_DATA["lord_jawbus_avg"]}]`, 2, 0);
