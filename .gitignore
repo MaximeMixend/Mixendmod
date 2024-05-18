@@ -1,4 +1,6 @@
 data/*
+!data/.gitkeep
+
 config.toml
 private.js
 jsconfig.json
