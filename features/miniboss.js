@@ -62,7 +62,7 @@ register("command", (arg) => {
         case "reset":
         case "-r":
             fileData.miniGuiX = 10;
-            fileData.miniGuiY = 170;
+            fileData.miniGuiY = 185;
             fileData.save();
             break;
         default:

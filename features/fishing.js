@@ -551,7 +551,7 @@ register("command", (arg, arg2) => {
                 case "reset":
                 case "-r":
                     fileData.sessionGuiX = 10;
-                    fileData.sessionGuiY = 50;
+                    fileData.sessionGuiY = 75;
                     fileData.save();
                     break;
                 default:

@@ -33,11 +33,6 @@ class Settings {
 
         this.addDependency(`${TABname}Double hook message`, "Double hook");
 
-        this.addDependency(`${TABname}Carrot King`, "Catch party pings");
-        this.addDependency(`${TABname}Sea Emperor`, "Catch party pings");
-        this.addDependency(`${TABname}Phantom Fisherman`, "Catch party pings");
-        this.addDependency(`${TABname}Grim Reaper`, "Catch party pings");
-
         this.addDependency(`${TABname}Mythic creature count`, "Fishing GUI");
         this.addDependency(`${TABname}Bobber`, "Fishing GUI");
         this.addDependency(`${TABname}Active pet`, "Fishing GUI");
@@ -104,6 +99,7 @@ class Settings {
     // ====================================================
 
     //#region Fishing
+
     //#region Lord Jawbus
     @SwitchProperty({
         name: `Lord Jawbus settings`,
@@ -137,6 +133,7 @@ class Settings {
     })
     jawbusScreenAlert = true;
     //#endregion Lord Jawbus
+
     //#region Thunder
     @SwitchProperty({
         name: `Thunder settings`,
@@ -170,6 +167,7 @@ class Settings {
     })
     thunderScreenAlert = true;
     //#endregion Thunder
+
     //#region Plhlegblast
     @SwitchProperty({
         name: `Plhlegblast settings`,
@@ -223,15 +221,6 @@ class Settings {
     //#endregion catch session
 
     //#region catch party ping
-
-    @SwitchProperty({
-        name: "Catch party pings",
-        description: "change msg type",
-        category: "Fishing",
-        subcategory: "2. Other catch",
-    })
-    catchPingMode = true;
-
     @CheckboxProperty({
         name: `${TABname}Carrot King`,
         description: `Enable Carrot King catch party ping`,
@@ -326,6 +315,13 @@ class Settings {
     //#endregion fishing gui
 
     //#region catching rate settings
+    @SwitchProperty({
+        name: "Catch rate party pings",
+        description: "change rate msg type",
+        category: "Fishing",
+        subcategory: "GUI Catch rate",
+    })
+    catchPingMode = true;
 
     @SliderProperty({
         name: `${TABname}Catching rate window length`,
