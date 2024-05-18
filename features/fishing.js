@@ -13,7 +13,6 @@ let rateSc = 0;
 let startTime = Date.now();
 let rateMobCount = 0;
 
-
 //========================================
 // Functions
 // Somehow PogObject write does not work/save/whatever when these are in utils/functions???
@@ -57,7 +56,6 @@ function catchMythicCreature(mobName, sendCatch) {
     playerData.COUNTER[mobName] = 0;
     playerData.save();
 };
-
 
 //========================================
 // WORMS
