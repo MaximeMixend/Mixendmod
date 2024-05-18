@@ -501,6 +501,64 @@ register("renderoverlay", () => {
     }
 });
 
+// Session GUI
+let moveGuiSession = new Gui();
+
+register("command", (arg) => {
+    if (arg == 'reset') {
+        fileData.sessionGuiX = 10;
+        fileData.sessionGuiY = 50;
+        fileData.save();
+    }
+    else if (settings.guiEnable) {
+        moveGuiSession.open()
+    }
+}).setName("mixguisession", true);
+
+register("guimouseclick", (x, y, button, gui, event) => {
+    if (moveGuiSession.isOpen()) {
+        fileData.sessionGuiX = x;
+        fileData.sessionGuiY = y;
+        fileData.save();
+    }
+})
+
+register("renderoverlay", () => {
+    let total = currentSession.TOTAL;
+    let listFish = currentSession.CURRENT_TRACK;
+
+    let xPos = fileData.sessionGuiX;
+    let yPos = fileData.sessionGuiY;
+    if (moveGuiSession.isOpen()) {
+        new Text(`${RED + BOLD}ECHAP to save position`, Renderer.screen.getWidth() / 2, 20).draw();
+        new Text(`${GREEN + BOLD}Click to place to left corner of GUI`, Renderer.screen.getWidth() / 2, 30).draw();
+    }
+    if (!settings.catchSessionGui) { return; }
+
+    if (settings.statMode) {
+        total = playerData.TOTAL;
+        listFish = playerData.LAVA_SC;
+    }
+
+    new Text(`${RED + BOLD}Total: ${WHITE}${total}`, xPos, yPos).setShadow(true).draw();
+    let percentage = 0;
+    let count = 0;
+    let color = RED;
+    for (let i = 0; i < 10; i++) {
+        count = listFish[lavaDict[i].id];
+        if (count == 0) {
+            percentage = 0;
+        } else {
+            percentage = (count / total) * 100;
+        }
+        if (i > 7) {
+            color = RED + BOLD;
+        }
+        new Text(`${WHITE}${count} (${percentage.toFixed(2)}%) ${color}${lavaDict[i].name}`, xPos, yPos + 10 * (i + 1)).setShadow(true).draw();
+    }
+});
+
+
 register("worldUnload", () => {
     mobTracker = [];
     startTime = Date.now();

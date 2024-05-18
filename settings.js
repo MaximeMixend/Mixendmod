@@ -206,7 +206,7 @@ class Settings {
 
     //#region catch session
     @SwitchProperty({
-        name: "Display detail catch session",
+        name: "Display catch session recap",
         description: "Display catch session for crimson isle fishing",
         category: "Fishing",
         subcategory: "Catch session",
@@ -214,8 +214,8 @@ class Settings {
     catchSessionGui = true;
 
     @SwitchProperty({
-        name: "Mob recap global/current session",
-        description: "Toggle global/current session on stats",
+        name: "Global / current session recap",
+        description: "I: global O: current",
         category: "Fishing",
         subcategory: "Catch session",
     })
