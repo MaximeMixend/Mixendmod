@@ -4,6 +4,11 @@
 
 # Released
 
+## 0.6.2
+
+- Miniboss GUI tracker while in Crimson Isle
+- Settings changes for easier navigation (not finished)
+
 ## 0.6.1
 
 Change version naming
