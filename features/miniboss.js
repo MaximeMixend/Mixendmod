@@ -1,4 +1,4 @@
-import { BOLD, GOLD, GREEN, RED, WHITE } from "../utils/constants";
+import { BOLD, GOLD, GRAY, GREEN, LIGHT_PURPLE, RED, WHITE } from "../utils/constants";
 import settings from "../settings";
 import { fileData } from "../utils/data";
 
@@ -9,39 +9,38 @@ const miniBossData = {
         name: "ASHFANG",
         distance: 10,
         timer: 0,
-        position: [-483, 135, -1015],
-        status: false
+        status: false,
+        five: false
     },
     barbarian_duke_x: {
         name: "BARBARIAN DUKE X",
         distance: 10,
         timer: 0,
-        position: [-534, 117, -903],
-        status: false
+        status: false,
+        five: false
     },
     bladesoul: {
         name: "BLADESOUL",
         distance: 10,
         timer: 0,
-        position: [-317, 83, -517],
-        status: false
+        status: false,
+        five: false
     },
     magma_boss: {
         name: "MAGMA BOSS",
         distance: 20,
         timer: 0,
-        position: [-365, 60, -804],
-        status: false
+        status: false,
+        five: false
     },
     mage_outlaw: {
         name: "MAGE OUTLAW",
         distance: 10,
         timer: 0,
-        position: [-181, 105, -858],
-        status: false
+        status: false,
+        five: false
     }
 };
-
 const miniNameToKey = {
     "BARBARIAN DUKE X": "barbarian_duke_x",
     "BLADESOUL": "bladesoul",
@@ -51,11 +50,10 @@ const miniNameToKey = {
 };
 //#endregion Variables
 
+// ====================================================
+// GUI
+// ====================================================
 //#region GUI
-// ====================================================
-// Miniboss GUI
-// ====================================================
-
 register("command", (arg) => {
     if (!settings.guiMiniboss) { return; }
     switch (arg) {
@@ -95,12 +93,16 @@ register("renderoverlay", () => {
         let color = RED;
         let displayText = "HIT!";
 
-        if (mini.status === false && mini.timer <= 0) {
+        if (mini.five) {
+            displayText = 'FIVE IN A ROW!';
+            color = GRAY;
+        }
+        else if (mini.status === false && mini.timer <= 0) {
             color = GOLD;
         } else if (mini.timer > 0) {
             displayText = `${mini.timer}s`;
         }
-        if (mini.status === true && mini.timer <= 0) {
+        else if (mini.status === true && mini.timer <= 0) {
             color = GREEN;
             displayText = "";
         }
@@ -109,14 +111,12 @@ register("renderoverlay", () => {
         yPos += 10;
     }
 });
-//#endregion Variables
-
-//#region Track
+//#endregion GUI
 
 // ====================================================
 // Track miniboss status
 // ====================================================
-
+//#region Track
 register("step", (event) => {
     for (let key in miniBossData) {
         let mini = miniBossData[key];
@@ -138,23 +138,43 @@ register("step", (event) => {
 register("chat", (bossName) => {
     const trimmedBossName = bossName.trim();
     const miniKey = miniNameToKey[trimmedBossName];
+    let lastFive = fileData.miniBossHistory;
 
-    if (miniKey) {
-        miniBossData[miniKey].timer = 120;
+    if (!miniKey) { return; }
+    miniBossData[miniKey].timer = 120;
+
+    // Check if killstreak has been broken
+    const allSameBefore = lastFive.every(key => key === lastFive[0]);
+    if (allSameBefore && lastFive[0] != miniKey) {
+        miniBossData[lastFive[0]].five = false;
     }
-}).setCriteria("${bossName} DOWN!");
+
+    lastFive.push(miniKey);
+    if (lastFive.length > 5) {
+        lastFive.shift();
+    }
+
+    // Check if killstreak is at 5
+    const allSame = lastFive.every(key => key === lastFive[0]);
+    if (allSame) {
+        miniBossData[miniKey].five = true;
+    }
+    fileData.miniBossHistory = lastFive;
+    fileData.save()
+}
+).setCriteria("${bossName} DOWN!");
 //#endregion Variables
 
+// ====================================================
+// Reset variables
+// ====================================================
 //#region reset
-// ====================================================
-// Reset
-// ====================================================
-
 register("worldUnload", () => {
     for (let key in miniBossData) {
         let mini = miniBossData[key];
         mini.timer = -1;
         mini.status = false;
+        mini.five = false;
     }
 });
 //#endregion reset

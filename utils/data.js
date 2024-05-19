@@ -7,7 +7,8 @@ export let fileData = new PogObject("MixendMod", {
     "sessionGuiX": 10,
     "sessionGuiY": 75,
     "miniGuiX": 10,
-    "miniGuiY": 175
+    "miniGuiY": 175,
+    "miniBossHistory": ["bladesoul"]
 }, "data/variables.json");
 
 export let catchHistory = new PogObject("MixendMod", {
