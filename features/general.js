@@ -24,7 +24,7 @@ register("chat", (pet, level) => {
     let color = GOLD;
     if (level == "100") {
         color = DARK_GREEN;
-        Client.showTitle(`${color + BOLD + pet.toUpperCase()} LEVEL ${level}`, "", 10, 120, 10);
+        Client.showTitle(`${color + BOLD + pet.toUpperCase()} LEVEL ${level}`, "", 10, 200, 10);
     }
     else if (parseInt(level) > 96 && parseInt(level) < 100) {
         Client.showTitle(`${color + BOLD + pet.toUpperCase()} LEVEL ${level}`, "", 10, 120, 10);

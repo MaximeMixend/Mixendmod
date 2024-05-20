@@ -1,5 +1,10 @@
 # Ongoing changes
 
+## 0.6.3
+
+### Miniboss
+- Five in a row display
+
 # Released
 
 ## 0.6.2

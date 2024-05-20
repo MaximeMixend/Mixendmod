@@ -204,7 +204,7 @@ class Settings {
 
     //#region catch session
     @SwitchProperty({
-        name: "Display catch session recap",
+        name: "Catch session GUI",
         description: "Display catch session for crimson isle fishing",
         category: "Fishing",
         subcategory: "Catch session",

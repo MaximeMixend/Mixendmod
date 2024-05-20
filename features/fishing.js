@@ -94,6 +94,7 @@ register("step", () => {
 let lastCaptime2 = Date.now();
 let isCapped2 = false;
 register("step", () => {
+
     if (settings.wormCapPing) {
         let wormCount = 0;
         World.getAllEntities().forEach(entity => {
@@ -101,25 +102,24 @@ register("step", () => {
                 wormCount += 1;
             }
         });
-
         // Send ping once threshold reached, pings only once
         if ((wormCount) >= settings.wormCapThreshold && !isCapped2) {
             ChatLib.command(`pc WORM CAP! [${wormCount} in ${formatMilliseconds(Date.now() - lastCaptime2)}]`);
-            setTimeout(() => {
-                ChatLib.command(`pc Killing in 5`);
-            }, 1000);
-            setTimeout(() => {
-                ChatLib.command(`pc Killing in 4`);
-            }, 2000);
-            setTimeout(() => {
-                ChatLib.command(`pc Killing in 3`);
-            }, 3000);
-            setTimeout(() => {
-                ChatLib.command(`pc Killing in 2`);
-            }, 4000);
-            setTimeout(() => {
-                ChatLib.command(`pc Killing in 1`);
-            }, 5000);
+            // setTimeout(() => {
+            //     ChatLib.command(`pc Killing in 5`);
+            // }, 1000);
+            // setTimeout(() => {
+            //     ChatLib.command(`pc Killing in 4`);
+            // }, 2000);
+            // setTimeout(() => {
+            //     ChatLib.command(`pc Killing in 3`);
+            // }, 3000);
+            // setTimeout(() => {
+            //     ChatLib.command(`pc Killing in 2`);
+            // }, 4000);
+            // setTimeout(() => {
+            //     ChatLib.command(`pc Killing in 1`);
+            // }, 5000);
 
             isCapped2 = true;
         }
