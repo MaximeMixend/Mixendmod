@@ -1,4 +1,4 @@
-import { BOLD, DETECTED_SOUND, LIGHT_PURPLE, WHITE } from "../utils/constants";
+import { BOLD, DETECTED_SOUND, LIGHT_PURPLE } from "../utils/constants";
 
 //#region Armor attributes 
 const magicFindRegex = /Magic Find (I|II|III|IV|V|VI|VII|VIII|IX|X)/
@@ -23,7 +23,7 @@ const ImportantDropsRender = {
     "Magma Lord Leggings": [0, 0],
     "Magma Lord Boots": [0, 0]
 };
-register('renderslot', (slot, gui, event) => {
+register('renderslot', (slot) => {
     if (true) {
         // Get inventory item
         if (slot == null) return;
@@ -65,12 +65,12 @@ register('renderslot', (slot, gui, event) => {
 
 //#region Endstone sword
 let endstoneTimer = 0;
-register("chat", (percent) => {
+register("chat", () => {
     endstoneTimer = 5;
 }).setCriteria("You now have ${percent}% Damage Resistance for 5 seconds and +${*}% damage on your next hit within 5 seconds!");
 
 // Updates endstone sword timer
-register("step", (event) => {
+register("step", () => {
     if (endstoneTimer > 0) {
         endstoneTimer -= 1;
     }

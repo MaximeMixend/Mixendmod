@@ -218,6 +218,14 @@ class Settings {
         subcategory: "Catch session",
     })
     statMode = true;
+
+    @SwitchProperty({
+        name: "WATER / LAVA FISH",
+        description: "I: WATER O: LAVA",
+        category: "Fishing",
+        subcategory: "Catch session",
+    })
+    statVersion = true;
     //#endregion catch session
 
     //#region catch party ping

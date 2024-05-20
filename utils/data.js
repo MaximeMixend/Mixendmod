@@ -112,7 +112,8 @@ export let playerData = new PogObject("MixendMod", {
         "taurus": 0,
         "thunder": 0,
         "lord_jawbus": 0
-    }, "TOTAL": 0
+    }, "TOTAL": 0,
+    "TOTAL_WATER":0
 }, "data/data.json")
 
 export let currentSession = new PogObject("MixendMod", {
@@ -138,5 +139,40 @@ export let currentSession = new PogObject("MixendMod", {
         "thunder": 0,
         "lord_jawbus": 0
     },
+    "CURRENT_WATER_SC": {
+        "squid": 0,
+        "sea_walker": 0,
+        "night_squid": 0,
+        "sea_guardian": 0,
+        "sea_witch": 0,
+        "sea_archer": 0,
+        "rider_of_the_deep": 0,
+        "catfish": 0,
+        "carrot_king": 0,
+        "sea_leech": 0,
+        "guardian_defender": 0,
+        "deep_sea_protector": 0,
+        "water_hydra": 0,
+        "sea_emperor": 0,
+        "agarimoo": 0
+    },
+    "TIME_WATER_SC": {
+        "squid": 0,
+        "sea_walker": 0,
+        "night_squid": 0,
+        "sea_guardian": 0,
+        "sea_witch": 0,
+        "sea_archer": 0,
+        "rider_of_the_deep": 0,
+        "catfish": 0,
+        "carrot_king": 0,
+        "sea_leech": 0,
+        "guardian_defender": 0,
+        "deep_sea_protector": 0,
+        "water_hydra": 0,
+        "sea_emperor": 0,
+        "agarimoo": 0
+    },
+    "TOTAL_WATER":0,
     "TOTAL": 0
 }, "data/current_session.json");

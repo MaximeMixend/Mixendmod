@@ -142,18 +142,30 @@ export const lavaDict = {
     8: { id: "lord_jawbus", name: "Lord Jawbus" },
 }
 
-export const lavaNames = {
-    0: "plhlegblast",
-    1: "magma_slug",
-    2: "moogma",
-    3: "lava_leech",
-    4: "pyroclastic_worm",
-    5: "lava_flame",
-    6: "fire_eel",
-    7: "taurus",
-    8: "thunder",
-    9: "lord_jawbus",
-}
+export const waterDict = {
+    0: { id: "squid", name: "Squid" },
+    1: { id: "moogma", name: "Moogma Cow" },
+    2: { id: "sea_leech", name: "Sea Leech" },
+    3: { id: "sea_archer", name: "Sea Archer" },
+    4: { id: "rider_of_the_deep", name: "Rider of the Deep" },
+    5: { id: "sea_guardian", name: "Sea Guardian" },
+    6: { id: "catfish", name: "Catfish" },
+    7: { id: "carrot_king", name: "Carrot King" },
+    8: { id: "sea_walker", name: "Sea Walker" },
+    9: { id: "night_squid", name: "Night Squid" },
+    10: { id: "sea_witch", name: "Sea Witch" },
+    11: { id: "guardian_defender", name: "Guardian Defender" },
+    12: { id: "deep_sea_protector", name: "Deep Sea Protector" },
+    13: { id: "water_hydra", name: "Water Hydra" },
+    14: { id: "sea_emperor", name: "Sea Emperor" },
+    15: { id: "agarimoo", name: "Agarimoo" },
+    16: { id: "scarecrow", name: "Scarecrow" },
+    17: { id: "nightmare", name: "Nightmare" },
+    18: { id: "werewolf", name: "Werewolf" },
+    19: { id: "phantom_fisherman", name: "Phantom Fisherman" },
+    20: { id: "grim_reaper", name: "Grim Reaper" },
+};
+
 
 export const waterCatch = {
     "A Squid appeared.": "squid",

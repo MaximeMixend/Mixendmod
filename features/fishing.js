@@ -179,10 +179,7 @@ register("chat", (event) => {
 // LAVA CATCH
 register("chat", (expression, event) => {
     let mobName = crimsonIsleCatch[expression.match(findFormattedKey(crimsonIsleCatch))[0]];
-    let add = 1;
-    if (fileData.doubleHook) {
-        add = 2;
-    }
+    let add = fileData.doubleHook ? 2 : 1;
     switch (mobName) {
         case "thunder":
             catchMythicCreature(mobName, settings.thunderCatch);
@@ -235,6 +232,7 @@ register("chat", (expression, event) => {
 //WATER CATCH
 register("chat", (expression, event) => {
     let mobName = waterCatch[expression.match(findFormattedKey(waterCatch))[0]];
+    let add = fileData.doubleHook ? 2 : 1;
     switch (mobName) {
         case "carrot_king":
             catchMythicCreature(mobName, settings.sendCarrotKingCatch);
@@ -272,7 +270,12 @@ register("chat", (expression, event) => {
     // Update catch tracking
     catchHistory.history.push(Date.now());
     playerData.WATER_SC[mobName] += 1;
-    rateMobCount += 1;
+    rateMobCount += add;
+
+    currentSession.CURRENT_WATER_SC[mobName] += 1;
+    currentSession.TIME_WATER_SC[mobName] = Date.now();;
+    currentSession.TOTAL_WATER += 1;
+    playerData.TOTAL_WATER += 1;
 
     // Reset flags
     fileData.doubleHook = false;
@@ -525,7 +528,15 @@ register("renderoverlay", () => {
     }
     if (!settings.catchSessionGui) { return; }
 
-    if (settings.statMode) {
+    if (settings.statVersion && settings.statMode){
+        total = playerData.TOTAL_WATER;
+        listFish = playerData.WATER_SC;
+    }
+    else if (settings.statVersion && !settings.statMode){
+        total = fileData.TOTAL_WATER;
+        listFish = fileData.CURRENT_WATER_SC;
+    }
+    else if (!settings.statVersion && settings.statMode) {
         total = playerData.TOTAL;
         listFish = playerData.LAVA_SC;
     }
@@ -540,9 +551,6 @@ register("renderoverlay", () => {
             percentage = 0;
         } else {
             percentage = (count / total) * 100;
-        }
-        if (i > 6) {
-            color = RED + BOLD;
         }
         new Text(`${WHITE}${count} (${percentage.toFixed(2)}%) ${color}${lavaDict[i].name} ${WHITE}[${formatMilliseconds(Date.now() - currentSession.CURRENT_TRACK_TIMER[lavaDict[i].id])}]`, xPos, yPos + 10 * (i + 1)).setShadow(true).draw();
     }
