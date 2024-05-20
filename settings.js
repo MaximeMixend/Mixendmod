@@ -220,7 +220,7 @@ class Settings {
     statMode = true;
 
     @SwitchProperty({
-        name: "WATER / LAVA FISH",
+        name: "WATER / LAVA fish session",
         description: "I: WATER O: LAVA",
         category: "Fishing",
         subcategory: "Catch session",

@@ -2,7 +2,7 @@ import { announceDrop, renderEntity, formatMilliseconds, findFormattedKey, annou
 import { playerData, fileData, catchHistory, currentSession } from "../utils/data";
 import settings from "../settings";
 import { DARK_BLUE, DARK_PURPLE, DARK_RED, BOLD, DETECTED_SOUND, GOLD, RED, BLUE, RESET, GREEN, entitiesList, DARK_GRAY, BLACK, GRAY, WHITE } from "../utils/constants";
-import { crimsonIsleCatch, doubleHookCatch, dropData, lavaDict, seaCreatureData, waterCatch } from "../utils/gameData";
+import { crimsonIsleCatch, doubleHookCatch, dropData, lavaDict, seaCreatureData, waterCatch, waterDict } from "../utils/gameData";
 import { activePet } from "./general";
 
 
@@ -271,17 +271,19 @@ register("chat", (expression, event) => {
     catchHistory.history.push(Date.now());
     playerData.WATER_SC[mobName] += 1;
     rateMobCount += add;
-
-    currentSession.CURRENT_WATER_SC[mobName] += 1;
-    currentSession.TIME_WATER_SC[mobName] = Date.now();;
-    currentSession.TOTAL_WATER += 1;
-    playerData.TOTAL_WATER += 1;
+    if (!["grim_reaper", "phantom_fisherman", "werewolf", "nightmare", "scarecrow"].includes(mobName)) {
+        currentSession.CURRENT_WATER_SC[mobName] += 1;
+        currentSession.TIME_WATER_SC[mobName] = Date.now();;
+        currentSession.TOTAL_WATER += 1;
+        playerData.TOTAL_WATER += 1;
+    }
 
     // Reset flags
     fileData.doubleHook = false;
 
     // Save data
     playerData.save();
+    currentSession.save();
     catchHistory.save();
     fileData.save();
 
@@ -519,6 +521,8 @@ register("guimouseclick", (x, y, button, gui, event) => {
 register("renderoverlay", () => {
     let total = currentSession.TOTAL;
     let listFish = currentSession.CURRENT_TRACK;
+    let fishDict = lavaDict;
+    let listTime = currentSession.CURRENT_TRACK_TIMER;
 
     let xPos = fileData.sessionGuiX;
     let yPos = fileData.sessionGuiY;
@@ -528,31 +532,37 @@ register("renderoverlay", () => {
     }
     if (!settings.catchSessionGui) { return; }
 
-    if (settings.statVersion && settings.statMode){
+    // WATER & GLOBAL
+    if (settings.statVersion && settings.statMode) {
         total = playerData.TOTAL_WATER;
         listFish = playerData.WATER_SC;
+        fishDict = waterDict;
+        listTime = currentSession.TIME_WATER_SC;
     }
-    else if (settings.statVersion && !settings.statMode){
-        total = fileData.TOTAL_WATER;
-        listFish = fileData.CURRENT_WATER_SC;
+    // WATER & CURRENT
+    else if (settings.statVersion && !settings.statMode) {
+        total = currentSession.TOTAL_WATER;
+        listFish = currentSession.CURRENT_WATER_SC;
+        fishDict = waterDict;
+        listTime = currentSession.TIME_WATER_SC;
     }
+    // LAVA & GLOBAL
     else if (!settings.statVersion && settings.statMode) {
         total = playerData.TOTAL;
         listFish = playerData.LAVA_SC;
     }
-
     new Text(`${RED + BOLD}Total: ${WHITE}${total}`, xPos, yPos).setShadow(true).draw();
     let percentage = 0;
     let count = 0;
     let color = RED;
-    for (let i = 0; i < 9; i++) {
-        count = listFish[lavaDict[i].id];
+    for (let i = 0; i < Object.keys(fishDict).length; i++) {
+        count = listFish[fishDict[i].id];
         if (count == 0) {
             percentage = 0;
         } else {
             percentage = (count / total) * 100;
         }
-        new Text(`${WHITE}${count} (${percentage.toFixed(2)}%) ${color}${lavaDict[i].name} ${WHITE}[${formatMilliseconds(Date.now() - currentSession.CURRENT_TRACK_TIMER[lavaDict[i].id])}]`, xPos, yPos + 10 * (i + 1)).setShadow(true).draw();
+        new Text(`${WHITE}${count} (${percentage.toFixed(2)}%) ${color}${fishDict[i].name} ${WHITE}[${formatMilliseconds(Date.now() - listTime[fishDict[i].id])}]`, xPos, yPos + 10 * (i + 1)).setShadow(true).draw();
     }
 });
 //#endregion GUI SESSION
