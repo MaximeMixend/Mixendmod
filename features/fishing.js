@@ -3,7 +3,7 @@ import { playerData, fileData, catchHistory, currentSession } from "../utils/dat
 import settings from "../settings";
 import { DARK_BLUE, DARK_PURPLE, DARK_RED, BOLD, DETECTED_SOUND, GOLD, RED, BLUE, RESET, GREEN, entitiesList, DARK_GRAY, BLACK, GRAY, WHITE } from "../utils/constants";
 import { crimsonIsleCatch, doubleHookCatch, dropData, lavaDict, seaCreatureData, waterCatch, waterDict } from "../utils/gameData";
-import { activePet } from "./general";
+import { activePet } from "./pet";
 
 
 // TRACK MOBS
@@ -40,9 +40,9 @@ function catchMythicCreature(mobName, sendCatch) {
 
     // Announce mob to party
     if (sendCatch) {
-let mobMessageData = detectMobData(mobName);
+        let mobMessageData = detectMobData(mobName);
         announceMob(partyMsg, playerData.COUNTER[mobName], catchInterval, coord);
-ChatLib.chat(`${mobMessageData.color + BOLD + mobMessageData.name} ${GOLD}[${playerData.COUNTER[mobName]} in ${formatMilliseconds(catchInterval)}]`);
+        ChatLib.chat(`${mobMessageData.color + BOLD + mobMessageData.name} ${GOLD}[${playerData.COUNTER[mobName]} in ${formatMilliseconds(catchInterval)}]`);
     };
 
     // Update tracked loot (eg Radioactive Vial counter for Jawbus)
@@ -488,7 +488,7 @@ register("renderoverlay", () => {
             addGuiText(`${RED + BOLD}Jawbus: ${GOLD + BOLD + playerData.COUNTER["lord_jawbus"]} [${playerData.AVG_DATA["lord_jawbus_avg"]}]`, 2, 0);
         }
         if (settings.guiActivePet) {
-            addGuiText(`[${GOLD + BOLD + activePet.level + RESET}] ${BOLD + activePet.name} `, 0, 1);
+            addGuiText(`[${GOLD + BOLD + activePet.level + RESET}] ${activePet.color + BOLD + activePet.name} `, 0, 1);
         }
         if (settings.guiCatchRate) {
             let rateMode = settings.guiCatchRateMode ? "hr" : "min";
