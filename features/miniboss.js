@@ -129,11 +129,16 @@ register("step", (event) => {
             mini.timer -= 1;
             mini.status = false;
             // Add need the entity
-        } else if (nearMob) {
+        } else if (nearMob && key != "ashfang") {
             mini.status = true;
         }
     }
 }).setFps(1);
+
+register("chat", () => {
+    miniBossData.ashfang.status = true;
+}).setCriteria("CRITICAL HIT The Blazing Soul dealt 2,000,000 damage to Ashfang!");
+
 
 register("chat", (bossName) => {
     const trimmedBossName = bossName.trim();
