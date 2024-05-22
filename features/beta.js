@@ -98,8 +98,8 @@ register("chat", () => {
 register("chat", () => {
     setTimeout(() => {
         ChatLib.command("gfs volta 13");
-    }, 500);
+    }, 2500);
     setTimeout(() => {
         ChatLib.command("gfs box_of_seeds 11");
-    }, 1500);
+    }, 3500);
 }).setCriteria("GROSS! While you were offline, Pests spawned in ${*}");

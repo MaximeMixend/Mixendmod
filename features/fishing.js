@@ -40,7 +40,9 @@ function catchMythicCreature(mobName, sendCatch) {
 
     // Announce mob to party
     if (sendCatch) {
+let mobMessageData = detectMobData(mobName);
         announceMob(partyMsg, playerData.COUNTER[mobName], catchInterval, coord);
+ChatLib.chat(`${mobMessageData.color + BOLD + mobMessageData.name} ${GOLD}[${playerData.COUNTER[mobName]} in ${formatMilliseconds(catchInterval)}]`);
     };
 
     // Update tracked loot (eg Radioactive Vial counter for Jawbus)
@@ -171,15 +173,16 @@ register("chat", () => {
 //========================================
 // CATCH
 //========================================
-register("chat", (event) => {
+register("chat", (text, event) => {
     fileData.doubleHook = true;
+    cancel(event);
 }).setCriteria(doubleHookCatch);
 
 //#region CATCH
 // LAVA CATCH
 register("chat", (expression, event) => {
+    cancel(event);
     let mobName = crimsonIsleCatch[expression.match(findFormattedKey(crimsonIsleCatch))[0]];
-    let add = fileData.doubleHook ? 2 : 1;
     switch (mobName) {
         case "thunder":
             catchMythicCreature(mobName, settings.thunderCatch);
@@ -216,7 +219,7 @@ register("chat", (expression, event) => {
         playerData.TOTAL += 1;
     }
 
-    rateMobCount += add;
+    rateMobCount += 1;
 
     // Reset flags
     fileData.doubleHook = false;
@@ -232,7 +235,6 @@ register("chat", (expression, event) => {
 //WATER CATCH
 register("chat", (expression, event) => {
     let mobName = waterCatch[expression.match(findFormattedKey(waterCatch))[0]];
-    let add = fileData.doubleHook ? 2 : 1;
     switch (mobName) {
         case "carrot_king":
             catchMythicCreature(mobName, settings.sendCarrotKingCatch);
@@ -270,7 +272,7 @@ register("chat", (expression, event) => {
     // Update catch tracking
     catchHistory.history.push(Date.now());
     playerData.WATER_SC[mobName] += 1;
-    rateMobCount += add;
+    rateMobCount += 1;
     if (!["grim_reaper", "phantom_fisherman", "werewolf", "nightmare", "scarecrow"].includes(mobName)) {
         currentSession.CURRENT_WATER_SC[mobName] += 1;
         currentSession.TIME_WATER_SC[mobName] = Date.now();;
@@ -364,7 +366,6 @@ function detectMobData(mobName) {
 }
 register("step", (event) => {
     let worldMobs = [];
-
     trackedMobs.forEach(name => {
         let mobData = detectMobData(name);
 
