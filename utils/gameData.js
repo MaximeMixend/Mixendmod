@@ -65,7 +65,7 @@ export function seaCreatureData(mobName) {
     switch (mobName) {
         case "lord_jawbus": return {
             color: DARK_RED,
-            sendCoords: true,
+            sendCoords: false,
             tracked_loot: "Radioactive Vial",
             track_avg: true,
             catchPing: settings.jawbusCatch,
@@ -85,7 +85,7 @@ export function seaCreatureData(mobName) {
             catchPing: settings.plhlegblastCatch
         }
         case "carrot_king": return {
-            color: DARK_PURPLE,
+            color: GOLD,
             sendCoords: false,
             tracked_loot: "Lucky Clover Core",
             track_avg: false,
@@ -131,8 +131,8 @@ export const crimsonIsleCatch = {
 };
 
 export const lavaDict = {
-    0: { id: "magma_slug", name: "Magma Slug" },
-    1: { id: "moogma", name: "Moogma Cow" },
+    0: { id: "magma_slug", name: "Magma slug" },
+    1: { id: "moogma", name: "Moogma cow" },
     2: { id: "lava_leech", name: "Lava leech" },
     3: { id: "pyroclastic_worm", name: "Pyroclastic worm" },
     4: { id: "lava_flame", name: "Lava flame" },

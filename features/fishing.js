@@ -237,6 +237,7 @@ register("chat", (expression, event) => {
 
 //WATER CATCH
 register("chat", (expression, event) => {
+    cancel(event);
     let mobName = waterCatch[expression.match(findFormattedKey(waterCatch))[0]];
     switch (mobName) {
         case "carrot_king":
@@ -363,6 +364,20 @@ function detectMobData(mobName) {
             sound: true,
             alert: true
         }
+        case "carrot_king": return {
+            color: GOLD,
+            name: "Carrot King",
+            detect: true,
+            sound: false,
+            alert: true
+        }
+        case "sea_emperor": return {
+            color: RED,
+            name: "Sea Emperor",
+            detect: true,
+            sound: false,
+            alert: true
+        }
         default:
             return false;
     }
@@ -404,13 +419,6 @@ register("renderWorld", () => {
     });
 });
 
-register("command", () => {
-    mobTracker.forEach(element => {
-        console.log(element)
-        console.log("a")
-    });
-}).setName("mixdebug");
-
 // Updates rates based on catch history (duration in settings)
 register("step", (event) => {
     if (!settings.guiCatchRate) { return; }
@@ -439,15 +447,6 @@ register("step", (event) => {
     catchHistory.history = myList;
     catchHistory.save()
 }).setFps(2);
-
-register("command", () => {
-    startTime = Date.now();
-    rateMobCount = 0;
-    rateSc = 0;
-    catchHistory.history = [];
-    currentSession.save()
-    catchHistory.save()
-}).setName("mixresettrack", true);
 
 //========================================
 // GUI

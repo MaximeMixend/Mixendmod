@@ -143,15 +143,29 @@ register("chat", (level, pet, event) => {
     else {
         activePet.level = level;
     }
-    activePet.color = ChatLib.getChatMessage(event, true).split(pet)[0].substr(-2);
-    activePet.name = pet;
+    let msg = ChatLib.getChatMessage(event, true);
+    let basePet = pet.includes("✦") ? pet.slice(0, -2) : pet;
+
+    activePet.color = msg.split(basePet)[0].substr(-2);
+
+    if (pet.includes("✦")) {
+        activePet.name = basePet + msg.split(basePet)[1].split("✦")[0] + "✦";
+    } else {
+        activePet.name = pet;
+    }
 }).setCriteria("Autopet equipped your [${level}] ${pet}!${*}");
 
 register("chat", (pet, event) => {
-    activePet.color = ChatLib.getChatMessage(event, true).split(pet)[0].substr(-2);
+    let msg = ChatLib.getChatMessage(event, true);
+    let basePet = pet.includes("✦") ? pet.slice(0, -2) : pet;
+
+    activePet.color = msg.split(basePet)[0].substr(-2);
+
+    if (pet.includes("✦")) {
+        activePet.name = basePet + msg.split(basePet)[1].split("✦")[0] + "✦";
+    } else {
+        activePet.name = pet;
+    }
     activePet.level = "?";
-    activePet.name = pet;
 }).setCriteria("You summoned your ${pet}!");
 //#endregion Active pet
-
-

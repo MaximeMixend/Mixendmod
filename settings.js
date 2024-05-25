@@ -205,7 +205,7 @@ class Settings {
     //#region catch session
     @SwitchProperty({
         name: "Catch session GUI",
-        description: "Display catch session for crimson isle fishing",
+        description: "Display catch session for crimson isle fishing. /mixgui session to move",
         category: "Fishing",
         subcategory: "Catch session",
     })
@@ -229,7 +229,7 @@ class Settings {
 
     @SwitchProperty({
         name: "Global / current session recap",
-        description: "I: global O: current",
+        description: "O: current | I: global",
         category: "Fishing",
         subcategory: "Catch session",
     })
@@ -237,7 +237,7 @@ class Settings {
 
     @SwitchProperty({
         name: "WATER / LAVA fish session",
-        description: "I: WATER O: LAVA",
+        description: "O: LAVA | I: WATER ",
         category: "Fishing",
         subcategory: "Catch session",
     })
@@ -299,7 +299,7 @@ class Settings {
     //#region fishing gui
     @SwitchProperty({
         name: "Fishing GUI",
-        description: "Display fishing GUI. Cannot be moved for now",
+        description: "Display fishing GUI. /mixgui fish to move",
         category: "Fishing",
         subcategory: "Fishing GUI"
     })
@@ -331,7 +331,7 @@ class Settings {
 
     @CheckboxProperty({
         name: `${TABname}Catch rate`,
-        description: `Display sea creature catch rate. Value is sea creature per minutes over the last 20 minutes by default. Use /mixresettrack to start a new session`,
+        description: `Display sea creature catch rate. Value is sea creature per minutes over the last 20 minutes by default.`,
         category: "Fishing",
         subcategory: "Fishing GUI"
     })
@@ -369,7 +369,7 @@ class Settings {
     //#region Crimson Isle
     @SwitchProperty({
         name: `Miniboss GUI`,
-        description: `Display miniboss status`,
+        description: `Display miniboss status. /mixguimini to move`,
         category: "Crimson Isle",
         subcategory: "Miniboss"
     })
