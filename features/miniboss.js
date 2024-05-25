@@ -104,7 +104,7 @@ register("renderoverlay", () => {
         }
         else if (mini.status === true && mini.timer <= 0) {
             color = GREEN;
-            displayText = "";
+            displayText = "✯";
         }
 
         new Text(`${color + BOLD}${mini.name} ${WHITE + displayText}`, xPos, yPos).setShadow(true).draw();
@@ -183,3 +183,12 @@ register("worldUnload", () => {
     }
 });
 //#endregion reset
+
+// -----------------------------------
+// Vanquisher
+// -----------------------------------
+register("chat", () => {
+    if (settings.sendVanquisherPing && settings.vanquisherSettings) {
+        ChatLib.command(`pc VANQUISHER SPAWNED`);
+    }
+}).setCriteria("A Vanquisher is spawning nearby!");

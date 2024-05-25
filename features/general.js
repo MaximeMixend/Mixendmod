@@ -23,19 +23,6 @@ register("chat", () => {
 }).setCriteria("> Your bottle of thunder has fully charged!");
 
 // -----------------------------------
-// Vanquisher
-// -----------------------------------
-register("chat", () => {
-    if (settings.sendVanquisherPing && settings.vanquisherSettings) {
-        let x = Math.round(Player.getX());
-        let y = Math.round(Player.getY());
-        let z = Math.round(Player.getZ());
-        coord = `x: ${x}, y: ${y}, z: ${z}`
-        ChatLib.command(`pc ${coord} (✿◠‿◠) VANQUISHER SPAWNED`);
-    }
-}).setCriteria("A Vanquisher is spawning nearby!");
-
-// -----------------------------------
 // Party command
 // -----------------------------------
 register("chat", () => {
@@ -58,6 +45,14 @@ register("chat", (playername) => {
     ChatLib.command(`p transfer ${playername}`);
 }).setCriteria("Party > ${*} ${playername}: !ptme");
 
+register("chat", (playername) => {
+    ChatLib.command(`p settings allinvite`);
+}).setCriteria("Party > ${*} ${playername}: !allinvite");
+
+register("chat", (playername) => {
+    ChatLib.command(`p settings allinvite`);
+}).setCriteria("Party > ${*} ${playername}: !allinv");
+
 register("chat", () => {
     if (settings.enablePartyCommands && settings.enablePartyWarp) {
         ChatLib.command("p warp");
@@ -72,10 +67,6 @@ register("chat", (mf) => {
     ChatLib.command(`pc core #${fileData.magmacores}! [+${mf}% ✯]`);
     fileData.save();
 }).setCriteria("RARE DROP! Magma Core (+${mf}% ✯ Magic Find)");
-
-register("chat", (mf) => {
-    fileData.save();
-}).setCriteria("RARE DROP! Eternal Flame Ring (+${mf}% ✯ Magic Find)");
 
 register("command", () => {
     fileData.magmacores = 0;
