@@ -43,7 +43,10 @@ function catchMythicCreature(mobName, sendCatch) {
         let mobMessageData = detectMobData(mobName);
         announceMob(partyMsg, playerData.COUNTER[mobName], catchInterval, coord);
         let moreMessage = fileData.doubleHook ? "Double " + mobMessageData.name : mobMessageData.name
-        if (settings.catchPingMode) { ChatLib.chat(`${mobMessageData.color + BOLD + moreMessage} ${WHITE}[${playerData.COUNTER[mobName]} at ${formatMilliseconds(catchInterval).toFixed(1)}/h]`); }
+        if (settings.catchPingMode) {
+            let value = playerData.COUNTER[mobName] / (catchInterval / 1000 / 3600)
+            ChatLib.chat(`${mobMessageData.color + BOLD + moreMessage} ${WHITE}[${playerData.COUNTER[mobName]} at ${value.toFixed(1)}/h]`);
+        }
         else { ChatLib.chat(`${mobMessageData.color + BOLD + moreMessage} ${WHITE}[${playerData.COUNTER[mobName]} in ${formatMilliseconds(catchInterval)}]`); }
 
     };
