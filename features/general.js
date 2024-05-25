@@ -38,11 +38,15 @@ register("chat", (player) => {
 }).setCriteria("Party ${*}: !pt ${player}");
 
 register("chat", (playername) => {
-    ChatLib.command(`p transfer ${playername}`);
+    if (settings.enablePartyCommands && settings.enablePartyTransfer) {
+        ChatLib.command(`p transfer ${playername}`);
+    }
 }).setCriteria("Party > ${*} ${playername}: !pt");
 
 register("chat", (playername) => {
-    ChatLib.command(`p transfer ${playername}`);
+    if (settings.enablePartyCommands && settings.enablePartyTransfer) {
+        ChatLib.command(`p transfer ${playername}`);
+    }
 }).setCriteria("Party > ${*} ${playername}: !ptme");
 
 register("chat", (playername) => {
