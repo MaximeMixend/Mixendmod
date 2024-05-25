@@ -212,12 +212,28 @@ class Settings {
     catchSessionGui = true;
 
     @SwitchProperty({
+        name: "Catch session GUI times",
+        description: "Display times since last sc in the catch session GUI",
+        category: "Fishing",
+        subcategory: "Catch session",
+    })
+    catchSessionGuiTime = true;
+
+    @SwitchProperty({
+        name: "Catch session GUI percentages",
+        description: "Display percentages in the catch session GUI",
+        category: "Fishing",
+        subcategory: "Catch session",
+    })
+    catchSessionGuiPercentage = true;
+
+    @SwitchProperty({
         name: "Global / current session recap",
         description: "I: global O: current",
         category: "Fishing",
         subcategory: "Catch session",
     })
-    statMode = true;
+    statMode = false;
 
     @SwitchProperty({
         name: "WATER / LAVA fish session",

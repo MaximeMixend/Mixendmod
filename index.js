@@ -6,6 +6,7 @@ import "./features/diana.js";
 import "./features/miniboss.js";
 import "./utils/functions.js";
 import "./features/beta.js";
+import "./features/general.js";
 
 import { BOLD, DARK_GREEN, DARK_RED, GOLD } from "./utils/constants.js";
 

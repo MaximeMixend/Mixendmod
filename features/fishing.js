@@ -563,7 +563,15 @@ register("renderoverlay", () => {
         } else {
             percentage = (count / total) * 100;
         }
-        new Text(`${WHITE}${count} (${percentage.toFixed(2)}%) ${color}${fishDict[i].name} ${WHITE}[${formatMilliseconds(Date.now() - listTime[fishDict[i].id])}]`, xPos, yPos + 10 * (i + 1)).setShadow(true).draw();
+        let timeFish = "";
+        let percentageFish = "";
+        if (settings.catchSessionGuiTime) {
+            timeFish = ` ${WHITE}[${formatMilliseconds(Date.now() - listTime[fishDict[i].id])}]`;
+        }
+        if (settings.catchSessionGuiPercentage) {
+            percentageFish = `(${percentage.toFixed(2)}%) `;
+        }
+        new Text(`${WHITE}${count} ${percentageFish}${color}${fishDict[i].name}${timeFish}`, xPos, yPos + 10 * (i + 1)).setShadow(true).draw();
     }
 });
 //#endregion GUI SESSION
