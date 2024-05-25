@@ -424,20 +424,20 @@ register("renderWorld", () => {
 
 // Updates rates based on catch history (duration in settings)
 register("step", (event) => {
-    if (!settings.guiCatchRate) { return; }
+    if (!settings.fishingGUIRate) { return; }
     let now = Date.now();
     let myList = catchHistory.history;
-    let modeConverter = settings.guiCatchRateMode ? 3600 : 60; // true: per hour, off: per min
-    let timespan = settings.scRateWindowMin * 60; // in sec
+    let modeConverter = settings.fishingGUIAvgMode ? 3600 : 60; // true: per hour, off: per min
+    let timespan = settings.fishingGUILength * 60; // in sec
 
     // Started less than settings.scRateWindowSec min ago
-    if (myList[0] >= now - settings.scRateWindowMin * 1000 * 60) {
+    if (myList[0] >= now - settings.fishingGUILength * 1000 * 60) {
         // Time since first catch in seconds
         timespan = (now - myList[0]) / 1000;
     }
     else {
         // remove all entries older than settings.scRateWindowSec min ago
-        myList = myList.filter(value => value > now - settings.scRateWindowMin * 1000 * 60);
+        myList = myList.filter(value => value > now - settings.fishingGUILength * 1000 * 60);
     };
     if (!myList.length) {
         rateMobCount = 0;
@@ -474,7 +474,7 @@ function addGuiText(text, col, row) {
 }
 
 register("renderoverlay", () => {
-    if (settings.guiEnable & (Renderer.screen.getWidth() < fileData.baseX || Renderer.screen.getHeight() < fileData.baseY)) {
+    if (settings.fishingGUI & (Renderer.screen.getWidth() < fileData.baseX || Renderer.screen.getHeight() < fileData.baseY)) {
         new Text(`${BLACK + BOLD}[${DARK_RED + BOLD}MixendModGUI${BLACK + BOLD}] ${BLACK + BOLD}GUI OUT OF SCREEN`, Renderer.screen.getWidth() / 10, Renderer.screen.getHeight() / 3).setShadow(true).draw();
         new Text(`${BLACK + BOLD}[${DARK_RED + BOLD}MixendModGUI${BLACK + BOLD}] ${BLACK + BOLD}Use /mixgui fish and click the screen`, Renderer.screen.getWidth() / 10, Renderer.screen.getHeight() / 3 - 10).setShadow(true).draw();
     }
@@ -485,22 +485,22 @@ register("renderoverlay", () => {
     }
 
     // Track bobbers
-    if (settings.guiEnable) {
+    if (settings.fishingGUI) {
         let bobbers = World.getAllEntitiesOfType(entitiesList.FishHook).filter(dist => dist.distanceTo(Player.getPlayer()) < 30);
 
-        if (settings.guiMythicCount) {
+        if (settings.fishingGUIMythic) {
             addGuiText(`${BLUE + BOLD}Thunder: ${GOLD + BOLD + playerData.COUNTER["thunder"]} [${playerData.AVG_DATA["thunder_avg"]}]`, 0, 0);
             addGuiText(`${RED + BOLD}Jawbus: ${GOLD + BOLD + playerData.COUNTER["lord_jawbus"]} [${playerData.AVG_DATA["lord_jawbus_avg"]}]`, 2, 0);
         }
-        if (settings.guiActivePet) {
+        if (settings.fishingGUIPet) {
             addGuiText(`[${GOLD + BOLD + activePet.level + RESET}] ${activePet.color + BOLD + activePet.name} `, 0, 1);
         }
-        if (settings.guiCatchRate) {
-            let rateMode = settings.guiCatchRateMode ? "hr" : "min";
+        if (settings.fishingGUIRate) {
+            let rateMode = settings.fishingGUIAvgMode ? "hr" : "min";
             addGuiText(`${GREEN + BOLD}Sc/${rateMode}: ${GOLD + BOLD + rateSc.toFixed(1)} (${rateMobCount} in ${formatMilliseconds(Date.now() - startTime)})`, 0, 2);
         }
 
-        if (settings.guiBobberCount) {
+        if (settings.fishingGUIBobbers) {
             addGuiText(`${GREEN + BOLD} Bobber: ${GOLD + BOLD + bobbers.length} `, 2, 1);
         }
         let deltaRow = 1;
@@ -536,24 +536,24 @@ register("renderoverlay", () => {
         new Text(`${RED + BOLD}ECHAP to save position`, 10, 10).setShadow(true).draw();
         new Text(`${GREEN + BOLD}Click to place to left corner of GUI`, 10, 20).setShadow(true).draw();
     }
-    if (!settings.catchSessionGui) { return; }
+    if (!settings.catchSession) { return; }
 
     // WATER & GLOBAL
-    if (settings.statVersion && settings.statMode) {
+    if (settings.catchSessionFishingType && settings.catchSessionScope) {
         total = playerData.TOTAL_WATER;
         listFish = playerData.WATER_SC;
         fishDict = waterDict;
         listTime = currentSession.TIME_WATER_SC;
     }
     // WATER & CURRENT
-    else if (settings.statVersion && !settings.statMode) {
+    else if (settings.catchSessionFishingType && !settings.catchSessionScope) {
         total = currentSession.TOTAL_WATER;
         listFish = currentSession.CURRENT_WATER_SC;
         fishDict = waterDict;
         listTime = currentSession.TIME_WATER_SC;
     }
     // LAVA & GLOBAL
-    else if (!settings.statVersion && settings.statMode) {
+    else if (!settings.catchSessionFishingType && settings.catchSessionScope) {
         total = playerData.TOTAL;
         listFish = playerData.LAVA_SC;
     }
@@ -570,10 +570,10 @@ register("renderoverlay", () => {
         }
         let timeFish = "";
         let percentageFish = "";
-        if (settings.catchSessionGuiTime) {
+        if (settings.catchSessionTime) {
             timeFish = ` ${WHITE}[${formatMilliseconds(Date.now() - listTime[fishDict[i].id])}]`;
         }
-        if (settings.catchSessionGuiPercentage) {
+        if (settings.catchSessionPercentage) {
             percentageFish = `(${percentage.toFixed(2)}%) `;
         }
         new Text(`${WHITE}${count} ${percentageFish}${color}${fishDict[i].name}${timeFish}`, xPos, yPos + 10 * (i + 1)).setShadow(true).draw();
@@ -585,7 +585,7 @@ register("renderoverlay", () => {
 register("command", (arg, arg2) => {
     switch (arg) {
         case "session":
-            if (!settings.catchSessionGui) { return; }
+            if (!settings.catchSession) { return; }
             switch (arg2) {
                 case "reset":
                 case "-r":
@@ -599,7 +599,7 @@ register("command", (arg, arg2) => {
             }
             break;
         case "fish":
-            if (!settings.guiEnable) { return; }
+            if (!settings.fishingGUI) { return; }
             switch (arg2) {
                 case "reset":
                 case "-r":
