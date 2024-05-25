@@ -42,7 +42,10 @@ function catchMythicCreature(mobName, sendCatch) {
     if (sendCatch) {
         let mobMessageData = detectMobData(mobName);
         announceMob(partyMsg, playerData.COUNTER[mobName], catchInterval, coord);
-        ChatLib.chat(`${mobMessageData.color + BOLD + mobMessageData.name} ${GOLD}[${playerData.COUNTER[mobName]} in ${formatMilliseconds(catchInterval)}]`);
+        let moreMessage = fileData.doubleHook ? "Double " + mobMessageData.name : mobMessageData.name
+        if (settings.catchPingMode) { ChatLib.chat(`${mobMessageData.color + BOLD + moreMessage} ${WHITE}[${playerData.COUNTER[mobName]} at ${formatMilliseconds(catchInterval).toFixed(1)}/h]`); }
+        else { ChatLib.chat(`${mobMessageData.color + BOLD + moreMessage} ${WHITE}[${playerData.COUNTER[mobName]} in ${formatMilliseconds(catchInterval)}]`); }
+
     };
 
     // Update tracked loot (eg Radioactive Vial counter for Jawbus)

@@ -340,8 +340,8 @@ class Settings {
 
     //#region catching rate settings
     @SwitchProperty({
-        name: "Catch rate party pings",
-        description: "change rate msg type",
+        name: "Party ping catch rate display",
+        description: "Change the catch rate display\nOFF: 32 in 5m | ON: 32 at 750/h",
         category: "Fishing",
         subcategory: "GUI Catch rate",
     })
