@@ -147,38 +147,38 @@ function catchMythicCreature(mobName, sendCatch) {
 // WORMS
 //========================================
 //#region Worms
-let lastCaptime = Date.now();
-let isCapped = false;
+let lastCaptimeMagma = Date.now();
+let isCappedCores = false;
 register("step", () => {
-    if (settings.wormCapPing) {
-        let wormCount = 0;
-        let wormCount2 = 0;
+    if (settings.magmacoreCapPing) {
+        let pigmenCount = 0;
+        let flameCount = 0;
         World.getAllEntities().forEach(entity => {
             if (entity.getName().includes("Lava Pigman")) {
-                wormCount += 1;
+                pigmenCount += 1;
             }
         });
         World.getAllEntities().forEach(entity => {
             if (entity.getName().includes("Lava Blaze")) {
-                wormCount2 += 1;
+                flameCount += 1;
             }
         });
         // Send ping once threshold reached, pings only once
-        if ((wormCount + wormCount2) >= settings.wormCapThreshold && !isCapped) {
-            ChatLib.command(`pc CORE CAP! [${wormCount} pigs & ${wormCount2} blazes] [${formatMilliseconds(Date.now() - lastCaptime)}]`);
-            isCapped = true;
+        if ((pigmenCount + flameCount) >= settings.magmacoreCapThreshold && !isCappedCores) {
+            ChatLib.command(`pc CORE CAP! [${pigmenCount} pigs & ${flameCount} blazes] [${formatMilliseconds(Date.now() - lastCaptimeMagma)}]`);
+            isCappedCores = true;
         }
         // Given cap was reached, if worms are cleared, starts counting until next cap
-        else if (isCapped && (wormCount + wormCount2) < 2) {
-            isCapped = false;
-            lastCaptime = Date.now();
+        else if (isCappedCores && (pigmenCount + flameCount) < 2) {
+            isCappedCores = false;
+            lastCaptimeMagma = Date.now();
         }
         else { }
     }
 }).setDelay(2);
 
-let lastCaptime2 = Date.now();
-let isCapped2 = false;
+let lastCaptimeWorms = Date.now();
+let isCappedWorms = false;
 register("step", () => {
 
     if (settings.wormCapPing) {
@@ -189,64 +189,36 @@ register("step", () => {
             }
         });
         // Send ping once threshold reached, pings only once
-        if ((wormCount) >= settings.wormCapThreshold && !isCapped2) {
-            ChatLib.command(`pc WORM CAP! [${wormCount} in ${formatMilliseconds(Date.now() - lastCaptime2)}]`);
-            // setTimeout(() => {
-            //     ChatLib.command(`pc Killing in 5`);
-            // }, 1000);
-            // setTimeout(() => {
-            //     ChatLib.command(`pc Killing in 4`);
-            // }, 2000);
-            // setTimeout(() => {
-            //     ChatLib.command(`pc Killing in 3`);
-            // }, 3000);
-            // setTimeout(() => {
-            //     ChatLib.command(`pc Killing in 2`);
-            // }, 4000);
-            // setTimeout(() => {
-            //     ChatLib.command(`pc Killing in 1`);
-            // }, 5000);
-
-            isCapped2 = true;
+        if ((wormCount) >= settings.wormCapThreshold && !isCappedWorms) {
+            ChatLib.command(`pc WORM CAP! [${wormCount} in ${formatMilliseconds(Date.now() - lastCaptimeWorms)}]`);
+            isCappedWorms = true;
         }
         // Given cap was reached, if worms are cleared, starts counting until next cap
-        else if (isCapped2 && (wormCount) < 2) {
-            isCapped2 = false;
-            lastCaptime2 = Date.now();
+        else if (isCappedWorms && (wormCount) < 2) {
+            isCappedWorms = false;
+            lastCaptimeWorms = Date.now();
         }
         else { }
     }
 }).setDelay(2);
 register("chat", () => {
-    let add = 1;
-    if (fileData.doubleHook) {
-        add = 2;
-    }
     catchHistory.history.push(Date.now());
-    rateMobCount += add;
+    rateMobCount += 1;
     catchHistory.save();
     fileData.doubleHook = false;
     fileData.save();
 }).setCriteria("A Flaming Worm surfaces from the depths!");
 
 register("chat", () => {
-    let add = 1;
-    if (fileData.doubleHook) {
-        add = 2;
-    }
     catchHistory.history.push(Date.now());
-    rateMobCount += add;
+    rateMobCount += 1;
     catchHistory.save();
     fileData.doubleHook = false;
     fileData.save();
 }).setCriteria("A Lava Blaze has surfaced from the depths!");
 register("chat", () => {
-    let add = 1;
-    if (fileData.doubleHook) {
-        add = 2;
-    }
     catchHistory.history.push(Date.now());
-    rateMobCount += add;
+    rateMobCount += 1;
     catchHistory.save();
     fileData.doubleHook = false;
     fileData.save();

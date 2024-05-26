@@ -1,5 +1,5 @@
 import settings from "../settings";
-import { BOLD, DARK_GREEN, BLUE, DARK_RED, GOLD, DETECTED_SOUND } from "../utils/constants";
+import { BOLD, DARK_GREEN, BLUE, DARK_RED } from "../utils/constants";
 import { fileData } from "../utils/data";
 
 // -----------------------------------

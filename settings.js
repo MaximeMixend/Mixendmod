@@ -562,19 +562,37 @@ class Settings {
 
     @SwitchProperty({
         name: `Ping worm cap`,
-        description: "Party ping when worm cap hit",
+        description: "Party ping when worm cap is hit",
         category: "Worm fishing"
     })
     wormCapPing = true;
 
     @SliderProperty({
-        name: `${TABname}Cap threshold`,
+        name: `${TABname}Worm cap threshold`,
         description: "Set worm count at which mob cap ping starts",
         category: "Worm fishing",
         min: 30,
         max: 60
     })
     wormCapThreshold = 59;
+
+    @SwitchProperty({
+        name: `Ping magma core cap`,
+        description: "Party ping when magam core mobs cap is hit",
+        category: "Magma core fishing"
+    })
+    magmacoreCapPing = true;
+
+    @SliderProperty({
+        name: `${TABname}MAgma core cap threshold`,
+        description: "Set lava flame+pigmen count at which mob cap ping starts",
+        category: "Magma core fishing",
+        min: 30,
+        max: 60
+    })
+    magmacoreCapThreshold = 59;
+
+
 
     // -----------------------------------
     // Mining
