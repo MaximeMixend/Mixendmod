@@ -48,15 +48,22 @@ class Settings {
         this.addDependency(`${TABname}Lord Jawbus sound`, "Lord Jawbus settings");
         this.addDependency(`${TABname}Lord Jawbus alert`, "Lord Jawbus settings");
         this.addDependency(`${TABname}Lord Jawbus coords`, "Lord Jawbus settings");
+        this.addDependency(`${TABname}Lord Jawbus message`, "Lord Jawbus settings");
 
         this.addDependency(`${TABname}Plhlegblast catch`, "Plhlegblast settings");
         this.addDependency(`${TABname}Plhlegblast sound`, "Plhlegblast settings");
         this.addDependency(`${TABname}Plhlegblast alert`, "Plhlegblast settings");
         this.addDependency(`${TABname}Plhlegblast coords`, "Plhlegblast settings");
+        this.addDependency(`${TABname}Plhlegblast message`, "Plhlegblast settings");
 
         this.addDependency(`${TABname}Thunder catch`, "Thunder settings");
         this.addDependency(`${TABname}Thunder sound`, "Thunder settings");
         this.addDependency(`${TABname}Thunder alert`, "Thunder settings");
+        this.addDependency(`${TABname}Thunder message`, "Thunder settings");
+
+        // 4. Other catch
+
+        this.addDependency(`${TABname}Carrot King message`, "Carrot King");
 
         // 5. Other
         this.addDependency(`${TABname}Double hook message`, "Double hook");
@@ -260,7 +267,7 @@ class Settings {
     @CheckboxProperty({
         name: `${TABname}Lord Jawbus coords`,
         description: `Add coordinates to Lord Jawbus spawning message`,
-        category: "Crimson Isle",
+        category: "Fishing",
         subcategory: "3. Crimson catch",
     })
     jawbusCoords = false;
@@ -350,7 +357,7 @@ class Settings {
     @CheckboxProperty({
         name: `${TABname}Plhlegblast coords`,
         description: `Add coordinates to Plhlegblast spawning message`,
-        category: "Crimson Isle",
+        category: "Fishing",
         subcategory: "3. Crimson catch",
     })
     plhlegblastCoords = false;
@@ -358,7 +365,7 @@ class Settings {
 
     //#region 4. Other catch
     @CheckboxProperty({
-        name: `${TABname}Carrot King`,
+        name: `Carrot King`,
         description: `Enable Carrot King catch party ping`,
         category: "Fishing",
         subcategory: "4. Other catch",
@@ -374,7 +381,7 @@ class Settings {
     carrotKingMessasge = "";
 
     @CheckboxProperty({
-        name: `${TABname}Sea Emperor`,
+        name: `Sea Emperor`,
         description: `Enable Sea Emperor catch party ping`,
         category: "Fishing",
         subcategory: "4. Other catch",
@@ -382,7 +389,7 @@ class Settings {
     sendSeaEmperorCatch = true;
 
     @CheckboxProperty({
-        name: `${TABname}Phantom Fisherman`,
+        name: `Phantom Fisherman`,
         description: `Enable Phantom Fisherman catch party ping`,
         category: "Fishing",
         subcategory: "4. Other catch",
@@ -390,7 +397,7 @@ class Settings {
     sendPhantomFishermanCatch = true;
 
     @CheckboxProperty({
-        name: `${TABname}Grim Reaper`,
+        name: `Grim Reaper`,
         description: `Enable Grim Reaper catch party ping`,
         category: "Fishing",
         subcategory: "4. Other catch",
