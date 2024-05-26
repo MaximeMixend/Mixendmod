@@ -15,10 +15,10 @@ export function announceMob(partyMsg, counter, interval) {
 
 export function announceDrop(item, mf, count, time) {
     if (settings.partyPingDrops) {
-        ChatLib.command(`pc MIXEND DROP! ${item} (+${mf}% ✯ Magic Find) [${count} in ${formatMilliseconds(Date.now() - time)}]`);
+        ChatLib.command(`pc ${item} (+${mf}% ✯ Mixend Luck) [${count} in ${formatMilliseconds(Date.now() - time)}]`);
     }
     let color = dropData(item).color ? dropData(item).color : GOLD;
-    Client.showTitle(`${BOLD + color} ${item}${BOLD + LIGHT_PURPLE} (+${mf}% ✯ Magic Find)`, "", 5, 60, 25);
+    Client.showTitle(`${BOLD + color} ${item}${BOLD + LIGHT_PURPLE} (+${mf}% ✯ Mixend Luck)`, "", 5, 60, 25);
 
 };
 

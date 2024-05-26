@@ -1,5 +1,4 @@
 import { BOLD, DETECTED_SOUND, LIGHT_PURPLE } from "../utils/constants";
-import { playerData, fileData, catchHistory, currentSession } from "../utils/data";
 
 
 //#region Armor attributes 
@@ -95,7 +94,6 @@ register("chat", () => {
     DETECTED_SOUND?.play();
     Client.showTitle(`${BOLD + LIGHT_PURPLE}GO GET EGGS`, "", 5, 60, 25);
 }).setCriteria("HOPPITY'S HUNT A Chocolate Dinner Egg has appeared!");
-
 
 register("chat", () => {
     setTimeout(() => {
