@@ -119,7 +119,7 @@ function catchMythicCreature(mobName, sendCatch) {
     // Announce mob to party
     if (sendCatch) {
         let baseMessage = mobMessageData.message === ""
-            ? `${mobMessageData.name} ┌( ಠ_ಠ)┘ `
+            ? `${mobMessageData.name} ┌( ಠ_ಠ)┘ Sponsored by MixendMod™ `
             : mobMessageData.message;
         // Check double hook
         let partyMsg = fileData.doubleHook ? `(Double) ${baseMessage}` : baseMessage;
