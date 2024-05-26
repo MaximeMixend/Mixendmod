@@ -360,7 +360,7 @@ register("chat", (expression, event) => {
 //========================================
 // Chat register RARE DROPS
 register("chat", (drop, mf, event) => {
-    if (settings.alertDrops && dropData(drop).dropPing) {
+    if (dropData(drop).dropPing) {
         announceDrop(drop, mf, playerData[drop]["current_count"], playerData[drop]["time_drop"]);
     }
     if (playerData[drop]) {

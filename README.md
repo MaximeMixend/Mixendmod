@@ -1,11 +1,36 @@
 # Ongoing changes
 
-## 0.6.3
+# Released
+
+## 0.7.0
 
 ### Miniboss
 - Five in a row display
+- Improved ashfang detection
 
-# Released
+### Sea creature custom message
+- Custom message for thunder, jawbus, plhlegblast, and carrot king
+- Toggle Hypixel default catch message
+- Add special catch messages for mythic/legendary sea creatures
+
+### Pets
+- Display pet color in GUI
+- Track name and level better
+- Display pet level % towards level 100 when leveling up a legendary pet
+
+### Session GUI
+- Time since last toggle
+- Percentage toggle
+- Clearer settings global/session and lava/water
+
+### CH Fishing
+- Worm cap party ping with adjustable threshold
+- Magma core party ping with adjustable threshold
+
+### Notes
+- Other stuff fixed
+- Changed catch rate tracker to remove double hook count, will do something with that in the future.
+- Still some features to organize like magma core and random chat message, this will come in the future.
 
 ## 0.6.2
 

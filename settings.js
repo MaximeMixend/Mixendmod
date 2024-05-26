@@ -17,7 +17,7 @@ const TABname = " > ";
 
 @Vigilant("MixendMod", "MixendMod", {
     getCategoryComparator: () => (a, b) => {
-        const categories = ["General", "Fishing", "Crimson Isle", "Magic Find", "Worm fishing", "Mining", "Diana"];
+        const categories = ["General", "Fishing", "Crimson Isle", "Magic Find", "CH fishing", "Mining", "Diana"];
         return categories.indexOf(a.name) - categories.indexOf(b.name);
     }
 })
@@ -65,12 +65,13 @@ class Settings {
         this.addDependency(`${TABname}Enable party transfer`, "Enable party commands");
         this.addDependency(`${TABname}Enable party warp`, "Enable party commands");
 
-        this.addDependency(`${TABname}Cap threshold`, "Ping worm cap");
         this.addDependency(`${TABname}Radioactive Vial`, "Magic Find party ping");
         this.addDependency(`${TABname}Lucky Clover Core`, "Magic Find party ping");
         this.addDependency(`${TABname}Deep Sea Orb`, "Magic Find party ping");
         this.addDependency(`${TABname}Daedalus Stick`, "Magic Find party ping");
 
+        this.addDependency(`${TABname}Worm cap threshold`, "Ping worm cap");
+        this.addDependency(`${TABname}Magma core cap threshold`, "Ping magma core cap");
 
         // VANQUISHER
         this.addDependency(`${TABname}Vanquisher sound`, "Vanquisher settings");
@@ -543,34 +544,25 @@ class Settings {
         subcategory: "Drop Party ping",
     })
     sendDaedalusStickPing = true;
-
-    // ----------------Magic Find-------------------
-
-    @SwitchProperty({
-        name: "Magic find screen alert",
-        description: "Alert on screen when dropping a Magic Find item",
-        category: "Magic Find",
-        subcategory: "Magic Find",
-    })
-    alertDrops = true;
-
     //#endregion Magic Find
 
     // -----------------------------------
-    // Worms
+    // CH Fishing
     // -----------------------------------
-
+    //#region CH Fishing
     @SwitchProperty({
         name: `Ping worm cap`,
         description: "Party ping when worm cap is hit",
-        category: "Worm fishing"
+        category: "CH Fishing",
+        subcategory: "Worm fishing"
     })
     wormCapPing = true;
 
     @SliderProperty({
         name: `${TABname}Worm cap threshold`,
         description: "Set worm count at which mob cap ping starts",
-        category: "Worm fishing",
+        category: "CH Fishing",
+        subcategory: "Worm fishing",
         min: 30,
         max: 60
     })
@@ -579,25 +571,25 @@ class Settings {
     @SwitchProperty({
         name: `Ping magma core cap`,
         description: "Party ping when magam core mobs cap is hit",
-        category: "Magma core fishing"
+        category: "CH Fishing",
+        subcategory: "Magma core fishing",
     })
     magmacoreCapPing = true;
 
     @SliderProperty({
-        name: `${TABname}MAgma core cap threshold`,
+        name: `${TABname}Magma core cap threshold`,
         description: "Set lava flame+pigmen count at which mob cap ping starts",
-        category: "Magma core fishing",
+        category: "CH Fishing",
+        subcategory: "Magma core fishing",
         min: 30,
         max: 60
     })
     magmacoreCapThreshold = 59;
-
-
+    //#endregion CH Fishing
 
     // -----------------------------------
     // Mining
     // -----------------------------------
-
     @SwitchProperty({
         name: `Mining speed boost alert`,
         description: "Screen alert when Mining speed boost is used/available",
@@ -616,7 +608,6 @@ class Settings {
     // -----------------------------------
     // DIANA
     // -----------------------------------
-
     @SwitchProperty({
         name: `Enable diana features`,
         description: "Ping party on inq, track stuff, etc.",
