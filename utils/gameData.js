@@ -65,24 +65,24 @@ export function seaCreatureData(mobName) {
     switch (mobName) {
         case "lord_jawbus": return {
             color: DARK_RED,
-            sendCoords: false,
+            sendCoords: settings.jawbusCoords,
             tracked_loot: "Radioactive Vial",
             track_avg: true,
-            catchPing: settings.jawbusCatch,
+            catchPing: settings.jawbusPartyPing,
         }
         case "thunder": return {
             color: DARK_BLUE,
             sendCoords: false,
             tracked_loot: undefined,
             track_avg: true,
-            catchPing: settings.thunderCatch
+            catchPing: settings.thunderPartyPing
         }
         case "plhlegblast": return {
             color: DARK_PURPLE,
-            sendCoords: true,
+            sendCoords: settings.plhlegblastCoords,
             tracked_loot: undefined,
             track_avg: false,
-            catchPing: settings.plhlegblastCatch
+            catchPing: settings.plhlegblastPartyPing
         }
         case "carrot_king": return {
             color: GOLD,

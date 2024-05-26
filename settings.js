@@ -47,10 +47,12 @@ class Settings {
         this.addDependency(`${TABname}Lord Jawbus catch`, "Lord Jawbus settings");
         this.addDependency(`${TABname}Lord Jawbus sound`, "Lord Jawbus settings");
         this.addDependency(`${TABname}Lord Jawbus alert`, "Lord Jawbus settings");
+        this.addDependency(`${TABname}Lord Jawbus coords`, "Lord Jawbus settings");
 
         this.addDependency(`${TABname}Plhlegblast catch`, "Plhlegblast settings");
         this.addDependency(`${TABname}Plhlegblast sound`, "Plhlegblast settings");
         this.addDependency(`${TABname}Plhlegblast alert`, "Plhlegblast settings");
+        this.addDependency(`${TABname}Plhlegblast coords`, "Plhlegblast settings");
 
         this.addDependency(`${TABname}Thunder catch`, "Thunder settings");
         this.addDependency(`${TABname}Thunder sound`, "Thunder settings");
@@ -74,6 +76,7 @@ class Settings {
         this.addDependency(`${TABname}Vanquisher sound`, "Vanquisher settings");
         this.addDependency(`${TABname}Vanquisher alert`, "Vanquisher settings");
         this.addDependency(`${TABname}Vanquisher spawn`, "Vanquisher settings");
+        this.addDependency(`${TABname}Vanquisher coords`, "Vanquisher settings");
     }
 
     // ====================================================
@@ -123,7 +126,7 @@ class Settings {
         category: "Fishing",
         subcategory: "1. Catch session GUI",
     })
-    catchSessionTime = true;
+    catchSessionTime = false;
 
     @SwitchProperty({
         name: "Catch session GUI percentages",
@@ -211,8 +214,8 @@ class Settings {
     //#endregion 2. Fishing GUI
 
     //#region 3. Crimson catch
-    // Lord Jawbus
 
+    // Lord Jawbus
     @SwitchProperty({
         name: `Lord Jawbus settings`,
         description: `Turn ON/OFF Lord Jawbus related settings`,
@@ -221,13 +224,21 @@ class Settings {
     })
     jawbusSettings = true;
 
+    @TextProperty({
+        name: `${TABname}Lord Jawbus message`,
+        description: `Custom message sent to the party\nLeave blank for default message (double) LORD JAWBUS ┌( ಠ_ಠ)┘`,
+        category: "Fishing",
+        subcategory: "3. Crimson catch"
+    })
+    jawbusMessage = "";
+
     @CheckboxProperty({
         name: `${TABname}Lord Jawbus catch`,
         description: "Party ping on catch",
         category: "Fishing",
         subcategory: "3. Crimson catch",
     })
-    jawbusCatch = true;
+    jawbusPartyPing = true;
 
     @CheckboxProperty({
         name: `${TABname}Lord Jawbus sound`,
@@ -245,8 +256,15 @@ class Settings {
     })
     jawbusScreenAlert = true;
 
-    // Thunder
+    @CheckboxProperty({
+        name: `${TABname}Lord Jawbus coords`,
+        description: `Add coordinates to Lord Jawbus spawning message`,
+        category: "Crimson Isle",
+        subcategory: "3. Crimson catch",
+    })
+    jawbusCoords = false;
 
+    // Thunder
     @SwitchProperty({
         name: `Thunder settings`,
         description: `Turn ON/OFF Thunder related settings`,
@@ -255,13 +273,21 @@ class Settings {
     })
     thunderSettings = true;
 
+    @TextProperty({
+        name: `${TABname}Thunder message`,
+        description: `Custom message sent to the party\nLeave blank for default message (double) THUNDER ┌( ಠ_ಠ)┘`,
+        category: "Fishing",
+        subcategory: "3. Crimson catch"
+    })
+    thunderMessage = "";
+
     @CheckboxProperty({
         name: `${TABname}Thunder catch`,
         description: "Party ping on catch",
         category: "Fishing",
         subcategory: "3. Crimson catch",
     })
-    thunderCatch = true;
+    thunderPartyPing = true;
 
     @CheckboxProperty({
         name: `${TABname}Thunder sound`,
@@ -280,7 +306,6 @@ class Settings {
     thunderScreenAlert = true;
 
     // Plhlegblast
-
     @SwitchProperty({
         name: `Plhlegblast settings`,
         description: `Turn ON/OFF Plhlegblast related settings`,
@@ -289,13 +314,21 @@ class Settings {
     })
     plhlegblastSettings = true;
 
+    @TextProperty({
+        name: `${TABname}Plhlegblast message`,
+        description: `Custom message sent to the party\nLeave blank for default message (double) PLHLEGBLAST ┌( ಠ_ಠ)┘`,
+        category: "Fishing",
+        subcategory: "3. Crimson catch"
+    })
+    plhlegblastMessage = "";
+
     @CheckboxProperty({
         name: `${TABname}Plhlegblast catch`,
         description: "Party ping on catch",
         category: "Fishing",
         subcategory: "3. Crimson catch",
     })
-    plhlegblastCatch = true;
+    plhlegblastPartyPing = true;
 
     @CheckboxProperty({
         name: `${TABname}Plhlegblast sound`,
@@ -312,6 +345,14 @@ class Settings {
         subcategory: "3. Crimson catch",
     })
     plhlegblastScreenAlert = true;
+
+    @CheckboxProperty({
+        name: `${TABname}Plhlegblast coords`,
+        description: `Add coordinates to Plhlegblast spawning message`,
+        category: "Crimson Isle",
+        subcategory: "3. Crimson catch",
+    })
+    plhlegblastCoords = false;
     //#endregion 3. Crimson catch
 
     //#region 4. Other catch
@@ -322,6 +363,14 @@ class Settings {
         subcategory: "4. Other catch",
     })
     sendCarrotKingCatch = true;
+
+    @TextProperty({
+        name: `${TABname}Carrot King message`,
+        description: `Custom message sent to the party\nLeave blank for default message (double) Carrot King ┌( ಠ_ಠ)┘`,
+        category: "Fishing",
+        subcategory: "4. Other catch"
+    })
+    carrotKingMessasge = "";
 
     @CheckboxProperty({
         name: `${TABname}Sea Emperor`,
@@ -356,7 +405,7 @@ class Settings {
         category: "Fishing",
         subcategory: "5. Other"
     })
-    sendDoubleHook = true;
+    sendDoubleHook = false;
 
     @TextProperty({
         name: `${TABname}Double hook message`,
@@ -368,13 +417,29 @@ class Settings {
 
     @SwitchProperty({
         name: "Party ping catch rate display mode",
-        description: "Change the catch rate display\nOFF: 32 in 5m | ON: 32 at 750/h",
+        description: "Change the catch rate display\nO: 32 in 5m | I: 32 at 750/h",
         category: "Fishing",
         subcategory: "5. Other",
     })
-    catchPingMode = true;
+    catchPingMode = false;
 
-    //#endregion catching rate settings
+    @SwitchProperty({
+        name: "Hypixel fishing catch message",
+        description: "Display Hypixel default catch message feedback",
+        category: "Fishing",
+        subcategory: "5. Other",
+    })
+    catchMessageFeedback = false;
+
+    @SwitchProperty({
+        name: "Custom fishing catch message",
+        description: "Add a custom fishing catch feedback for mythic creatures",
+        category: "Fishing",
+        subcategory: "5. Other",
+    })
+    catchMessageCustom = false;
+
+    //#endregion 5. Other
 
     //#endregion Fishing
 
@@ -395,6 +460,14 @@ class Settings {
         subcategory: "Vanquisher",
     })
     vanquisherSettings = true;
+
+    @TextProperty({
+        name: `${TABname}Vanquisher message`,
+        description: `Custom message sent to the party\nLeave blank for default message VANQUISHER ┌( ಠ_ಠ)┘`,
+        category: "Crimson Isle",
+        subcategory: "Vanquisher"
+    })
+    vanquisherMessage = "VANQUISHER ┌( ಠ_ಠ)┘";
 
     @CheckboxProperty({
         name: `${TABname}Vanquisher sound`,
@@ -418,7 +491,15 @@ class Settings {
         category: "Crimson Isle",
         subcategory: "Vanquisher",
     })
-    sendVanquisherPing = false;
+    vanquisherPartyPing = false;
+
+    @CheckboxProperty({
+        name: `${TABname}Vanquisher coords`,
+        description: `Add coordinates to vanquisher spawning message`,
+        category: "Crimson Isle",
+        subcategory: "Vanquisher",
+    })
+    vanquisherCoords = false;
     //#endregion Vanquisher
     //#endregion Crimson Isle
 

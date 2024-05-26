@@ -188,7 +188,15 @@ register("worldUnload", () => {
 // Vanquisher
 // -----------------------------------
 register("chat", () => {
-    if (settings.sendVanquisherPing && settings.vanquisherSettings) {
-        ChatLib.command(`pc VANQUISHER SPAWNED`);
+    // Find player position
+    let x = Math.round(Player.getX());
+    let y = Math.round(Player.getY());
+    let z = Math.round(Player.getZ());
+    let coords = `x: ${x}, y: ${y}, z: ${z} `
+
+    if (settings.vanquisherPartyPing && settings.vanquisherSettings) {
+        let msg = settings.vanquisherMessage == "" ? "Vanquisher spawned!" : settings.vanquisherMessage
+        msg = settings.vanquisherCoords ? coords + msg : msg
+        ChatLib.command(`pc ${msg}`);
     }
 }).setCriteria("A Vanquisher is spawning nearby!");

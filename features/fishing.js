@@ -15,8 +15,80 @@ let rateMobCount = 0;
 
 //========================================
 // Functions
-// Somehow PogObject write does not work/save/whatever when these are in utils/functions???
 //========================================
+function detectMobData(mobName) {
+    switch (mobName) {
+        case "lord_jawbus": return {
+            color: DARK_RED,
+            name: "Lord Jawbus",
+            detect: settings.jawbusSettings,
+            sound: settings.jawbusSoundAlert,
+            alert: settings.jawbusScreenAlert,
+            message: settings.jawbusMessage
+        }
+        case "thunder": return {
+            color: DARK_BLUE,
+            name: "Thunder",
+            detect: settings.thunderSettings,
+            sound: settings.thunderSoundAlert,
+            alert: settings.thunderScreenAlert,
+            message: settings.thunderMessage
+
+        }
+        case "vanquisher": return {
+            color: DARK_PURPLE,
+            name: "Vanquisher",
+            detect: settings.vanquisherSettings,
+            sound: settings.vanquisherSoundAlert,
+            alert: settings.vanquisherScreenAlert,
+            message: settings.vanquisherMessage
+
+        }
+        case "plhlegblast": return {
+            color: DARK_GRAY,
+            name: "Plhlegblast",
+            detect: settings.plhlegblastSettings,
+            sound: settings.plhlegblastSoundAlert,
+            alert: settings.plhlegblastScreenAlert,
+            message: settings.plhlegblastMessage
+
+        }
+        case "grim_reaper": return {
+            color: DARK_PURPLE,
+            name: "Grim Reaper",
+            detect: true,
+            sound: true,
+            alert: true,
+            message: ""
+        }
+        case "phantom_fisherman": return {
+            color: DARK_PURPLE,
+            name: "Phantom Fisherman",
+            detect: true,
+            sound: true,
+            alert: true,
+            message: ""
+        }
+        case "carrot_king": return {
+            color: GOLD,
+            name: "Carrot King",
+            detect: true,
+            sound: false,
+            alert: true,
+            message: settings.carrotKingMessasge
+        }
+        case "sea_emperor": return {
+            color: RED,
+            name: "Sea Emperor",
+            detect: true,
+            sound: false,
+            alert: true,
+            message: ""
+        }
+        default:
+            return false;
+    }
+}
 
 /**
  * Sets of instructions for mythic creatures catch
@@ -25,30 +97,36 @@ let rateMobCount = 0;
  */
 function catchMythicCreature(mobName, sendCatch) {
     // Find player position
-    let x = Math.round(Player.getX());
-    let y = Math.round(Player.getY());
-    let z = Math.round(Player.getZ());
+    const x = Math.round(Player.getX());
+    const y = Math.round(Player.getY());
+    const z = Math.round(Player.getZ());
 
-    let partyMsg = fileData.doubleHook ? "DOUBLE " + mobName.replace("_", " ").toUpperCase() : mobName.replace("_", " ").toUpperCase();
-    let catchInterval = Date.now() - playerData.TIME[mobName];
-    let coord = "";
+    const catchInterval = Date.now() - playerData.TIME[mobName];
+    const coord = `x: ${x}, y: ${y}, z: ${z} `;
+    let mobMessageData = detectMobData(mobName);
 
-    // Add coords to party ping for relevant mobs
-    if (seaCreatureData(mobName).sendCoords) {
-        coord = `x: ${x}, y: ${y}, z: ${z} `
-    };
+    // Catch message to player
+    if (settings.catchMessageCustom) {
+        let moreMessage = fileData.doubleHook ? "(Double) " + mobMessageData.name : mobMessageData.name
+        moreMessage = mobMessageData.color + BOLD + moreMessage;
+        if (settings.catchPingMode) {
+            let value = playerData.COUNTER[mobName] / (catchInterval / 1000 / 3600);
+            ChatLib.chat(`${moreMessage} ${WHITE}[${playerData.COUNTER[mobName]} at ${value.toFixed(1)}/h]`);
+        }
+        else { ChatLib.chat(`${moreMessage} ${WHITE}[${playerData.COUNTER[mobName]} in ${formatMilliseconds(catchInterval)}]`); }
+    }
 
     // Announce mob to party
     if (sendCatch) {
-        let mobMessageData = detectMobData(mobName);
-        announceMob(partyMsg, playerData.COUNTER[mobName], catchInterval, coord);
-        let moreMessage = fileData.doubleHook ? "Double " + mobMessageData.name : mobMessageData.name
-        if (settings.catchPingMode) {
-            let value = playerData.COUNTER[mobName] / (catchInterval / 1000 / 3600)
-            ChatLib.chat(`${mobMessageData.color + BOLD + moreMessage} ${WHITE}[${playerData.COUNTER[mobName]} at ${value.toFixed(1)}/h]`);
-        }
-        else { ChatLib.chat(`${mobMessageData.color + BOLD + moreMessage} ${WHITE}[${playerData.COUNTER[mobName]} in ${formatMilliseconds(catchInterval)}]`); }
+        let baseMessage = mobMessageData.message === ""
+            ? `${mobMessageData.name} ┌( ಠ_ಠ)┘ `
+            : mobMessageData.message;
+        // Check double hook
+        let partyMsg = fileData.doubleHook ? `(Double) ${baseMessage}` : baseMessage;
+        // Coords
+        partyMsg = seaCreatureData(mobName).sendCoords ? coord + partyMsg : partyMsg;
 
+        announceMob(partyMsg.trim(), playerData.COUNTER[mobName], catchInterval);
     };
 
     // Update tracked loot (eg Radioactive Vial counter for Jawbus)
@@ -187,21 +265,24 @@ register("chat", (text, event) => {
 //#region CATCH
 // LAVA CATCH
 register("chat", (expression, event) => {
-    cancel(event);
+    if (!settings.catchMessageFeedback) {
+        cancel(event);
+        console.log("test msg");
+    }
     let mobName = crimsonIsleCatch[expression.match(findFormattedKey(crimsonIsleCatch))[0]];
     switch (mobName) {
         case "thunder":
-            catchMythicCreature(mobName, settings.thunderCatch);
+            catchMythicCreature(mobName, settings.thunderPartyPing);
             playerData.COUNTER["plhlegblast"] += 1;
             playerData.COUNTER["lord_jawbus"] += 1;
             break;
         case "lord_jawbus":
-            catchMythicCreature(mobName, settings.jawbusCatch);
+            catchMythicCreature(mobName, settings.jawbusPartyPing);
             playerData.COUNTER["plhlegblast"] += 1;
             playerData.COUNTER["thunder"] += 1;
             break;
         case "plhlegblast":
-            catchMythicCreature(mobName, settings.plhlegblastCatch);
+            catchMythicCreature(mobName, settings.plhlegblastPartyPing);
             playerData.COUNTER["lord_jawbus"] += 1;
             playerData.COUNTER["thunder"] += 1;
             break;
@@ -240,7 +321,10 @@ register("chat", (expression, event) => {
 
 //WATER CATCH
 register("chat", (expression, event) => {
-    cancel(event);
+    if (!settings.catchMessageFeedback) {
+        cancel(event);
+        console.log("test msg");
+    }
     let mobName = waterCatch[expression.match(findFormattedKey(waterCatch))[0]];
     switch (mobName) {
         case "carrot_king":
@@ -323,68 +407,6 @@ register("chat", (drop, mf, event) => {
 //========================================
 //#region Detect creatures
 let trackedMobs = ["lord_jawbus", "thunder", "vanquisher", "plhlegblast", "grim_reaper", 'phantom_fisherman'];
-function detectMobData(mobName) {
-    switch (mobName) {
-        case "lord_jawbus": return {
-            color: DARK_RED,
-            name: "Lord Jawbus",
-            detect: settings.jawbusSettings,
-            sound: settings.jawbusSoundAlert,
-            alert: settings.jawbusScreenAlert
-        }
-        case "thunder": return {
-            color: DARK_BLUE,
-            name: "Thunder",
-            detect: settings.thunderSettings,
-            sound: settings.thunderSoundAlert,
-            alert: settings.thunderScreenAlert
-        }
-        case "vanquisher": return {
-            color: DARK_PURPLE,
-            name: "Vanquisher",
-            detect: settings.vanquisherSettings,
-            sound: settings.vanquisherSoundAlert,
-            alert: settings.vanquisherScreenAlert
-        }
-        case "plhlegblast": return {
-            color: DARK_GRAY,
-            name: "Plhlegblast",
-            detect: settings.plhlegblastSettings,
-            sound: settings.plhlegblastSoundAlert,
-            alert: settings.plhlegblastScreenAlert
-        }
-        case "grim_reaper": return {
-            color: DARK_PURPLE,
-            name: "Grim Reaper",
-            detect: true,
-            sound: true,
-            alert: true
-        }
-        case "phantom_fisherman": return {
-            color: DARK_PURPLE,
-            name: "Phantom Fisherman",
-            detect: true,
-            sound: true,
-            alert: true
-        }
-        case "carrot_king": return {
-            color: GOLD,
-            name: "Carrot King",
-            detect: true,
-            sound: false,
-            alert: true
-        }
-        case "sea_emperor": return {
-            color: RED,
-            name: "Sea Emperor",
-            detect: true,
-            sound: false,
-            alert: true
-        }
-        default:
-            return false;
-    }
-}
 register("step", (event) => {
     let worldMobs = [];
     trackedMobs.forEach(name => {

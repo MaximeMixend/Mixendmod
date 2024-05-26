@@ -3,12 +3,15 @@ import { BOLD, LIGHT_PURPLE, GOLD } from "./constants";
 import { dropData } from "./gameData";
 import RenderLib from "../../RenderLib/index.js";
 
-export function announceMob(partyMsg, counter, interval, coord) {
-    let value = counter / (interval / 1000 / 3600)
-    if (settings.catchPingMode) { ChatLib.command(`pc ┌( ಠ_ಠ)┘ ${partyMsg} [${counter} at ${value.toFixed(1)}/h] ${coord}`); }
-    else { ChatLib.command(`pc ┌( ಠ_ಠ)┘ ${partyMsg} [${counter} in ${formatMilliseconds(interval)}] ${coord}`); }
+export function announceMob(partyMsg, counter, interval) {
+    const valuePerHour = (counter * 3600000) / interval;
+    const formattedInterval = formatMilliseconds(interval);
+    const message = settings.catchPingMode
+        ? `pc ${partyMsg} [${counter} at ${valuePerHour.toFixed(1)}/h]`
+        : `pc ${partyMsg} [${counter} in ${formattedInterval}]`;
 
-};
+    ChatLib.command(message);
+}
 
 export function announceDrop(item, mf, count, time) {
     if (settings.partyPingDrops) {
