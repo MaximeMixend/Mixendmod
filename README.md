@@ -2,6 +2,9 @@
 
 # Released
 
+<img width="128" alt="Screenshot 2024-05-28 at 16 04 19" src="https://github.com/MaximeMixend/Mixendmod/assets/155255138/8eebdf02-236c-4f0e-867c-c08ef6f38833">
+
+
 ## 0.7.0
 
 ### Miniboss
@@ -22,6 +25,8 @@
 - Time since last toggle
 - Percentage toggle
 - Clearer settings global/session and lava/water
+
+![image](https://github.com/MaximeMixend/Mixendmod/assets/155255138/b0aa1a7b-f799-488d-a315-403e57e5833d)
 
 ### CH Fishing
 - Worm cap party ping with adjustable threshold
