@@ -2,7 +2,7 @@
 
 # Released
 
-<img width="128" alt="Screenshot 2024-05-28 at 16 04 19" src="https://github.com/MaximeMixend/Mixendmod/assets/155255138/8eebdf02-236c-4f0e-867c-c08ef6f38833">
+<img width="256" alt="Screenshot 2024-05-28 at 16 04 19" src="https://github.com/MaximeMixend/Mixendmod/assets/155255138/8e3ec508-a218-44de-b040-4fb6fb51465a">
 
 
 ## 0.7.0
