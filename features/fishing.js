@@ -239,7 +239,6 @@ register("chat", (text, event) => {
 register("chat", (expression, event) => {
     if (!settings.catchMessageFeedback) {
         cancel(event);
-        console.log("test msg");
     }
     let mobName = crimsonIsleCatch[expression.match(findFormattedKey(crimsonIsleCatch))[0]];
     switch (mobName) {
@@ -295,7 +294,6 @@ register("chat", (expression, event) => {
 register("chat", (expression, event) => {
     if (!settings.catchMessageFeedback) {
         cancel(event);
-        console.log("test msg");
     }
     let mobName = waterCatch[expression.match(findFormattedKey(waterCatch))[0]];
     switch (mobName) {
@@ -360,8 +358,12 @@ register("chat", (expression, event) => {
 //========================================
 // Chat register RARE DROPS
 register("chat", (drop, mf, event) => {
+
     if (dropData(drop).dropPing) {
-        announceDrop(drop, mf, playerData[drop]["current_count"], playerData[drop]["time_drop"]);
+        cancel(event);
+        let msg = ChatLib.getChatMessage(event, true).replace("✯ Magic Find", "α Mixend Luck");
+        ChatLib.chat(msg);
+        announceDrop(drop, mf, playerData[drop]["current_count"], playerData[drop]["time_drop"], dropData(drop).spam);
     }
     if (playerData[drop]) {
         playerData[drop]["count_to_drop"].push(playerData[drop]["current_count"]);

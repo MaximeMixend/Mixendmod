@@ -195,7 +195,7 @@ register("chat", () => {
     let coords = `x: ${x}, y: ${y}, z: ${z} `
 
     if (settings.vanquisherPartyPing && settings.vanquisherSettings) {
-        let msg = settings.vanquisherMessage == "" ? "Vanquisher spawned!" : settings.vanquisherMessage
+        let msg = settings.vanquisherMessage == "" ? "Vanquisher spawned! Sponsored by MixendMod™" : settings.vanquisherMessage
         msg = settings.vanquisherCoords ? coords + msg : msg
         ChatLib.command(`pc ${msg}`);
     }

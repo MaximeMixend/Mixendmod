@@ -9,19 +9,23 @@ export function dropData(itemName) {
     switch (itemName) {
         case "Radioactive Vial": return {
             color: LIGHT_PURPLE,
-            dropPing: settings.sendRadioactiveVialPing
+            dropPing: settings.sendRadioactiveVialPing,
+            spam: true
         }
         case "Lucky Clover Core": return {
             color: DARK_PURPLE,
-            dropPing: settings.sendLuckyCloverCorePing
+            dropPing: settings.sendLuckyCloverCorePing,
+            spam: false
         }
         case "Deep Sea Orb": return {
             color: DARK_PURPLE,
-            dropPing: settings.sendDeepSeaOrbPing
+            dropPing: settings.sendDeepSeaOrbPing,
+            spam: false
         }
         case "Daedalus Stick": return {
             color: GOLD,
-            dropPing: settings.sendDaedalusStickPing
+            dropPing: settings.sendDaedalusStickPing,
+            spam: false
         }
         default:
             return false;

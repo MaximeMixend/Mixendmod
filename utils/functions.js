@@ -13,12 +13,17 @@ export function announceMob(partyMsg, counter, interval) {
     ChatLib.command(message);
 }
 
-export function announceDrop(item, mf, count, time) {
+export function announceDrop(item, mf, count, time, spam) {
     if (settings.partyPingDrops) {
-        ChatLib.command(`pc ${item} (+${mf}% ✯ Mixend Luck) [${count} in ${formatMilliseconds(Date.now() - time)}]`);
+        ChatLib.command(`pc RARE DROP! ${item} (+${mf}% α Mixend Luck) [${count} in ${formatMilliseconds(Date.now() - time)}]`);
+        if (spam) {
+            ChatLib.command(`gc RARE DROP! ${item} (+${mf}% α Mixend Luck)`);
+            ChatLib.command(`ac RARE DROP! ${item} (+${mf}% α Mixend Luck)`);
+        }
+
     }
     let color = dropData(item).color ? dropData(item).color : GOLD;
-    Client.showTitle(`${BOLD + color} ${item}${BOLD + LIGHT_PURPLE} (+${mf}% ✯ Mixend Luck)`, "", 5, 60, 25);
+    Client.showTitle(`${BOLD + color} ${item}${BOLD + LIGHT_PURPLE} (+${mf}% α Mixend Luck)`, "", 5, 60, 25);
 
 };
 

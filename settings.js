@@ -90,6 +90,16 @@ class Settings {
     // ====================================================
     //#region General
     //#region party commands
+
+
+    @TextProperty({
+        name: `Party code invite`,
+        description: `People who DM you this will get invited to your party`,
+        category: "General",
+        subcategory: "Party commands",
+    })
+    partyCode = "sendmeinvite";
+
     @SwitchProperty({
         name: "Enable party commands",
         description: "Allows other party members to access some party commands",
@@ -437,7 +447,7 @@ class Settings {
         category: "Fishing",
         subcategory: "5. Other",
     })
-    catchMessageFeedback = false;
+    catchMessageFeedback = true;
 
     @SwitchProperty({
         name: "Custom fishing catch message",
