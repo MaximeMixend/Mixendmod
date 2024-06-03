@@ -1,5 +1,5 @@
 import settings from "../settings";
-import { BLACK, DARK_BLUE, DARK_PURPLE, DARK_RED, GOLD, LIGHT_PURPLE } from "./constants";
+import { RED, BLUE, DARK_BLUE, DARK_GRAY, DARK_PURPLE, DARK_RED, GOLD, LIGHT_PURPLE, itemDrop, AQUA } from "./constants";
 
 /**
  * Return relevant data about the drop
@@ -32,27 +32,6 @@ export function dropData(itemName) {
 
     }
 }
-export function detectMobData(mobName) {
-    switch (mobName) {
-        case "lord_jawbus": return {
-            color: DARK_RED,
-            name: "Lord Jawbus",
-            type: Java.type("net.minecraft.entity.monster.EntityIronGolem")
-        }
-        case "thunder": return {
-            color: DARK_BLUE,
-            name: "Thunder",
-            type: Java.type("net.minecraft.entity.monster.EntityGuardian")
-        }
-        case "vanquisher": return {
-            color: DARK_PURPLE,
-            name: "Vanquisher",
-            type: Java.type("net.minecraft.entity.boss.EntityWither")
-        }
-        default:
-            return false;
-    }
-}
 
 export const entitiesList = {
     FishHook: Java.type("net.minecraft.entity.projectile.EntityFishHook"),
@@ -62,59 +41,163 @@ export const entitiesList = {
     Plhlegblast: Java.type("net.minecraft.entity.passive.EntitySquid")
 }
 /**
- * Return relevant data about the mob
+ * Settings when catching a mob
  * @param {String} mobName 
  */
-export function seaCreatureData(mobName) {
+export function catchMobData(mobName) {
     switch (mobName) {
         case "lord_jawbus": return {
-            color: DARK_RED,
-            sendCoords: settings.jawbusCoords,
-            tracked_loot: "Radioactive Vial",
-            track_avg: true,
-            catchPing: settings.jawbusPartyPing,
+            color: DARK_RED, // For the custom chat message
+            name: "Lord Jawbus",
+            partyPing: settings.jawbusPartyPing,
+            partyMessage: settings.jawbusMessage,
+            trackedLoot: itemDrop.radioactiveVial,
+            trackAverage: true
         }
         case "thunder": return {
             color: DARK_BLUE,
-            sendCoords: false,
-            tracked_loot: undefined,
-            track_avg: true,
-            catchPing: settings.thunderPartyPing
+            name: "Thunder",
+            partyPing: settings.thunderPartyPing,
+            partyMessage: settings.thunderMessage,
+            trackedLoot: undefined,
+            trackAverage: true
         }
         case "plhlegblast": return {
+            color: DARK_GRAY,
+            name: "Plhlegblast",
+            partyPing: settings.plhlegblastPartyPing,
+            partyMessage: settings.plhlegblastMessage,
+            trackedLoot: undefined,
+            trackAverage: false
+        }
+        case "grim_reaper": return {
             color: DARK_PURPLE,
-            sendCoords: settings.plhlegblastCoords,
-            tracked_loot: undefined,
-            track_avg: false,
-            catchPing: settings.plhlegblastPartyPing
+            name: "Grim Reaper",
+            partyPing: settings.grimReaperPartyPing,
+            partyMessage: settings.grimReaperMessage,
+            trackedLoot: itemDrop.deepSeaOrb,
+            trackAverage: false
+        }
+        case "phantom_fisherman": return {
+            color: DARK_PURPLE,
+            name: "Phantom Fisherman",
+            partyPing: settings.phantomFishermanPartyPing,
+            partyMessage: settings.phantomFishermanMessage,
+            trackedLoot: itemDrop.deepSeaOrb,
+            trackAverage: false
         }
         case "carrot_king": return {
             color: GOLD,
-            sendCoords: false,
-            tracked_loot: "Lucky Clover Core",
-            track_avg: false,
-            catchPing: settings.sendCarrotKingCatch
+            name: "Carrot King",
+            partyPing: settings.carrotKingPartyPing,
+            partyMessage: settings.carrotKingMessage,
+            trackedLoot: itemDrop.luckyCloverCore,
+            trackAverage: false
         }
         case "sea_emperor": return {
+            color: RED,
+            name: "Sea Emperor",
+            partyPing: settings.seaEmperorPartyPing,
+            partyMessage: settings.seaEmperorMessage,
+            trackedLoot: undefined,
+            trackAverage: false
+        }
+        case "water_hydra": return {
+            color: RED,
+            name: "Sea Emperor",
+            partyPing: settings.waterHydraPartyPing,
+            partyMessage: settings.waterHydraMessage,
+            trackedLoot: undefined,
+            trackAverage: false
+        }
+        case "yeti": return {
+            color: AQUA,
+            name: "Yeti",
+            partyPing: settings.yetiPartyPing,
+            partyMessage: settings.yetiMessage,
+            trackedLoot: undefined,
+            trackAverage: false
+        }
+        default:
+            return false;
+    }
+}
+
+/**
+ * Settings for mob detection
+ * @param {String} mobName 
+ */
+export function detectMobData(mobName) {
+    switch (mobName) {
+        case "lord_jawbus": return {
             color: DARK_RED,
-            sendCoords: false,
-            tracked_loot: undefined,
-            track_avg: false,
-            catchPing: settings.sendSeaEmperorCatch
+            name: "Lord Jawbus",
+            enabled: settings.jawbusDetection,
+            sound: settings.jawbusSoundAlert,
+            screen: settings.jawbusScreenAlert,
+        }
+        case "thunder": return {
+            color: DARK_BLUE,
+            name: "Thunder",
+            enabled: settings.thunderDetection,
+            sound: settings.thunderSoundAlert,
+            screen: settings.thunderScreenAlert,
+        }
+        case "vanquisher": return {
+            color: DARK_PURPLE,
+            name: "Vanquisher",
+            enabled: settings.vanquisherDetection,
+            sound: settings.vanquisherSoundAlert,
+            screen: settings.vanquisherScreenAlert,
+        }
+        case "plhlegblast": return {
+            color: DARK_GRAY,
+            name: "Plhlegblast",
+            enabled: settings.plhlegblastDetection,
+            sound: settings.plhlegblastSoundAlert,
+            screen: settings.plhlegblastScreenAlert,
         }
         case "grim_reaper": return {
-            color: BLACK,
-            sendCoords: false,
-            tracked_loot: "Deep Sea Orb",
-            track_avg: false,
-            catchPing: settings.sendGrimReaperCatch
+            color: DARK_PURPLE,
+            name: "Grim Reaper",
+            enabled: settings.grimReaperDetection,
+            sound: settings.grimReaperSoundAlert,
+            screen: settings.grimReaperScreenAlert,
         }
         case "phantom_fisherman": return {
+            color: DARK_PURPLE,
+            name: "Phantom Fisherman",
+            enabled: settings.phantomFishermanDetection,
+            sound: settings.phantomFishermanSoundAlert,
+            screen: settings.phantomFishermanScreenAlert,
+        }
+        case "carrot_king": return {
             color: GOLD,
-            sendCoords: false,
-            tracked_loot: "Deep Sea Orb",
-            track_avg: false,
-            catchPing: settings.sendPhantomFishermanCatch
+            name: "Carrot King",
+            enabled: settings.carrotKingDetection,
+            sound: settings.carrotKingSoundAlert,
+            screen: settings.carrotKingScreenAlert,
+        }
+        case "sea_emperor": return {
+            color: RED,
+            name: "Sea Emperor",
+            enabled: settings.seaEmperorDetection,
+            sound: settings.seaEmperorSoundAlert,
+            screen: settings.seaEmperorScreenAlert,
+        }
+        case "water_hydra": return {
+            color: BLUE,
+            name: "Water Hydra",
+            enabled: settings.waterHydraDetection,
+            sound: settings.waterHydraSoundAlert,
+            screen: settings.waterHydraScreenAlert,
+        }
+        case "yeti": return {
+            color: AQUA,
+            name: "Yeti",
+            enabled: settings.yetiDetection,
+            sound: settings.yetiSoundAlert,
+            screen: settings.yetiScreenAlert,
         }
         default:
             return false;
@@ -185,7 +268,8 @@ export const waterCatch = {
     "You hear trotting from beneath the waves, you caught a Nightmare.": "nightmare",
     "It must be a full moon, a Werewolf appears.": "werewolf",
     "The spirit of a long lost Phantom Fisher has come to haunt you.": "phantom_fisherman",
-    "This can't be! The manifestation of death himself!": "grim_reaper"
+    "This can't be! The manifestation of death himself!": "grim_reaper",
+    "What is this creature!?": "yeti"
 };
 
 

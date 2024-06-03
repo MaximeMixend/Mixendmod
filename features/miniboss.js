@@ -1,6 +1,7 @@
 import { BOLD, GOLD, GRAY, GREEN, LIGHT_PURPLE, RED, WHITE } from "../utils/constants";
 import settings from "../settings";
 import { fileData } from "../utils/data";
+import { sendCommand } from "../utils/functions";
 
 //#region Variables
 let moveGui = new Gui();
@@ -64,6 +65,7 @@ register("command", (arg) => {
             fileData.save();
             break;
         default:
+            ChatLib.chat(`${GOLD + BOLD}Click on the screen to place the GUI`)
             moveGui.open()
             break;
     }
@@ -197,6 +199,6 @@ register("chat", () => {
     if (settings.vanquisherPartyPing && settings.vanquisherSettings) {
         let msg = settings.vanquisherMessage == "" ? "Vanquisher spawned! Sponsored by MixendMod™" : settings.vanquisherMessage
         msg = settings.vanquisherCoords ? coords + msg : msg
-        ChatLib.command(`pc ${msg}`);
+        sendCommand(`pc ${msg}`);
     }
 }).setCriteria("A Vanquisher is spawning nearby!");

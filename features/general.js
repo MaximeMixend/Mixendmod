@@ -1,6 +1,7 @@
 import settings from "../settings";
 import { BOLD, DARK_GREEN, BLUE, DARK_RED } from "../utils/constants";
 import { fileData } from "../utils/data";
+import { sendCommand } from "../utils/functions";
 
 // -----------------------------------
 // SPIRIT MASK
@@ -27,39 +28,39 @@ register("chat", () => {
 // -----------------------------------
 register("chat", () => {
     if (settings.enablePartyCommands) {
-        ChatLib.command(`pc [Commands] !pt <playername> | !warp`);
+        sendCommand(`pc [Commands] !pt <playername> | !warp`);
     }
 }).setCriteria("Party ${*}: !help");
 
 register("chat", (player) => {
     if (settings.enablePartyCommands && settings.enablePartyTransfer) {
-        ChatLib.command(`p transfer ${player}`);
+        sendCommand(`p transfer ${player}`);
     }
 }).setCriteria("Party ${*}: !pt ${player}");
 
 register("chat", (playername) => {
     if (settings.enablePartyCommands && settings.enablePartyTransfer) {
-        ChatLib.command(`p transfer ${playername}`);
+        sendCommand(`p transfer ${playername}`);
     }
 }).setCriteria("Party > ${*} ${playername}: !pt");
 
 register("chat", (playername) => {
     if (settings.enablePartyCommands && settings.enablePartyTransfer) {
-        ChatLib.command(`p transfer ${playername}`);
+        sendCommand(`p transfer ${playername}`);
     }
 }).setCriteria("Party > ${*} ${playername}: !ptme");
 
 register("chat", (playername) => {
-    ChatLib.command(`p settings allinvite`);
+    sendCommand(`p settings allinvite`);
 }).setCriteria("Party > ${*} ${playername}: !allinvite");
 
 register("chat", (playername) => {
-    ChatLib.command(`p settings allinvite`);
+    sendCommand(`p settings allinvite`);
 }).setCriteria("Party > ${*} ${playername}: !allinv");
 
 register("chat", () => {
     if (settings.enablePartyCommands && settings.enablePartyWarp) {
-        ChatLib.command("p warp");
+        sendCommand("p warp");
     }
 }).setCriteria("Party ${*}: !warp");
 
@@ -68,7 +69,7 @@ register("chat", (mf) => {
         fileData.magmacores = 0
     }
     fileData.magmacores += 1;
-    ChatLib.command(`pc core #${fileData.magmacores}! [+${mf}% ✯]`);
+    sendCommand(`pc core #${fileData.magmacores}! [+${mf}% ✯]`);
     fileData.save();
 }).setCriteria("RARE DROP! Magma Core (+${mf}% ✯ Magic Find)");
 

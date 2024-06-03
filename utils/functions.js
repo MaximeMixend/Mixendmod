@@ -3,6 +3,16 @@ import { BOLD, LIGHT_PURPLE, GOLD } from "./constants";
 import { dropData } from "./gameData";
 import RenderLib from "../../RenderLib/index.js";
 
+/**
+ * For logging purposes
+ */
+export function sendCommand(msg, log = false) {
+    ChatLib.command(msg);
+    if (log) {
+        console.log(msg);
+    }
+}
+
 export function announceMob(partyMsg, counter, interval) {
     const valuePerHour = (counter * 3600000) / interval;
     const formattedInterval = formatMilliseconds(interval);
@@ -10,15 +20,15 @@ export function announceMob(partyMsg, counter, interval) {
         ? `pc ${partyMsg} [${counter} at ${valuePerHour.toFixed(1)}/h]`
         : `pc ${partyMsg} [${counter} in ${formattedInterval}]`;
 
-    ChatLib.command(message);
+    sendCommand(message);
 }
 
 export function announceDrop(item, mf, count, time, spam) {
     if (settings.partyPingDrops) {
-        ChatLib.command(`pc RARE DROP! ${item} (+${mf}% α Mixend Luck) [${count} in ${formatMilliseconds(Date.now() - time)}]`);
+        sendCommand(`pc RARE DROP! ${item} (+${mf}% α Mixend Luck) [${count} in ${formatMilliseconds(Date.now() - time)}]`);
         if (spam) {
-            ChatLib.command(`gc RARE DROP! ${item} (+${mf}% α Mixend Luck)`);
-            ChatLib.command(`ac RARE DROP! ${item} (+${mf}% α Mixend Luck)`);
+            sendCommand(`gc RARE DROP! ${item} (+${mf}% α Mixend Luck)`);
+            sendCommand(`ac RARE DROP! ${item} (+${mf}% α Mixend Luck)`);
         }
 
     }

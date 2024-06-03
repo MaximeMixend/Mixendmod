@@ -1,13 +1,13 @@
-import { announceDrop, renderEntity, formatMilliseconds, findFormattedKey, announceMob, calcAvg } from "../utils/functions";
+import { announceDrop, renderEntity, formatMilliseconds, findFormattedKey, announceMob, calcAvg, sendCommand } from "../utils/functions";
 import { playerData, fileData, catchHistory, currentSession } from "../utils/data";
 import settings from "../settings";
-import { DARK_BLUE, DARK_PURPLE, DARK_RED, BOLD, DETECTED_SOUND, GOLD, RED, BLUE, RESET, GREEN, entitiesList, DARK_GRAY, BLACK, GRAY, WHITE } from "../utils/constants";
-import { crimsonIsleCatch, doubleHookCatch, dropData, lavaDict, seaCreatureData, waterCatch, waterDict } from "../utils/gameData";
+import { DARK_RED, BOLD, DETECTED_SOUND, GOLD, RED, BLUE, RESET, GREEN, entitiesList, BLACK, WHITE, AQUA } from "../utils/constants";
+import { crimsonIsleCatch, doubleHookCatch, dropData, lavaDict, waterCatch, waterDict, detectMobData, catchMobData } from "../utils/gameData";
 import { activePet } from "./pet";
 
 
 // TRACK MOBS
-let mobTracker = []; // Entity of tracked entities
+let mobTracker = []; // lsit of [tracked entity, name]
 // SC RATES
 let rateSc = 0;
 let startTime = Date.now();
@@ -16,99 +16,18 @@ let rateMobCount = 0;
 //========================================
 // Functions
 //========================================
-function detectMobData(mobName) {
-    switch (mobName) {
-        case "lord_jawbus": return {
-            color: DARK_RED,
-            name: "Lord Jawbus",
-            detect: settings.jawbusSettings,
-            sound: settings.jawbusSoundAlert,
-            alert: settings.jawbusScreenAlert,
-            message: settings.jawbusMessage
-        }
-        case "thunder": return {
-            color: DARK_BLUE,
-            name: "Thunder",
-            detect: settings.thunderSettings,
-            sound: settings.thunderSoundAlert,
-            alert: settings.thunderScreenAlert,
-            message: settings.thunderMessage
-
-        }
-        case "vanquisher": return {
-            color: DARK_PURPLE,
-            name: "Vanquisher",
-            detect: settings.vanquisherSettings,
-            sound: settings.vanquisherSoundAlert,
-            alert: settings.vanquisherScreenAlert,
-            message: settings.vanquisherMessage
-
-        }
-        case "plhlegblast": return {
-            color: DARK_GRAY,
-            name: "Plhlegblast",
-            detect: settings.plhlegblastSettings,
-            sound: settings.plhlegblastSoundAlert,
-            alert: settings.plhlegblastScreenAlert,
-            message: settings.plhlegblastMessage
-
-        }
-        case "grim_reaper": return {
-            color: DARK_PURPLE,
-            name: "Grim Reaper",
-            detect: true,
-            sound: true,
-            alert: true,
-            message: ""
-        }
-        case "phantom_fisherman": return {
-            color: DARK_PURPLE,
-            name: "Phantom Fisherman",
-            detect: true,
-            sound: true,
-            alert: true,
-            message: ""
-        }
-        case "carrot_king": return {
-            color: GOLD,
-            name: "Carrot King",
-            detect: true,
-            sound: false,
-            alert: true,
-            message: settings.carrotKingMessasge
-        }
-        case "sea_emperor": return {
-            color: RED,
-            name: "Sea Emperor",
-            detect: true,
-            sound: false,
-            alert: true,
-            message: ""
-        }
-        default:
-            return false;
-    }
-}
-
 /**
  * Sets of instructions for mythic creatures catch
  * @param {string} mobName
- * @param {boolean} sendCatch 
  */
-function catchMythicCreature(mobName, sendCatch) {
-    // Find player position
-    const x = Math.round(Player.getX());
-    const y = Math.round(Player.getY());
-    const z = Math.round(Player.getZ());
-
+function catchMythicCreature(mobName) {
     const catchInterval = Date.now() - playerData.TIME[mobName];
-    const coord = `x: ${x}, y: ${y}, z: ${z} `;
-    let mobMessageData = detectMobData(mobName);
+    let catchData = catchMobData(mobName);
 
-    // Catch message to player
+    // Custom message to player
     if (settings.catchMessageCustom) {
-        let moreMessage = fileData.doubleHook ? "(Double) " + mobMessageData.name : mobMessageData.name
-        moreMessage = mobMessageData.color + BOLD + moreMessage;
+        let moreMessage = fileData.doubleHook ? "(Double) " + catchData.name : catchData.name
+        moreMessage = catchData.color + BOLD + moreMessage;
         if (settings.catchPingMode) {
             let value = playerData.COUNTER[mobName] / (catchInterval / 1000 / 3600);
             ChatLib.chat(`${moreMessage} ${WHITE}[${playerData.COUNTER[mobName]} at ${value.toFixed(1)}/h]`);
@@ -117,26 +36,27 @@ function catchMythicCreature(mobName, sendCatch) {
     }
 
     // Announce mob to party
-    if (sendCatch) {
-        let baseMessage = mobMessageData.message === ""
-            ? `${mobMessageData.name} ┌( ಠ_ಠ)┘ Sponsored by MixendMod™ `
-            : mobMessageData.message;
+    if (catchData.partyPing) {
+        let baseMessage = catchData.partyMessage === ""
+            ? `${catchData.name} ┌( ಠ_ಠ)┘ Sponsored by MixendMod™ `
+            : catchData.partyMessage;
         // Check double hook
         let partyMsg = fileData.doubleHook ? `(Double) ${baseMessage}` : baseMessage;
-        // Coords
-        partyMsg = seaCreatureData(mobName).sendCoords ? coord + partyMsg : partyMsg;
 
         announceMob(partyMsg.trim(), playerData.COUNTER[mobName], catchInterval);
     };
 
-    // Update tracked loot (eg Radioactive Vial counter for Jawbus)
-    if (seaCreatureData(mobName).tracked_loot) {
-        playerData[seaCreatureData(mobName).tracked_loot].current_count += fileData.doubleHook ? 2 : 1;
+    // Update tracked loot
+    if (catchData.trackedLoot) {
+        playerData[catchData.trackedLoot].current_count += fileData.doubleHook ? 2 : 1;
     };
-    if (seaCreatureData(mobName).track_avg) {
+
+    // Update catch average
+    if (catchData.trackAverage) {
         playerData.AVG_DATA[mobName].push(playerData.COUNTER[mobName]);
         playerData.AVG_DATA[mobName + "_avg"] = calcAvg(playerData.AVG_DATA[mobName]).toFixed(0);
     }
+
     // Update tracking data
     playerData.TIME[mobName] = Date.now();
     playerData.COUNTER[mobName] = 0;
@@ -144,7 +64,7 @@ function catchMythicCreature(mobName, sendCatch) {
 };
 
 //========================================
-// WORMS
+// WORMS & MAGMA CORES
 //========================================
 //#region Worms
 let lastCaptimeMagma = Date.now();
@@ -165,7 +85,7 @@ register("step", () => {
         });
         // Send ping once threshold reached, pings only once
         if ((pigmenCount + flameCount) >= settings.magmacoreCapThreshold && !isCappedCores) {
-            ChatLib.command(`pc CORE CAP! [${pigmenCount} pigs & ${flameCount} blazes] [${formatMilliseconds(Date.now() - lastCaptimeMagma)}]`);
+            sendCommand(`pc CORE CAP! [${pigmenCount} pigs & ${flameCount} blazes] [${formatMilliseconds(Date.now() - lastCaptimeMagma)}]`);
             isCappedCores = true;
         }
         // Given cap was reached, if worms are cleared, starts counting until next cap
@@ -190,7 +110,7 @@ register("step", () => {
         });
         // Send ping once threshold reached, pings only once
         if ((wormCount) >= settings.wormCapThreshold && !isCappedWorms) {
-            ChatLib.command(`pc WORM CAP! [${wormCount} in ${formatMilliseconds(Date.now() - lastCaptimeWorms)}]`);
+            sendCommand(`pc WORM CAP! [${wormCount} in ${formatMilliseconds(Date.now() - lastCaptimeWorms)}]`);
             isCappedWorms = true;
         }
         // Given cap was reached, if worms are cleared, starts counting until next cap
@@ -216,13 +136,13 @@ register("chat", () => {
     fileData.doubleHook = false;
     fileData.save();
 }).setCriteria("A Lava Blaze has surfaced from the depths!");
+
 register("chat", () => {
     catchHistory.history.push(Date.now());
     rateMobCount += 1;
     catchHistory.save();
     fileData.doubleHook = false;
     fileData.save();
-
 }).setCriteria("A Lava Pigman arose from the depths!");
 //#endregion Worms
 
@@ -243,23 +163,23 @@ register("chat", (expression, event) => {
     let mobName = crimsonIsleCatch[expression.match(findFormattedKey(crimsonIsleCatch))[0]];
     switch (mobName) {
         case "thunder":
-            catchMythicCreature(mobName, settings.thunderPartyPing);
+            catchMythicCreature(mobName);
             playerData.COUNTER["plhlegblast"] += 1;
             playerData.COUNTER["lord_jawbus"] += 1;
             break;
         case "lord_jawbus":
-            catchMythicCreature(mobName, settings.jawbusPartyPing);
+            catchMythicCreature(mobName);
             playerData.COUNTER["plhlegblast"] += 1;
             playerData.COUNTER["thunder"] += 1;
             break;
         case "plhlegblast":
-            catchMythicCreature(mobName, settings.plhlegblastPartyPing);
+            catchMythicCreature(mobName);
             playerData.COUNTER["lord_jawbus"] += 1;
             playerData.COUNTER["thunder"] += 1;
             break;
         default:
             if (fileData.doubleHook && settings.sendDoubleHook) {
-                ChatLib.command(`pc ${settings.doubleHookMsg}`);
+                sendCommand(`pc ${settings.doubleHookMsg}`);
             };
             playerData.COUNTER["lord_jawbus"] += 1;
             playerData.COUNTER["plhlegblast"] += 1;
@@ -298,31 +218,32 @@ register("chat", (expression, event) => {
     let mobName = waterCatch[expression.match(findFormattedKey(waterCatch))[0]];
     switch (mobName) {
         case "carrot_king":
-            catchMythicCreature(mobName, settings.sendCarrotKingCatch);
+            catchMythicCreature(mobName);
             playerData.COUNTER["grim_reaper"] += 1;
             playerData.COUNTER["phantom_fisherman"] += 1;
             playerData.COUNTER["sea_emperor"] += 1;
-            // Update tracking data
-            playerData.TIME[mobName] = Date.now();
-            playerData.COUNTER[mobName] = 0;
             break;
         case "sea_emperor":
-            catchMythicCreature(mobName, settings.sendSeaEmperorCatch);
+            catchMythicCreature(mobName);
             playerData.COUNTER["phantom_fisherman"] += 1;
             playerData.COUNTER["grim_reaper"] += 1;
             playerData.COUNTER["carrot_king"] += 1;
             break;
         case "grim_reaper":
-            catchMythicCreature(mobName, settings.sendGrimReaperCatch);
+            catchMythicCreature(mobName);
             playerData.COUNTER["phantom_fisherman"] += 1;
             break;
         case "phantom_fisherman":
-            catchMythicCreature(mobName, settings.sendPhantomFishermanCatch);
+            catchMythicCreature(mobName);
             playerData.COUNTER["grim_reaper"] += 1;
+            break;
+        case "yeti":
+            catchMythicCreature(mobName);
+            playerData.COUNTER["yeti"] += 1;
             break;
         default:
             if (fileData.doubleHook && settings.sendDoubleHook) {
-                ChatLib.command(`pc ${settings.doubleHookMsg}`);
+                sendCommand(`pc ${settings.doubleHookMsg}`);
             };
             playerData.COUNTER["grim_reaper"] += 1;
             playerData.COUNTER["phantom_fisherman"] += 1;
@@ -387,7 +308,7 @@ register("step", (event) => {
         let mobData = detectMobData(name);
 
         // Exit if mob not to be detected
-        if (!mobData.detect) { return; }
+        if (!mobData.enabled) { return; }
 
         // Get all entites
         let detectedMobs = World.getAllEntitiesOfType(Java.type("net.minecraft.entity.item.EntityArmorStand")).filter(entity => entity.getName().includes(mobData.name));
@@ -397,24 +318,24 @@ register("step", (event) => {
         // Perform actions based on settings for that mob
         detectedMobs.forEach(mob => {
             // If mob already tracked
-            if (mobTracker.filter(trackedMob => trackedMob.getUUID() === mob.getUUID()).length > 0) { return; }
-            if (mobData.alert) {
+            if (mobTracker.filter(trackedMob => trackedMob[0].getUUID() === mob.getUUID()).length > 0) { return; }
+            if (mobData.screen) {
                 Client.showTitle(`Detected ${BOLD + mobData.color + mobData.name}`, "", 5, 60, 25);
             }
             if (mobData.sound) { DETECTED_SOUND?.play(); }
-            mobTracker.push(mob)
+            mobTracker.push([mob, mobData.name])
         })
     })
     // Remove tracked mobs inexistent in the world 
     mobTracker = mobTracker.filter(entity => {
-        return worldMobs.some(mob => mob.getUUID() === entity.getUUID())
+        return worldMobs.some(mob => mob.getUUID() === entity[0].getUUID())
     });
 }).setFps(1);
 //#endregion Detect creatures
 
 register("renderWorld", () => {
     mobTracker.forEach(mob => {
-        renderEntity(mob, 0.7, 0.7, 0, mob.getName().toUpperCase());
+        renderEntity(mob[0], 0.7, 0.7, 0, mob[1]);
     });
 });
 
@@ -476,8 +397,8 @@ register("renderoverlay", () => {
     }
 
     if (movedisplay.isOpen()) {
-        new Text(`${RED + BOLD}ECHAP to save position`, 10, 10).setShadow(true).draw();
-        new Text(`${GREEN + BOLD}Click to place to left corner of GUI`, 10, 20).setShadow(true).draw();
+        new Text(`${RED + BOLD}ECHAP to save position`, Renderer.screen.getWidth() / 2, Renderer.screen.getHeight() / 2).setShadow(true).draw();
+        new Text(`${GREEN + BOLD}Click to place to left corner of GUI`, Renderer.screen.getWidth() / 2, 10 + Renderer.screen.getHeight() / 2).setShadow(true).draw();
     }
 
     // Track bobbers
@@ -501,7 +422,7 @@ register("renderoverlay", () => {
         }
         let deltaRow = 1;
         mobTracker.forEach(entity => {
-            addGuiText(`${entity.getName()} `, 0, deltaRow + 2);
+            addGuiText(`${entity[0].getName() + WHITE} [${AQUA + Player.asPlayerMP().distanceTo(entity[0]).toFixed(0)}m${WHITE}]`, 0, deltaRow + 2);
             deltaRow += 1;
         })
     }
@@ -529,8 +450,8 @@ register("renderoverlay", () => {
     let xPos = fileData.sessionGuiX;
     let yPos = fileData.sessionGuiY;
     if (moveGuiSession.isOpen()) {
-        new Text(`${RED + BOLD}ECHAP to save position`, 10, 10).setShadow(true).draw();
-        new Text(`${GREEN + BOLD}Click to place to left corner of GUI`, 10, 20).setShadow(true).draw();
+        new Text(`${RED + BOLD}ECHAP to save position`, Renderer.screen.getWidth() / 2, Renderer.screen.getHeight() / 2).setShadow(true).draw();
+        new Text(`${GREEN + BOLD}Click to place to left corner of GUI`, Renderer.screen.getWidth() / 2, 10 + Renderer.screen.getHeight() / 2).setShadow(true).draw();
     }
     if (!settings.catchSession) { return; }
 
@@ -590,6 +511,7 @@ register("command", (arg, arg2) => {
                     fileData.save();
                     break;
                 default:
+                    ChatLib.chat(`${GOLD + BOLD}Click on the screen to place the GUI`)
                     moveGuiSession.open()
                     break;
             }
@@ -604,6 +526,7 @@ register("command", (arg, arg2) => {
                     fileData.save();
                     break;
                 default:
+                    ChatLib.chat(`${GOLD + BOLD}Click on the screen to place the GUI`)
                     movedisplay.open()
                     break;
             }
@@ -621,4 +544,3 @@ register("worldUnload", () => {
     catchHistory.history = [];
     catchHistory.save();
 });
-

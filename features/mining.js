@@ -1,5 +1,6 @@
 import { BOLD, GOLD, GREEN, LIGHT_PURPLE, OBFUSCATED } from "../utils/constants";
 import settings from "../settings";
+import { sendCommand } from "../utils/functions";
 
 // -----------------------------------
 // ABILITY
@@ -19,14 +20,14 @@ register("chat", () => {
 
 register("chat", () => {
     Client.showTitle(`${GOLD + BOLD}[${LIGHT_PURPLE + OBFUSCATED}a${GOLD + BOLD}] ${GREEN + BOLD}SHAFT ${GOLD + BOLD}[${LIGHT_PURPLE + OBFUSCATED}a${GOLD + BOLD}]`, "", 10, 100, 10);
-    ChatLib.command(`pc [MINESHAFT] Hi`);
+    sendCommand(`pc [MINESHAFT] Hi`);
     setTimeout(() => {
-        ChatLib.command(`pc ${settings.mineshaftMessage}`);
+        sendCommand(`pc ${settings.mineshaftMessage}`);
     }, 1000);
 }).setCriteria("WOW! You found a Glacite Mineshaft portal!");
 
 register("chat", () => {
-    ChatLib.command(`pc [SCRAP] Got my one.`);
+    sendCommand(`pc [SCRAP] Got my one.`);
 }).setCriteria("EXCAVATOR! You found a Suspicious Scrap!");
 
 

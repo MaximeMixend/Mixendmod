@@ -1,3 +1,4 @@
+import settings from "../settings";
 import { BOLD, DARK_GREEN, GOLD, GRAY, RED } from "../utils/constants";
 
 export let activePet = {
@@ -109,10 +110,12 @@ const legendaryExp = [0, 660,
 // ====================================================
 //#region Level up
 register("chat", (pet, level, event) => {
+    if (!settings.petLevelWarning) { return; }
+
     let color = GOLD;
     if (level == "100") {
         color = DARK_GREEN;
-        Client.showTitle(`${color + BOLD + pet.toUpperCase()} LEVEL ${level}`, "", 10, 200, 10);
+        Client.showTitle(`${color + BOLD + pet.toUpperCase()} LEVEL ${level}`, "", 10, 140, 10);
     }
     else if (parseInt(level) > 94 && parseInt(level) < 100) {
         Client.showTitle(`${color + BOLD + pet.toUpperCase()} LEVEL ${level}`, "", 10, 120, 10);
@@ -125,8 +128,6 @@ register("chat", (pet, level, event) => {
         cancel(event);
         ChatLib.chat(ChatLib.getChatMessage(event, true) + ` ${GOLD}[${percentage.toFixed(2)}%]`);
     }
-
-
 }).setCriteria("Your ${pet} leveled up to level ${level}!");
 //#endregion Level up
 
@@ -136,6 +137,11 @@ register("chat", (pet, level, event) => {
 //#region Active pet
 const regex = /Lvl (\d+)](?: \[(\d+).)?/;
 register("chat", (level, pet, event) => {
+
+    if (settings.petHideAutoPet) {
+        cancel(event);
+    }
+
     let match = level.match(regex);
     if (match) {
         activePet.level = `${match[1]}+${match[2]}`;

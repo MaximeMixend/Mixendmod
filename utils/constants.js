@@ -36,3 +36,10 @@ export const entitiesList = {
     Vanquisher: Java.type("net.minecraft.entity.boss.EntityWither"),
     Plhlegblast: Java.type("net.minecraft.entity.passive.EntitySquid")
 }
+
+
+export const itemDrop = {
+    luckyCloverCore: "Lucky Clover Core",
+    radioactiveVial: "Radioactive Vial",
+    deepSeaOrb: "Deep Sea Orb"
+}

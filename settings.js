@@ -13,11 +13,11 @@ import {
     @Vigilant
 } from "Vigilance/index";
 
-const TABname = " > ";
+const TABname = "   ▪ ";
 
 @Vigilant("MixendMod", "MixendMod", {
     getCategoryComparator: () => (a, b) => {
-        const categories = ["General", "Fishing", "Crimson Isle", "Magic Find", "CH fishing", "Mining", "Diana"];
+        const categories = ["General", "Fishing", "Crimson Isle", "Magic Find", "Crystal Hollows", "Mining", "Diana"];
         return categories.indexOf(a.name) - categories.indexOf(b.name);
     }
 })
@@ -44,26 +44,49 @@ class Settings {
         this.addDependency(`${TABname}Average mode`, "Fishing GUI");
 
         // 3. Crimson Catch
-        this.addDependency(`${TABname}Lord Jawbus catch`, "Lord Jawbus settings");
-        this.addDependency(`${TABname}Lord Jawbus sound`, "Lord Jawbus settings");
-        this.addDependency(`${TABname}Lord Jawbus alert`, "Lord Jawbus settings");
-        this.addDependency(`${TABname}Lord Jawbus coords`, "Lord Jawbus settings");
-        this.addDependency(`${TABname}Lord Jawbus message`, "Lord Jawbus settings");
+        this.addDependency(`${TABname}Lord Jawbus message`, "Lord Jawbus catch");
+        this.addDependency(`${TABname}Lord Jawbus sound`, "Lord Jawbus detection");
+        this.addDependency(`${TABname}Lord Jawbus screen alert`, "Lord Jawbus detection");
+
+        this.addDependency(`${TABname}Thunder message`, "Thunder catch");
+        this.addDependency(`${TABname}Thunder sound`, "Thunder detection");
+        this.addDependency(`${TABname}Thunder screen alert`, "Thunder detection");
 
         this.addDependency(`${TABname}Plhlegblast catch`, "Plhlegblast settings");
-        this.addDependency(`${TABname}Plhlegblast sound`, "Plhlegblast settings");
-        this.addDependency(`${TABname}Plhlegblast alert`, "Plhlegblast settings");
-        this.addDependency(`${TABname}Plhlegblast coords`, "Plhlegblast settings");
         this.addDependency(`${TABname}Plhlegblast message`, "Plhlegblast settings");
-
-        this.addDependency(`${TABname}Thunder catch`, "Thunder settings");
-        this.addDependency(`${TABname}Thunder sound`, "Thunder settings");
-        this.addDependency(`${TABname}Thunder alert`, "Thunder settings");
-        this.addDependency(`${TABname}Thunder message`, "Thunder settings");
+        this.addDependency(`${TABname}Plhlegblast sound`, "Plhlegblast detection");
+        this.addDependency(`${TABname}Plhlegblast screen alert`, "Plhlegblast detection");
 
         // 4. Other catch
+        this.addDependency(`${TABname}Sea Emperor catch`, "Sea Emperor settings");
+        this.addDependency(`${TABname}Sea Emperor message`, "Sea Emperor settings");
+        this.addDependency(`${TABname}Sea Emperor sound`, "Sea Emperor detection");
+        this.addDependency(`${TABname}Sea Emperor screen alert`, "Sea Emperor detection");
 
-        this.addDependency(`${TABname}Carrot King message`, "Carrot King");
+        this.addDependency(`${TABname}Water Hydra catch`, "Water Hydra settings");
+        this.addDependency(`${TABname}Water Hydra message`, "Water Hydra settings");
+        this.addDependency(`${TABname}Water Hydra sound`, "Water Hydra detection");
+        this.addDependency(`${TABname}Water Hydra screen alert`, "Water Hydra detection");
+
+        this.addDependency(`${TABname}Carrot King catch`, "Carrot King settings");
+        this.addDependency(`${TABname}Carrot King message`, "Carrot King settings");
+        this.addDependency(`${TABname}Carrot King sound`, "Carrot King detection");
+        this.addDependency(`${TABname}Carrot King screen alert`, "Carrot King detection");
+
+        this.addDependency(`${TABname}Phantom Fisherman catch`, "Phantom Fisherman settings");
+        this.addDependency(`${TABname}Phantom Fisherman message`, "Phantom Fisherman settings");
+        this.addDependency(`${TABname}Phantom Fisherman sound`, "Phantom Fisherman detection");
+        this.addDependency(`${TABname}Phantom Fisherman screen alert`, "Phantom Fisherman detection");
+
+        this.addDependency(`${TABname}Grim Reaper catch`, "Grim Reaper settings");
+        this.addDependency(`${TABname}Grim Reaper message`, "Grim Reaper settings");
+        this.addDependency(`${TABname}Grim Reaper sound`, "Grim Reaper detection");
+        this.addDependency(`${TABname}Grim Reaper screen alert`, "Grim Reaper detection");
+
+        this.addDependency(`${TABname}Yeti catch`, "Yeti settings");
+        this.addDependency(`${TABname}Yeti message`, "Yeti settings");
+        this.addDependency(`${TABname}Yeti sound`, "Yeti detection");
+        this.addDependency(`${TABname}Yeti screen alert`, "Yeti detection");
 
         // 5. Other
         this.addDependency(`${TABname}Double hook message`, "Double hook");
@@ -81,20 +104,19 @@ class Settings {
         this.addDependency(`${TABname}Magma core cap threshold`, "Ping magma core cap");
 
         // VANQUISHER
-        this.addDependency(`${TABname}Vanquisher sound`, "Vanquisher settings");
-        this.addDependency(`${TABname}Vanquisher alert`, "Vanquisher settings");
+        this.addDependency(`${TABname}Vanquisher sound`, "Vanquisher detection");
+        this.addDependency(`${TABname}Vanquisher screen alert`, "Vanquisher detection");
         this.addDependency(`${TABname}Vanquisher spawn`, "Vanquisher settings");
         this.addDependency(`${TABname}Vanquisher coords`, "Vanquisher settings");
+        this.addDependency(`${TABname}Vanquisher message`, "Vanquisher settings");
     }
 
     // ====================================================
     //#region General
     //#region party commands
-
-
     @TextProperty({
         name: `Party code invite`,
-        description: `People who DM you this will get invited to your party`,
+        description: `People who DM you this will get invited to your party\nLeave blank to disable`,
         category: "General",
         subcategory: "Party commands",
     })
@@ -115,6 +137,7 @@ class Settings {
         subcategory: "Party commands",
     })
     enablePartyWarp = true;
+
     @CheckboxProperty({
         name: `${TABname}Enable party transfer`,
         description: `Enable !pt <PlayerName> to transfer the party to the specified player\n!pt and !ptme also available`,
@@ -123,7 +146,27 @@ class Settings {
     })
     enablePartyTransfer = true;
     //#endregion party commands
+
+    //#region Pets
+    @CheckboxProperty({
+        name: `Hide AUTOPET message`,
+        description: `Hides AUTOPET message`,
+        category: "General",
+        subcategory: "Pet",
+    })
+    petHideAutoPet = true;
+
+    @CheckboxProperty({
+        name: `Pet level up warning`,
+        description: `Displays a message on screen when a pet levels to 95 or higher`,
+        category: "General",
+        subcategory: "Pet",
+    })
+    petLevelWarning = true;
+    //#endregion Pets
+
     //#endregion General
+
 
     // ====================================================
 
@@ -136,9 +179,9 @@ class Settings {
         category: "Fishing",
         subcategory: "1. Catch session GUI",
     })
-    catchSession = true;
+    catchSession = false;
 
-    @SwitchProperty({
+    @CheckboxProperty({
         name: "Catch session GUI times",
         description: "Display times since last sc in the catch session GUI",
         category: "Fishing",
@@ -146,7 +189,7 @@ class Settings {
     })
     catchSessionTime = false;
 
-    @SwitchProperty({
+    @CheckboxProperty({
         name: "Catch session GUI percentages",
         description: "Display percentages in the catch session GUI",
         category: "Fishing",
@@ -178,7 +221,7 @@ class Settings {
         category: "Fishing",
         subcategory: "2. Fishing GUI"
     })
-    fishingGUI = true;
+    fishingGUI = false;
 
     @CheckboxProperty({
         name: `${TABname}Mythic creature count`,
@@ -232,98 +275,95 @@ class Settings {
     //#endregion 2. Fishing GUI
 
     //#region 3. Crimson catch
-
-    // Lord Jawbus
+    //
+    //
+    //
+    //
+    //
+    //
+    //#region Lord Jawbus
     @SwitchProperty({
-        name: `Lord Jawbus settings`,
-        description: `Turn ON/OFF Lord Jawbus related settings`,
-        category: "Fishing",
-        subcategory: "3. Crimson catch",
-    })
-    jawbusSettings = true;
-
-    @TextProperty({
-        name: `${TABname}Lord Jawbus message`,
-        description: `Custom message sent to the party\nLeave blank for default message (double) LORD JAWBUS ┌( ಠ_ಠ)┘`,
-        category: "Fishing",
-        subcategory: "3. Crimson catch"
-    })
-    jawbusMessage = "";
-
-    @CheckboxProperty({
-        name: `${TABname}Lord Jawbus catch`,
-        description: "Party ping on catch",
+        name: `Lord Jawbus catch`,
+        description: "Enables a party message when reeling the mob.",
         category: "Fishing",
         subcategory: "3. Crimson catch",
     })
     jawbusPartyPing = true;
 
+    @TextProperty({
+        name: `${TABname}Lord Jawbus message`,
+        description: `Changes the message sent to the party when reeling the mob.\nNeeds the corresponding mob message setting enabled.\nLeave blank for default message`,
+        category: "Fishing",
+        subcategory: "3. Crimson catch"
+    })
+    jawbusMessage = "";
+
+    @SwitchProperty({
+        name: `Lord Jawbus detection`,
+        description: "Enables mob detection.",
+        category: "Fishing",
+        subcategory: "3. Crimson catch",
+    })
+    jawbusDetection = false;
+
     @CheckboxProperty({
         name: `${TABname}Lord Jawbus sound`,
-        description: "Sound alert on detection",
+        description: "Enables a sound cue when nearby.",
         category: "Fishing",
         subcategory: "3. Crimson catch",
     })
     jawbusSoundAlert = true;
 
     @CheckboxProperty({
-        name: `${TABname}Lord Jawbus alert`,
-        description: "Screen alert on detection",
+        name: `${TABname}Lord Jawbus screen alert`,
+        description: "Enables a screen message when nearby.",
         category: "Fishing",
         subcategory: "3. Crimson catch",
     })
     jawbusScreenAlert = true;
-
-    @CheckboxProperty({
-        name: `${TABname}Lord Jawbus coords`,
-        description: `Add coordinates to Lord Jawbus spawning message`,
-        category: "Fishing",
-        subcategory: "3. Crimson catch",
-    })
-    jawbusCoords = false;
-
-    // Thunder
+    //#endregion Lord Jawbus
+    //#region Thunder
     @SwitchProperty({
-        name: `Thunder settings`,
-        description: `Turn ON/OFF Thunder related settings`,
-        category: "Fishing",
-        subcategory: "3. Crimson catch",
-    })
-    thunderSettings = true;
-
-    @TextProperty({
-        name: `${TABname}Thunder message`,
-        description: `Custom message sent to the party\nLeave blank for default message (double) THUNDER ┌( ಠ_ಠ)┘`,
-        category: "Fishing",
-        subcategory: "3. Crimson catch"
-    })
-    thunderMessage = "";
-
-    @CheckboxProperty({
-        name: `${TABname}Thunder catch`,
-        description: "Party ping on catch",
+        name: `Thunder catch`,
+        description: "Enables a party message when reeling the mob.",
         category: "Fishing",
         subcategory: "3. Crimson catch",
     })
     thunderPartyPing = true;
 
+    @TextProperty({
+        name: `${TABname}Thunder message`,
+        description: `Changes the message sent to the party when reeling the mob.\nNeeds the corresponding mob message setting enabled.\nLeave blank for default message`,
+        category: "Fishing",
+        subcategory: "3. Crimson catch"
+    })
+    thunderMessage = "";
+
+    @SwitchProperty({
+        name: `Thunder detection`,
+        description: "Enables mob detection.",
+        category: "Fishing",
+        subcategory: "3. Crimson catch",
+    })
+    thunderDetection = false;
+
     @CheckboxProperty({
         name: `${TABname}Thunder sound`,
-        description: "Sound alert on detection",
+        description: "Enables a sound cue when nearby.",
         category: "Fishing",
         subcategory: "3. Crimson catch",
     })
     thunderSoundAlert = true;
 
     @CheckboxProperty({
-        name: `${TABname}Thunder alert`,
-        description: "Screen alert on detection",
+        name: `${TABname}Thunder screen alert`,
+        description: "Enables a screen message when nearby.",
         category: "Fishing",
         subcategory: "3. Crimson catch",
     })
     thunderScreenAlert = true;
-
-    // Plhlegblast
+    //#endregion Thunder
+    //#region Plhlegblast
     @SwitchProperty({
         name: `Plhlegblast settings`,
         description: `Turn ON/OFF Plhlegblast related settings`,
@@ -334,7 +374,7 @@ class Settings {
 
     @TextProperty({
         name: `${TABname}Plhlegblast message`,
-        description: `Custom message sent to the party\nLeave blank for default message (double) PLHLEGBLAST ┌( ಠ_ಠ)┘`,
+        description: `Changes the message sent to the party when reeling the mob.\nNeeds the corresponding mob message setting enabled.\nLeave blank for default message`,
         category: "Fishing",
         subcategory: "3. Crimson catch"
     })
@@ -342,77 +382,339 @@ class Settings {
 
     @CheckboxProperty({
         name: `${TABname}Plhlegblast catch`,
-        description: "Party ping on catch",
+        description: "Enables a party message when reeling the mob.",
         category: "Fishing",
         subcategory: "3. Crimson catch",
     })
     plhlegblastPartyPing = true;
 
+    @SwitchProperty({
+        name: `Plhlegblast detection`,
+        description: "Enables mob detection.",
+        category: "Fishing",
+        subcategory: "3. Crimson catch",
+    })
+    plhlegblastDetection = false;
+
     @CheckboxProperty({
         name: `${TABname}Plhlegblast sound`,
-        description: "Sound alert on detection",
+        description: "Enables a sound cue when nearby.",
         category: "Fishing",
         subcategory: "3. Crimson catch",
     })
     plhlegblastSoundAlert = true;
 
     @CheckboxProperty({
-        name: `${TABname}Plhlegblast alert`,
-        description: "Screen alert on detection",
+        name: `${TABname}Plhlegblast screen alert`,
+        description: "Enables a screen message when nearby.",
         category: "Fishing",
         subcategory: "3. Crimson catch",
     })
     plhlegblastScreenAlert = true;
-
-    @CheckboxProperty({
-        name: `${TABname}Plhlegblast coords`,
-        description: `Add coordinates to Plhlegblast spawning message`,
-        category: "Fishing",
-        subcategory: "3. Crimson catch",
-    })
-    plhlegblastCoords = false;
+    //#endregion Plhlegblast
     //#endregion 3. Crimson catch
 
     //#region 4. Other catch
-    @CheckboxProperty({
-        name: `Carrot King`,
-        description: `Enable Carrot King catch party ping`,
+    //
+    //
+    //
+    //
+    //
+    //
+    //#region Carrot King
+    @SwitchProperty({
+        name: `Carrot King settings`,
+        description: `Turn ON/OFF Carrot King related settings`,
         category: "Fishing",
         subcategory: "4. Other catch",
     })
-    sendCarrotKingCatch = true;
+    carrotKingSettings = true;
 
     @TextProperty({
         name: `${TABname}Carrot King message`,
-        description: `Custom message sent to the party\nLeave blank for default message (double) Carrot King ┌( ಠ_ಠ)┘`,
+        description: `Changes the message sent to the party when reeling the mob.\nNeeds the corresponding mob message setting enabled.\nLeave blank for default message`,
         category: "Fishing",
         subcategory: "4. Other catch"
     })
-    carrotKingMessasge = "";
+    carrotKingMessage = "";
 
     @CheckboxProperty({
-        name: `Sea Emperor`,
-        description: `Enable Sea Emperor catch party ping`,
+        name: `${TABname}Carrot King catch`,
+        description: "Enables a party message when reeling the mob.",
         category: "Fishing",
         subcategory: "4. Other catch",
     })
-    sendSeaEmperorCatch = true;
+    carrotKingPartyPing = true;
 
-    @CheckboxProperty({
-        name: `Phantom Fisherman`,
-        description: `Enable Phantom Fisherman catch party ping`,
+    @SwitchProperty({
+        name: `Carrot King detection`,
+        description: "Enables mob detection.",
         category: "Fishing",
         subcategory: "4. Other catch",
     })
-    sendPhantomFishermanCatch = true;
+    carrotKingDetection = false;
 
     @CheckboxProperty({
-        name: `Grim Reaper`,
-        description: `Enable Grim Reaper catch party ping`,
+        name: `${TABname}Carrot King sound`,
+        description: "Enables a sound cue when nearby.",
         category: "Fishing",
         subcategory: "4. Other catch",
     })
-    sendGrimReaperCatch = true;
+    carrotKingSoundAlert = true;
+
+    @CheckboxProperty({
+        name: `${TABname}Carrot King screen alert`,
+        description: "Enables a screen message when nearby.",
+        category: "Fishing",
+        subcategory: "4. Other catch",
+    })
+    carrotKingScreenAlert = true;
+    //#endregion Carrot King
+    //#region Sea Emperor
+    @SwitchProperty({
+        name: `Sea Emperor settings`,
+        description: `Turn ON/OFF Sea Emperor related settings`,
+        category: "Fishing",
+        subcategory: "4. Other catch",
+    })
+    seaEmperorSettings = true;
+
+    @TextProperty({
+        name: `${TABname}Sea Emperor message`,
+        description: `Changes the message sent to the party when reeling the mob.\nNeeds the corresponding mob message setting enabled.\nLeave blank for default message`,
+        category: "Fishing",
+        subcategory: "4. Other catch"
+    })
+    seaEmperorMessage = "";
+
+    @CheckboxProperty({
+        name: `${TABname}Sea Emperor catch`,
+        description: "Enables a party message when reeling the mob.",
+        category: "Fishing",
+        subcategory: "4. Other catch",
+    })
+    seaEmperorPartyPing = true;
+
+    @SwitchProperty({
+        name: `Sea Emperor detection`,
+        description: "Enables mob detection.",
+        category: "Fishing",
+        subcategory: "4. Other catch",
+    })
+    seaEmperorDetection = false;
+
+    @CheckboxProperty({
+        name: `${TABname}Sea Emperor sound`,
+        description: "Enables a sound cue when nearby.",
+        category: "Fishing",
+        subcategory: "4. Other catch",
+    })
+    seaEmperorSoundAlert = true;
+
+    @CheckboxProperty({
+        name: `${TABname}Sea Emperor screen alert`,
+        description: "Enables a screen message when nearby.",
+        category: "Fishing",
+        subcategory: "4. Other catch",
+    })
+    seaEmperorScreenAlert = true;
+    //#endregion Sea Emperor
+    //#region Water Hydra
+    @SwitchProperty({
+        name: `Water Hydra settings`,
+        description: `Turn ON/OFF Water Hydra related settings`,
+        category: "Fishing",
+        subcategory: "4. Other catch",
+    })
+    waterHydraSettings = true;
+
+    @TextProperty({
+        name: `${TABname}Water Hydra message`,
+        description: `Changes the message sent to the party when reeling the mob.\nNeeds the corresponding mob message setting enabled.\nLeave blank for default message`,
+        category: "Fishing",
+        subcategory: "4. Other catch"
+    })
+    waterHydraMessage = "";
+
+    @CheckboxProperty({
+        name: `${TABname}Water Hydra catch`,
+        description: "Enables a party message when reeling the mob.",
+        category: "Fishing",
+        subcategory: "4. Other catch",
+    })
+    waterHydraPartyPing = true;
+
+    @SwitchProperty({
+        name: `Water Hydra detection`,
+        description: "Enables mob detection.",
+        category: "Fishing",
+        subcategory: "4. Other catch",
+    })
+    waterHydraDetection = false;
+
+    @CheckboxProperty({
+        name: `${TABname}Water Hydra sound`,
+        description: "Enables a sound cue when nearby.",
+        category: "Fishing",
+        subcategory: "4. Other catch",
+    })
+    waterHydraSoundAlert = true;
+
+    @CheckboxProperty({
+        name: `${TABname}Water Hydra screen alert`,
+        description: "Enables a screen message when nearby.",
+        category: "Fishing",
+        subcategory: "4. Other catch",
+    })
+    waterHydraScreenAlert = true;
+    //#endregion Water Hydra
+    //#region Phantom Fisherman
+    @SwitchProperty({
+        name: `Phantom Fisherman settings`,
+        description: `Turn ON/OFF Phantom Fisherman related settings`,
+        category: "Fishing",
+        subcategory: "4. Other catch",
+    })
+    phantomFishermanSettings = true;
+
+    @TextProperty({
+        name: `${TABname}Phantom Fisherman message`,
+        description: `Changes the message sent to the party when reeling the mob.\nNeeds the corresponding mob message setting enabled.\nLeave blank for default message`,
+        category: "Fishing",
+        subcategory: "4. Other catch"
+    })
+    phantomFishermanMessage = "";
+
+    @CheckboxProperty({
+        name: `${TABname}Phantom Fisherman catch`,
+        description: "Enables a party message when reeling the mob.",
+        category: "Fishing",
+        subcategory: "4. Other catch",
+    })
+    phantomFishermanPartyPing = true;
+
+    @SwitchProperty({
+        name: `Phantom Fisherman detection`,
+        description: "Enables mob detection.",
+        category: "Fishing",
+        subcategory: "4. Other catch",
+    })
+    phantomFishermanDetection = false;
+
+    @CheckboxProperty({
+        name: `${TABname}Phantom Fisherman sound`,
+        description: "Enables a sound cue when nearby.",
+        category: "Fishing",
+        subcategory: "4. Other catch",
+    })
+    phantomFishermanSoundAlert = true;
+
+    @CheckboxProperty({
+        name: `${TABname}Phantom Fisherman screen alert`,
+        description: "Enables a screen message when nearby.",
+        category: "Fishing",
+        subcategory: "4. Other catch",
+    })
+    phantomFishermanScreenAlert = true;
+    //#endregion Phantom Fisherman
+    //#region Grim Reaper
+    @SwitchProperty({
+        name: `Grim Reaper settings`,
+        description: `Turn ON/OFF Grim Reaper related settings`,
+        category: "Fishing",
+        subcategory: "4. Other catch",
+    })
+    grimReaperSettings = true;
+
+    @TextProperty({
+        name: `${TABname}Grim Reaper message`,
+        description: `Changes the message sent to the party when reeling the mob.\nNeeds the corresponding mob message setting enabled.\nLeave blank for default message`,
+        category: "Fishing",
+        subcategory: "4. Other catch"
+    })
+    grimReaperMessage = "";
+
+    @CheckboxProperty({
+        name: `${TABname}Grim Reaper catch`,
+        description: "Enables a party message when reeling the mob.",
+        category: "Fishing",
+        subcategory: "4. Other catch",
+    })
+    grimReaperPartyPing = true;
+
+    @SwitchProperty({
+        name: `Grim Reaper detection`,
+        description: "Enables mob detection.",
+        category: "Fishing",
+        subcategory: "4. Other catch",
+    })
+    grimReaperDetection = false;
+
+    @CheckboxProperty({
+        name: `${TABname}Grim Reaper sound`,
+        description: "Enables a sound cue when nearby.",
+        category: "Fishing",
+        subcategory: "4. Other catch",
+    })
+    grimReaperSoundAlert = true;
+
+    @CheckboxProperty({
+        name: `${TABname}Grim Reaper screen alert`,
+        description: "Enables a screen message when nearby.",
+        category: "Fishing",
+        subcategory: "4. Other catch",
+    })
+    grimReaperScreenAlert = true;
+    //#endregion Grim Reaper
+    //#region Yeti
+    @SwitchProperty({
+        name: `Yeti settings`,
+        description: `Turn ON/OFF Yeti related settings`,
+        category: "Fishing",
+        subcategory: "4. Other catch",
+    })
+    yetiSettings = true;
+
+    @TextProperty({
+        name: `${TABname}Yeti message`,
+        description: `Changes the message sent to the party when reeling the mob.\nNeeds the corresponding mob message setting enabled.\nLeave blank for default message`,
+        category: "Fishing",
+        subcategory: "4. Other catch"
+    })
+    yetiMessage = "";
+
+    @CheckboxProperty({
+        name: `${TABname}Yeti catch`,
+        description: "Enables a party message when reeling the mob.",
+        category: "Fishing",
+        subcategory: "4. Other catch",
+    })
+    yetiPartyPing = true;
+
+    @SwitchProperty({
+        name: `Yeti detection`,
+        description: "Enables mob detection.",
+        category: "Fishing",
+        subcategory: "4. Other catch",
+    })
+    yetiDetection = false;
+
+    @CheckboxProperty({
+        name: `${TABname}Yeti sound`,
+        description: "Enables a sound cue when nearby.",
+        category: "Fishing",
+        subcategory: "4. Other catch",
+    })
+    yetiSoundAlert = true;
+
+    @CheckboxProperty({
+        name: `${TABname}Yeti screen alert`,
+        description: "Enables a screen message when nearby.",
+        category: "Fishing",
+        subcategory: "4. Other catch",
+    })
+    yetiScreenAlert = true;
+    //#endregion Yeti
     //#endregion 4. Other catch
 
     //#region 5. Other
@@ -468,7 +770,7 @@ class Settings {
         category: "Crimson Isle",
         subcategory: "Miniboss"
     })
-    guiMiniboss = true;
+    guiMiniboss = false;
 
     //#region Vanquisher
     @SwitchProperty({
@@ -481,27 +783,11 @@ class Settings {
 
     @TextProperty({
         name: `${TABname}Vanquisher message`,
-        description: `Custom message sent to the party\nLeave blank for default message VANQUISHER ┌( ಠ_ಠ)┘`,
+        description: `Changes the message sent to the party when spawning a Vanquisher.\nNeeds the corresponding mob message setting enabled.\nLeave blank for default message`,
         category: "Crimson Isle",
         subcategory: "Vanquisher"
     })
-    vanquisherMessage = "VANQUISHER ┌( ಠ_ಠ)┘";
-
-    @CheckboxProperty({
-        name: `${TABname}Vanquisher sound`,
-        description: "Sound alert on detection",
-        category: "Crimson Isle",
-        subcategory: "Vanquisher",
-    })
-    vanquisherSoundAlert = true;
-
-    @CheckboxProperty({
-        name: `${TABname}Vanquisher alert`,
-        description: "Screen alert on detection",
-        category: "Crimson Isle",
-        subcategory: "Vanquisher",
-    })
-    vanquisherScreenAlert = true;
+    vanquisherMessage = "";
 
     @CheckboxProperty({
         name: `${TABname}Vanquisher spawn`,
@@ -518,6 +804,31 @@ class Settings {
         subcategory: "Vanquisher",
     })
     vanquisherCoords = false;
+
+    @SwitchProperty({
+        name: `Vanquisher detection`,
+        description: `Enables mob detection.`,
+        category: "Crimson Isle",
+        subcategory: "Vanquisher",
+    })
+    vanquisherDetection = false;
+
+    @CheckboxProperty({
+        name: `${TABname}Vanquisher sound`,
+        description: "Enables a sound cue when nearby.",
+        category: "Crimson Isle",
+        subcategory: "Vanquisher",
+    })
+    vanquisherSoundAlert = true;
+
+    @CheckboxProperty({
+        name: `${TABname}Vanquisher screen alert`,
+        description: "Enables a screen message when nearby.",
+        category: "Crimson Isle",
+        subcategory: "Vanquisher",
+    })
+    vanquisherScreenAlert = true;
+
     //#endregion Vanquisher
     //#endregion Crimson Isle
 
@@ -564,13 +875,13 @@ class Settings {
     //#endregion Magic Find
 
     // -----------------------------------
-    // CH Fishing
+    // Crystal Hollows
     // -----------------------------------
-    //#region CH Fishing
+    //#region Crystal Hollows
     @SwitchProperty({
         name: `Ping worm cap`,
         description: "Party ping when worm cap is hit",
-        category: "CH Fishing",
+        category: "Crystal Hollows",
         subcategory: "Worm fishing"
     })
     wormCapPing = true;
@@ -578,7 +889,7 @@ class Settings {
     @SliderProperty({
         name: `${TABname}Worm cap threshold`,
         description: "Set worm count at which mob cap ping starts",
-        category: "CH Fishing",
+        category: "Crystal Hollows",
         subcategory: "Worm fishing",
         min: 30,
         max: 60
@@ -588,7 +899,7 @@ class Settings {
     @SwitchProperty({
         name: `Ping magma core cap`,
         description: "Party ping when magam core mobs cap is hit",
-        category: "CH Fishing",
+        category: "Crystal Hollows",
         subcategory: "Magma core fishing",
     })
     magmacoreCapPing = true;
@@ -596,19 +907,20 @@ class Settings {
     @SliderProperty({
         name: `${TABname}Magma core cap threshold`,
         description: "Set lava flame+pigmen count at which mob cap ping starts",
-        category: "CH Fishing",
+        category: "Crystal Hollows",
         subcategory: "Magma core fishing",
         min: 30,
         max: 60
     })
     magmacoreCapThreshold = 59;
-    //#endregion CH Fishing
+    //#endregion Crystal Hollows
 
     // -----------------------------------
     // Mining
     // -----------------------------------
+    //#region Mining
     @SwitchProperty({
-        name: `Mining speed boost alert`,
+        name: `Mining speed boost screen alert`,
         description: "Screen alert when Mining speed boost is used/available",
         category: "Mining"
     })
@@ -621,17 +933,19 @@ class Settings {
         subcategory: "Mineshaft"
     })
     mineshaftMessage = "!pt";
+    //#region Mining
 
     // -----------------------------------
     // DIANA
     // -----------------------------------
+    //#region Diana
     @SwitchProperty({
         name: `Enable diana features`,
-        description: "Ping party on inq, track stuff, etc.",
+        description: "Ping party on inq, track stuff, etc.\nKinda poopoo for now",
         category: "Diana"
     })
-    enableDiana = true;
+    enableDiana = false;
+    //#endregion Diana
 }
-
 
 export default new Settings

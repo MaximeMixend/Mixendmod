@@ -1,6 +1,6 @@
 
 import { playerData } from "../utils/data";
-import { formatMilliseconds } from "../utils/functions";
+import { formatMilliseconds, sendCommand } from "../utils/functions";
 import settings from "../settings";
 
 const dianaMapping = {
@@ -28,7 +28,7 @@ register("chat", (whatever, mob) => {
             let z = Math.round(Player.getZ());
             coord = `x: ${x}, y: ${y}, z: ${z}`;
             setTimeout(() => {
-                ChatLib.command(`pc ${coord} INQUISITOR [${playerData.COUNTER["minos_inquisitor"]} in ${formatMilliseconds(Date.now() - playerData.TIME["minos_inquisitor"])}]`);
+                sendCommand(`pc ${coord} INQUISITOR [${playerData.COUNTER["minos_inquisitor"]} in ${formatMilliseconds(Date.now() - playerData.TIME["minos_inquisitor"])}]`);
                 playerData.COUNTER["minos_inquisitor"] = 0;
                 playerData.TIME["minos_inquisitor"] = Date.now();
             }, 250);
