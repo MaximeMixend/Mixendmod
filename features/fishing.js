@@ -1,3 +1,7 @@
+/**
+ * Try to display tracking sea creatures via a command and a custom interface so it is not 24/7 on screen
+ * 
+ */
 import { announceDrop, renderEntity, formatMilliseconds, findFormattedKey, announceMob, calcAvg, sendCommand } from "../utils/functions";
 import { playerData, fileData, catchHistory, currentSession } from "../utils/data";
 import settings from "../settings";

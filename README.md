@@ -1,6 +1,12 @@
 # Ongoing changes
 
 ## 0.7.1
+- Specific settings for each legendary sea creature
+
+### TODO
+- Setting section for each leg creature
+- Put GUIs together and handle them in gui.js
+- Session save with description and date, maybe display and load any session to resume the tracking
 
 ### Settings
 - Pet settings (Level up warning and AUTOPET)
