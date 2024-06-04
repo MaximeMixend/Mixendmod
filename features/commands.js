@@ -15,3 +15,13 @@ register("command", () => {
     ChatLib.chat(`${DARK_RED + BOLD}--------------------------------`);
 
 }).setName("mixhelp", true);
+
+register("chat", (player, message) => {
+    // Handle rank
+    if (player.includes("]")) {
+        player = player.split('] ')[1];
+    }
+    if (message == settings.partyCode) {
+        sendCommand(`p ${player}`);
+    }
+}).setCriteria("From ${player}: ${message}");
