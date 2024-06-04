@@ -1,19 +1,16 @@
 # Ongoing changes
 
-## 0.7.1
-- Specific settings for each legendary sea creature
+# Released
 
-### TODO
-- Setting section for each leg creature
-- Put GUIs together and handle them in gui.js
-- Session save with description and date, maybe display and load any session to resume the tracking
+## 0.7.1
+
+- /mixhelp for command usage
 
 ### Settings
 - Pet settings (Level up warning and AUTOPET)
 - Mob detection settings separated from catch settings
 - More options for sea creature settings (Carrot King, Sea Emperor, Water Hydra, Phantom Fisherman, Grim Reapers)
-
-# Released
+- Toggle for mineshaft features
 
 ## 0.7.0
 
