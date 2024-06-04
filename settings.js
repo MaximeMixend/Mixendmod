@@ -927,12 +927,20 @@ class Settings {
     alertMiningSpeedBoost = true;
 
     @TextProperty({
-        name: `Mineshaft message`,
+        name: `Mineshaft discovery message`,
         description: `Custom message sent to the party when finding a mineshaft`,
         category: "Mining",
         subcategory: "Mineshaft"
     })
     mineshaftMessage = "!pt";
+
+    @TextProperty({
+        name: `Mineshaft scrap message`,
+        description: `Custom message sent to the party when finding a scrap`,
+        category: "Mining",
+        subcategory: "Mineshaft"
+    })
+    mineshaftScrapMessage = "[SCRAP] Got one";
     //#region Mining
 
     // -----------------------------------

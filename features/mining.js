@@ -19,15 +19,15 @@ register("chat", () => {
 }).setCriteria("Mining Speed Boost is now available!");
 
 register("chat", () => {
-    Client.showTitle(`${GOLD + BOLD}[${LIGHT_PURPLE + OBFUSCATED}a${GOLD + BOLD}] ${GREEN + BOLD}SHAFT ${GOLD + BOLD}[${LIGHT_PURPLE + OBFUSCATED}a${GOLD + BOLD}]`, "", 10, 100, 10);
-    sendCommand(`pc [MINESHAFT] Hi`);
-    setTimeout(() => {
+    if (settings.mineshaftMessage) {
         sendCommand(`pc ${settings.mineshaftMessage}`);
-    }, 1000);
+    }
 }).setCriteria("WOW! You found a Glacite Mineshaft portal!");
 
 register("chat", () => {
-    sendCommand(`pc [SCRAP] Got my one.`);
+    if (settings.mineshaftScrapMessage) {
+        sendCommand(`pc ${settings.mineshaftScrapMessage}`);
+    }
 }).setCriteria("EXCAVATOR! You found a Suspicious Scrap!");
 
 
