@@ -17,5 +17,5 @@ register("command", () => {
     settings.openGUI()
 }).setName("mixend").setAliases("mix");
 
-ChatLib.chat(`${GOLD}[${DARK_RED + BOLD}MixendMod${GOLD}] ${GOLD + BOLD}v0.7.1`);
+ChatLib.chat(`${GOLD}[${DARK_RED + BOLD}MixendMod${GOLD}] ${GOLD + BOLD}v0.7.2`);
 ChatLib.chat(`${GOLD}[${DARK_RED + BOLD}MixendMod${GOLD}] ${GOLD + BOLD}Use ${YELLOW + BOLD}/mixhelp${GOLD + BOLD} for more info!`);

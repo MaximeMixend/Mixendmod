@@ -1,5 +1,9 @@
 # Ongoing changes
 
+## 0.7.2
+
+- Party code invite via /msg 
+
 # Released
 
 ## 0.7.1
