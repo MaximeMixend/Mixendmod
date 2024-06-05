@@ -8,7 +8,7 @@ import "./utils/functions.js";
 import "./features/general.js";
 import "./features/beta.js";
 
-import { BOLD, DARK_GREEN, DARK_RED, GOLD, GREEN, YELLOW } from "./utils/constants.js";
+import { BOLD, DARK_RED, GOLD, YELLOW } from "./utils/constants.js";
 
 // -----------------------------------
 // SETTINGS GUI

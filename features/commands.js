@@ -1,3 +1,4 @@
+import settings from "../settings";
 import { BOLD, DARK_RED, GOLD, GRAY, ITALIC, WHITE } from "../utils/constants";
 const commands = [['/mixend /mix', "Opens settings"],
 ['/mixgui', "Moves GUI"],
