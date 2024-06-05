@@ -12,7 +12,6 @@ import { activePet } from "./pet";
 let textItem = new Text("", 0, 0);
 
 // TRACK MOBS
-let mobTracker = []; // lsit of [tracked entity, name]
 // SC RATES
 let rateSc = 0;
 let startTime = Date.now();
@@ -305,44 +304,6 @@ register("chat", (drop, mf, event) => {
 //========================================
 // SC TRACKER
 //========================================
-//#region Detect creatures
-let trackedMobs = ["lord_jawbus", "thunder", "vanquisher", "plhlegblast", "grim_reaper", 'phantom_fisherman'];
-register("step", (event) => {
-    let worldMobs = [];
-    trackedMobs.forEach(name => {
-        let mobData = detectMobData(name);
-
-        // Exit if mob not to be detected
-        if (!mobData.enabled) { return; }
-
-        // Get all entites
-        let detectedMobs = World.getAllEntitiesOfType(Java.type("net.minecraft.entity.item.EntityArmorStand")).filter(entity => entity.getName().includes(mobData.name));
-
-        if (detectedMobs.length > 0) { worldMobs.push(...detectedMobs); }
-
-        // Perform actions based on settings for that mob
-        detectedMobs.forEach(mob => {
-            // If mob already tracked
-            if (mobTracker.filter(trackedMob => trackedMob[0].getUUID() === mob.getUUID()).length > 0) { return; }
-            if (mobData.screen) {
-                Client.showTitle(`Detected ${BOLD + mobData.color + mobData.name}`, "", 5, 60, 25);
-            }
-            if (mobData.sound) { DETECTED_SOUND?.play(); }
-            mobTracker.push([mob, mobData.name])
-        })
-    })
-    // Remove tracked mobs inexistent in the world 
-    mobTracker = mobTracker.filter(entity => {
-        return worldMobs.some(mob => mob.getUUID() === entity[0].getUUID())
-    });
-}).setFps(1);
-//#endregion Detect creatures
-
-register("renderWorld", () => {
-    mobTracker.forEach(mob => {
-        renderEntity(mob[0], 0.7, 0.7, 0, mob[1]);
-    });
-});
 
 // Updates rates based on catch history (duration in settings)
 register("step", (event) => {
@@ -425,11 +386,6 @@ register("renderoverlay", () => {
         if (settings.fishingGUIBobbers) {
             addGuiText(`${GREEN + BOLD} Bobber: ${GOLD + BOLD + bobbers.length} `, 2, 1);
         }
-        let deltaRow = 1;
-        mobTracker.forEach(entity => {
-            addGuiText(`${entity[0].getName() + WHITE} [${AQUA + Player.asPlayerMP().distanceTo(entity[0]).toFixed(0)}m${WHITE}]`, 0, deltaRow + 2);
-            deltaRow += 1;
-        })
     }
 });
 //#endregion GUI FISH
@@ -543,7 +499,6 @@ register("command", (arg, arg2) => {
 }).setName("mixgui");
 
 register("worldUnload", () => {
-    mobTracker = [];
     startTime = Date.now();
     rateMobCount = 0;
     catchHistory.history = [];
