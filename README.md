@@ -1,11 +1,8 @@
 # Ongoing changes
 
-## 0.7.2
-
-
 # Released
 
-## 0.7.1
+## 0.7.0
 
 ### Important note
 - Remove all tracking related features as it is technically unfair advantages
@@ -15,13 +12,6 @@
 - Mob detection settings separated from catch settings
 - More options for sea creature settings (Carrot King, Sea Emperor, Water Hydra, Phantom Fisherman, Grim Reapers)
 - Toggle for mineshaft features
-
-### Other
-- /mixhelp for command usage
-- Party code invite via /msg 
-
-
-## 0.7.0
 
 ### Miniboss
 - Five in a row display
@@ -49,6 +39,8 @@
 - Magma core party ping with adjustable threshold
 
 ### Notes
+- /mixhelp for command usage
+- Party code invite via /msg
 - Other stuff fixed
 - Changed catch rate tracker to remove double hook count, will do something with that in the future.
 - Still some features to organize like magma core and random chat message, this will come in the future.
