@@ -3,6 +3,8 @@ import settings from "../settings";
 import { fileData } from "../utils/data";
 import { sendCommand } from "../utils/functions";
 
+let textItem = new Text("", 0, 0);
+
 //#region Variables
 let moveGui = new Gui();
 const miniBossData = {
@@ -84,8 +86,8 @@ register("renderoverlay", () => {
     let yPos = fileData.miniGuiY;
 
     if (moveGui.isOpen()) {
-        new Text(`${RED + BOLD}ECHAP to save position`, Renderer.screen.getWidth() / 2, 20).draw();
-        new Text(`${GREEN + BOLD}Click to place to left corner of GUI`, Renderer.screen.getWidth() / 2, 30).draw();
+        textItem.setString(`${RED + BOLD}ECHAP to save position`).setX(Renderer.screen.getWidth() / 2).setY(20).draw();
+        textItem.setString(`${GREEN + BOLD}Click to place to left corner of GUI`).setX(Renderer.screen.getWidth() / 2).setY(30).draw();
     }
 
     if (!settings.guiMiniboss) { return; }
@@ -96,7 +98,7 @@ register("renderoverlay", () => {
         let displayText = "HIT!";
 
         if (mini.five) {
-            displayText = 'FIVE IN A ROW!';
+            displayText = 'FOUR IN A ROW!';
             color = GRAY;
         }
         else if (mini.status === false && mini.timer <= 0) {
@@ -109,7 +111,7 @@ register("renderoverlay", () => {
             displayText = "✯";
         }
 
-        new Text(`${color + BOLD}${mini.name} ${WHITE + displayText}`, xPos, yPos).setShadow(true).draw();
+        textItem.setString(`${color + BOLD}${mini.name} ${WHITE + displayText}`).setX(xPos).setY(yPos).setShadow(true).draw();
         yPos += 10;
     }
 });
@@ -157,7 +159,7 @@ register("chat", (bossName) => {
     }
 
     lastFive.push(miniKey);
-    if (lastFive.length > 5) {
+    if (lastFive.length > 4) {
         lastFive.shift();
     }
 

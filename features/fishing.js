@@ -9,6 +9,7 @@ import { DARK_RED, BOLD, DETECTED_SOUND, GOLD, RED, BLUE, RESET, GREEN, entities
 import { crimsonIsleCatch, doubleHookCatch, dropData, lavaDict, waterCatch, waterDict, detectMobData, catchMobData } from "../utils/gameData";
 import { activePet } from "./pet";
 
+let textItem = new Text("", 0, 0);
 
 // TRACK MOBS
 let mobTracker = []; // lsit of [tracked entity, name]
@@ -391,18 +392,18 @@ function addGuiText(text, col, row) {
     // let sx = Renderer.screen.getWidth();
     let deltaX = 82;
     let deltaY = 12;
-    new Text(`${text}`, fileData.baseX + col * deltaX, fileData.baseY + row * deltaY).setShadow(true).draw();
+    textItem.setString(`${text}`).setX(fileData.baseX + col * deltaX).setY(fileData.baseY + row * deltaY).setShadow(true).draw();
 }
 
 register("renderoverlay", () => {
     if (settings.fishingGUI & (Renderer.screen.getWidth() < fileData.baseX || Renderer.screen.getHeight() < fileData.baseY)) {
-        new Text(`${BLACK + BOLD}[${DARK_RED + BOLD}MixendModGUI${BLACK + BOLD}] ${BLACK + BOLD}GUI OUT OF SCREEN`, Renderer.screen.getWidth() / 10, Renderer.screen.getHeight() / 3).setShadow(true).draw();
-        new Text(`${BLACK + BOLD}[${DARK_RED + BOLD}MixendModGUI${BLACK + BOLD}] ${BLACK + BOLD}Use /mixgui fish and click the screen`, Renderer.screen.getWidth() / 10, Renderer.screen.getHeight() / 3 - 10).setShadow(true).draw();
+        textItem.setString(`${BLACK + BOLD}[${DARK_RED + BOLD}MixendModGUI${BLACK + BOLD}] ${BLACK + BOLD}GUI OUT OF SCREEN`).setX(Renderer.screen.getWidth() / 10).setY(Renderer.screen.getHeight() / 3).setShadow(true).draw();
+        textItem.setString(`${BLACK + BOLD}[${DARK_RED + BOLD}MixendModGUI${BLACK + BOLD}] ${BLACK + BOLD}Use /mixgui fish and click the screen`).setX(Renderer.screen.getWidth() / 10).setY(Renderer.screen.getHeight() / 3 - 10).setShadow(true).draw();
     }
 
     if (movedisplay.isOpen()) {
-        new Text(`${RED + BOLD}ECHAP to save position`, Renderer.screen.getWidth() / 2, Renderer.screen.getHeight() / 2).setShadow(true).draw();
-        new Text(`${GREEN + BOLD}Click to place to left corner of GUI`, Renderer.screen.getWidth() / 2, 10 + Renderer.screen.getHeight() / 2).setShadow(true).draw();
+        textItem.setString(`${RED + BOLD}ECHAP to save position`).setX(Renderer.screen.getWidth() / 2).setY(Renderer.screen.getHeight() / 2).setShadow(true).draw();
+        textItem.setString(`${GREEN + BOLD}Click to place to left corner of GUI`).setX(Renderer.screen.getWidth() / 2).setY(10 + Renderer.screen.getHeight() / 2).setShadow(true).draw();
     }
 
     // Track bobbers
@@ -454,8 +455,8 @@ register("renderoverlay", () => {
     let xPos = fileData.sessionGuiX;
     let yPos = fileData.sessionGuiY;
     if (moveGuiSession.isOpen()) {
-        new Text(`${RED + BOLD}ECHAP to save position`, Renderer.screen.getWidth() / 2, Renderer.screen.getHeight() / 2).setShadow(true).draw();
-        new Text(`${GREEN + BOLD}Click to place to left corner of GUI`, Renderer.screen.getWidth() / 2, 10 + Renderer.screen.getHeight() / 2).setShadow(true).draw();
+        textItem.setString(`${RED + BOLD}ECHAP to save position`).setX(Renderer.screen.getWidth() / 2).setY(Renderer.screen.getHeight() / 2).setShadow(true).draw();
+        textItem.setString(`${GREEN + BOLD}Click to place to left corner of GUI`).setX(Renderer.screen.getWidth() / 2).setY(10 + Renderer.screen.getHeight() / 2).setShadow(true).draw();
     }
     if (!settings.catchSession) { return; }
 
@@ -478,7 +479,7 @@ register("renderoverlay", () => {
         total = playerData.TOTAL;
         listFish = playerData.LAVA_SC;
     }
-    new Text(`${RED + BOLD}Total: ${WHITE}${total}`, xPos, yPos).setShadow(true).draw();
+    textItem.setString(`${RED + BOLD}Total: ${WHITE}${total}`).setX(xPos).setY(yPos).setShadow(true).draw();
     let percentage = 0;
     let count = 0;
     let color = RED;
@@ -497,7 +498,7 @@ register("renderoverlay", () => {
         if (settings.catchSessionPercentage) {
             percentageFish = `(${percentage.toFixed(2)}%) `;
         }
-        new Text(`${WHITE}${count} ${percentageFish}${color}${fishDict[i].name}${timeFish}`, xPos, yPos + 10 * (i + 1)).setShadow(true).draw();
+        textItem.setString(`${WHITE}${count} ${percentageFish}${color}${fishDict[i].name}${timeFish}`).setX(xPos).setY(yPos + 10 * (i + 1)).setShadow(true).draw();
     }
 });
 //#endregion GUI SESSION
