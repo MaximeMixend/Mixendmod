@@ -2,19 +2,24 @@
 
 ## 0.7.2
 
-- Party code invite via /msg 
 
 # Released
 
 ## 0.7.1
 
-- /mixhelp for command usage
+### Important note
+- Remove all tracking related features as it is technically unfair advantages
 
 ### Settings
 - Pet settings (Level up warning and AUTOPET)
 - Mob detection settings separated from catch settings
 - More options for sea creature settings (Carrot King, Sea Emperor, Water Hydra, Phantom Fisherman, Grim Reapers)
 - Toggle for mineshaft features
+
+### Other
+- /mixhelp for command usage
+- Party code invite via /msg 
+
 
 ## 0.7.0
 
