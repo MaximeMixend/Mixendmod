@@ -1,0 +1,142 @@
+
+[general]
+
+	[general.party_commands]
+		party_code_invite = "sendmeinvite"
+		enable_party_commands = true
+		"___▪_enable_party_transfer" = true
+		"___▪_enable_party_warp" = true
+
+	[general.pet]
+		pet_level_up_warning = false
+		hide_autopet_message = false
+
+[fishing]
+
+	[fishing.1]
+
+		[fishing.1._catch_session_gui]
+			catch_session_gui_percentages = false
+			catch_session_gui = false
+			catch_session_gui_scope = false
+			catch_session_gui_times = false
+			catch_session_gui_fishing_type = false
+
+	[fishing.2]
+
+		[fishing.2._fishing_gui]
+			"___▪_bobber" = true
+			"___▪_average_mode" = true
+			fishing_gui = false
+			"___▪_catching_rate_window_length" = 5
+			"___▪_active_pet" = true
+			"___▪_catch_rate" = true
+			"___▪_mythic_creature_count" = true
+
+	[fishing.3]
+
+		[fishing.3._crimson_catch]
+			"___▪_lord_jawbus_sound" = true
+			lord_jawbus_catch = true
+			"___▪_thunder_sound" = true
+			lord_jawbus_detection = false
+			"___▪_thunder_message" = ""
+			"___▪_lord_jawbus_screen_alert" = true
+			plhlegblast_detection = false
+			"___▪_thunder_screen_alert" = true
+			"___▪_plhlegblast_message" = ""
+			"___▪_lord_jawbus_message" = ""
+			thunder_catch = true
+			plhlegblast_catch = true
+			"___▪_plhlegblast_sound" = true
+			"___▪_plhlegblast_screen_alert" = true
+			thunder_detection = false
+
+	[fishing.4]
+
+		[fishing.4._other_catch]
+			"___▪_yeti_screen_alert" = true
+			water_hydra_detection = false
+			"___▪_grim_reaper_screen_alert" = true
+			phantom_fisherman_detection = false
+			"___▪_grim_reaper_sound" = true
+			carrot_king_catch = true
+			"___▪_sea_emperor_sound" = true
+			phantom_fisherman_catch = true
+			yeti_catch = true
+			grim_reaper_detection = false
+			"___▪_yeti_message" = ""
+			"___▪_carrot_king_screen_alert" = true
+			"___▪_water_hydra_sound" = true
+			"___▪_sea_emperor_message" = ""
+			"___▪_grim_reaper_message" = ""
+			"___▪_sea_emperor_screen_alert" = true
+			"___▪_phantom_fisherman_message" = ""
+			"___▪_phantom_fisherman_screen_alert" = true
+			sea_emperor_catch = true
+			"___▪_carrot_king_sound" = true
+			"___▪_yeti_sound" = true
+			"___▪_water_hydra_message" = ""
+			sea_emperor_detection = false
+			"___▪_water_hydra_screen_alert" = true
+			water_hydra_catch = true
+			grim_reaper_catch = true
+			carrot_king_detection = false
+			"___▪_phantom_fisherman_sound" = true
+			"___▪_carrot_king_message" = ""
+			yeti_detection = false
+
+	[fishing.5]
+
+		[fishing.5._other]
+			hypixel_fishing_catch_message = true
+			"___▪_double_hook_message" = "Noot noot >o<"
+			custom_fishing_catch_message = false
+			double_hook = true
+			party_ping_catch_rate_display_mode = 0
+
+[crystal_hollows]
+
+	[crystal_hollows.grotto]
+		detect_grotto = true
+
+	[crystal_hollows.worm_fishing]
+		ping_worm_cap = true
+		"___▪_worm_cap_threshold" = 59
+
+	[crystal_hollows.magma_core_fishing]
+		"___▪_magma_core_cap_threshold" = 59
+		ping_magma_core_cap = true
+
+[crimson_isle]
+
+	[crimson_isle.vanquisher]
+		"___▪_vanquisher_coords" = false
+		vanquisher_detection = false
+		"___▪_vanquisher_sound" = true
+		"___▪_vanquisher_message" = ""
+		"___▪_vanquisher_screen_alert" = true
+		vanquisher_spawn = false
+
+	[crimson_isle.miniboss]
+		miniboss_gui = false
+
+[mining]
+	mining_speed_boost_screen_alert = false
+
+	[mining.mineshaft]
+		mineshaft_discovery_message = "!pt"
+		mineshaft_scrap_message = "[SCRAP] Got one"
+
+[diana]
+	enable_diana_features = false
+
+[magic_find]
+
+	[magic_find.drop_party_ping]
+		magic_find_party_ping = true
+		"___▪_deep_sea_orb" = true
+		"___▪_lucky_clover_core" = true
+		"___▪_radioactive_vial" = true
+		"___▪_daedalus_stick" = true
+

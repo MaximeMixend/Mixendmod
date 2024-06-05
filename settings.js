@@ -79,9 +79,8 @@ class Settings {
         this.addDependency(`${TABname}Magma core cap threshold`, "Ping magma core cap");
 
         // VANQUISHER
-        this.addDependency(`${TABname}Vanquisher spawn`, "Vanquisher settings");
-        this.addDependency(`${TABname}Vanquisher coords`, "Vanquisher settings");
-        this.addDependency(`${TABname}Vanquisher message`, "Vanquisher settings");
+        this.addDependency(`${TABname}Vanquisher coords`, "Vanquisher spawn");
+        this.addDependency(`${TABname}Vanquisher message`, "Vanquisher spawn");
     }
 
     // ====================================================
@@ -127,7 +126,7 @@ class Settings {
         category: "General",
         subcategory: "Pet",
     })
-    petHideAutoPet = true;
+    petHideAutoPet = false;
 
     @CheckboxProperty({
         name: `Pet level up warning`,
@@ -135,7 +134,7 @@ class Settings {
         category: "General",
         subcategory: "Pet",
     })
-    petLevelWarning = true;
+    petLevelWarning = false;
     //#endregion Pets
 
     //#endregion General
@@ -168,7 +167,7 @@ class Settings {
         category: "Fishing",
         subcategory: "1. Catch session GUI",
     })
-    catchSessionPercentage = true;
+    catchSessionPercentage = false;
 
     @SwitchProperty({
         name: "Catch session GUI scope",
@@ -426,7 +425,7 @@ class Settings {
         category: "Fishing",
         subcategory: "5. Other"
     })
-    sendDoubleHook = false;
+    sendDoubleHook = true;
 
     @TextProperty({
         name: `${TABname}Double hook message`,
@@ -475,13 +474,13 @@ class Settings {
     guiMiniboss = false;
 
     //#region Vanquisher
-    @SwitchProperty({
-        name: `Vanquisher settings`,
-        description: `Turn ON/OFF Vanquisher related settings`,
+    @CheckboxProperty({
+        name: `Vanquisher spawn`,
+        description: `Enable Vanquisher spawn party ping`,
         category: "Crimson Isle",
         subcategory: "Vanquisher",
     })
-    vanquisherSettings = true;
+    vanquisherPartyPing = false;
 
     @TextProperty({
         name: `${TABname}Vanquisher message`,
@@ -490,14 +489,6 @@ class Settings {
         subcategory: "Vanquisher"
     })
     vanquisherMessage = "";
-
-    @CheckboxProperty({
-        name: `${TABname}Vanquisher spawn`,
-        description: `Enable Vanquisher spawn party ping`,
-        category: "Crimson Isle",
-        subcategory: "Vanquisher",
-    })
-    vanquisherPartyPing = false;
 
     @CheckboxProperty({
         name: `${TABname}Vanquisher coords`,
@@ -601,7 +592,7 @@ class Settings {
         description: "Screen alert when Mining speed boost is used/available",
         category: "Mining"
     })
-    alertMiningSpeedBoost = true;
+    alertMiningSpeedBoost = false;
 
     @TextProperty({
         name: `Mineshaft discovery message`,
