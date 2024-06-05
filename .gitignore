@@ -1,6 +1,7 @@
 data/*
 !data/.gitkeep
 
+config.toml
 private.js
 jsconfig.json
 features/beta.js
