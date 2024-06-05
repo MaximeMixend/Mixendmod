@@ -74,37 +74,7 @@ export function entityCoords(entity) {
 
 };
 
-/**
- * Render entity hitbox. Inspired by volcaddons
- * @param  {Entity} entity  Entity object
- * @param  {int} r  color code red for hitbox
- * @param  {int} g  color code green for hitbox
- * @param  {int} b  color code blue for hitbox
- * @param  {int} title  Hitbox name to display
- * @param  {int} delta  time delta to estimate position
- * @param  {boolean} fill  fill faces or not
- */
-export function renderEntity(entity, r, g, b, title, delta = 0.5, fill = true) {
-    entity = entity?.getEntity() ?? entity;
 
-    // Position estimate based on last tick movement (current pos - last tick position)
-    const x = entity.field_70165_t * delta - entity.field_70142_S * (delta - 1);
-    const y = entity.field_70163_u * delta - entity.field_70137_T * (delta - 1);
-    const z = entity.field_70161_v * delta - entity.field_70136_U * (delta - 1);
-
-    // Box dimensions
-    const width = entity.field_70130_N;
-    const height = entity.field_70131_O;
-
-    // Draw hitbox wireframe
-    RenderLib.drawEspBox(x, y, z, width, height, r, g, b, 1, true);
-
-    // Add transparent faces
-    if (fill) RenderLib.drawInnerEspBox(x, y, z, width, height, r, g, b, 100 / 510, true);
-    if (title !== undefined) {
-        Tessellator.drawString(`${title} §7[§b${Player.asPlayerMP().distanceTo(entity).toFixed(0)}m§7]`, x, y + height + 1, z, 0xffffff, true);
-    }
-};
 
 export function findFormattedKey(mapping) {
     return new RegExp(`^(${Object.keys(mapping).map((key) => key.replace(/[.*+?^${}()|[\]\\]/g, '\\$&')).join('|')})$`);
