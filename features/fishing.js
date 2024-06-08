@@ -139,7 +139,6 @@ register("chat", (expression, event) => {
                 ? `┌( ಠ_ಠ)┘ ${catchData.name} Sponsored by MixendMod™ `
                 : catchData.partyMessage;
 
-            // Check double hook
             let partyMsg = fileData.doubleHook ? `(Double) ${baseMessage}` : baseMessage;
             announceMob(partyMsg.trim(), catchSince, catchInterval);
         };
@@ -167,10 +166,13 @@ register("chat", (expression, event) => {
     datav2["seaCreaturesGlobal"][mobName].session.time = Date.now();
     datav2["seaCreaturesGlobal"][mobName].session.count += 1;
     datav2["seaCreaturesGlobal"][mobName].session.since = 0;
+
+    // Save changes
     datav2.save()
     catchHistory.save();
     fileData.save();
     playerData.save();
+
 }).setCriteria(findFormattedKey({
     ...waterCatch,
     ...crimsonIsleCatch,
@@ -186,7 +188,10 @@ register("chat", (expression, event) => {
 //========================================
 // Chat register RARE DROPS
 register("chat", (drop, mf, event) => {
+    // Check item tracked
     if (!datav2["rareDrops"][drop]) return;
+
+    // Ping
     let kills = datav2["rareDrops"][drop].since
     let time = Date.now() - datav2["rareDrops"][drop].time;
     if (dropData(drop).dropPing) {
@@ -196,6 +201,7 @@ register("chat", (drop, mf, event) => {
         announceDrop(drop, mf, kills, time, dropData(drop).spam);
     }
 
+    // Update tracking
     datav2["rareDrops"][drop].archive.push(`MF: ${parseInt(mf)} KILLS:${kills} TIME:${time}`)
     datav2["rareDrops"][drop].since = 0;
     datav2["rareDrops"][drop].time = Date.now();
@@ -208,7 +214,6 @@ register("chat", (drop, mf, event) => {
 //========================================
 // SC TRACKER
 //========================================
-
 // Updates rates based on catch history (duration in settings)
 register("step", (event) => {
     if (!settings.fishingGUIRate) { return; }
@@ -307,14 +312,15 @@ register("guimouseclick", (x, y, button, gui, event) => {
 })
 
 register("renderoverlay", () => {
-
     let xPos = fileData.sessionGuiX;
     let yPos = fileData.sessionGuiY;
+
     if (moveGuiSession.isOpen()) {
         textItem.setString(`${RED + BOLD}ECHAP to save position`).setX(Renderer.screen.getWidth() / 2).setY(Renderer.screen.getHeight() / 2).setShadow(true).draw();
         textItem.setString(`${GREEN + BOLD}Click to place to left corner of GUI`).setX(Renderer.screen.getWidth() / 2).setY(10 + Renderer.screen.getHeight() / 2).setShadow(true).draw();
     }
 
+    // GUI catch session breakdown
     if (!settings.catchSession) { return; }
 
     let count = 0;
@@ -325,6 +331,8 @@ register("renderoverlay", () => {
     catchPoolNames.forEach(elem => {
         total += scopeData[elem].session.count;
     })
+
+    // Display lines
     catchPoolNames.forEach(element => {
         count = scopeData[element].session.count;
         if (count == 0) {
