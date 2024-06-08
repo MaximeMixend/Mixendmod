@@ -45,12 +45,17 @@ export function announceDrop(item, mf, count, time, spam) {
 export function formatMilliseconds(ms) {
     ms = Math.abs(ms);
 
-    const days = Math.floor(ms / (24 * 60 * 60 * 1000));
+    const weeks = Math.floor(ms / (7 * 24 * 60 * 60 * 1000));
+    const years = Math.floor(weeks / 52);
+    const days = Math.floor((ms % (7 * 24 * 60 * 60 * 1000)) / (24 * 60 * 60 * 1000));
     const hours = Math.floor((ms % (24 * 60 * 60 * 1000)) / (60 * 60 * 1000));
     const minutes = Math.floor((ms % (60 * 60 * 1000)) / (60 * 1000));
     const seconds = Math.floor((ms % (60 * 1000)) / 1000);
 
     const result = [];
+    if (years > 5) return "wait too long ago...";
+    if (years > 0) result.push(`${years}y`);
+    if (weeks > 0) result.push(`${weeks % 52}w`);
     if (days > 0) result.push(`${days}d`);
     if (hours > 0) result.push(`${hours}h`);
     if (minutes > 0) result.push(`${minutes}m`);
@@ -58,22 +63,10 @@ export function formatMilliseconds(ms) {
 
     if (ms < 1000) return "0s";
 
+
+
     return result.join(' ');
 };
-
-/**
- * Compute readable entity coords to use
- * @param  {Entity} entity  Entity object
- * @return {String}         Readable coordinates
- */
-export function entityCoords(entity) {
-    let x = Math.round(entity.getX());
-    let y = Math.round(entity.getY());
-    let z = Math.round(entity.getZ());
-    return `x: ${x}, y: ${y}, z: ${z}`;
-
-};
-
 
 
 export function findFormattedKey(mapping) {
@@ -88,4 +81,12 @@ export function calcAvg(list) {
     let sum = 0;
     list.forEach(elem => { sum += elem; });
     return sum / list.length;
+}
+
+/**
+* Get area info
+*/
+export function getArea() {
+    return TabList.getNames()?.find(tab => tab.startsWith("§r§b§lArea:") || tab.startsWith("§r§b§lDungeon:"))
+        .split("Area: ")[1];
 }
