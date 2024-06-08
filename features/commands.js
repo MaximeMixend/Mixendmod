@@ -1,5 +1,6 @@
 import settings from "../settings";
 import { BOLD, DARK_RED, GOLD, GRAY, ITALIC, WHITE } from "../utils/constants";
+import { sendCommand } from "../utils/functions";
 const commands = [['/mixend /mix', "Opens settings"],
 ['/mixgui', "Moves GUI"],
 ['/mixguimini', "Moves gui for the miniboss"],

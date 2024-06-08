@@ -162,6 +162,7 @@ register("chat", (level, pet, event) => {
 }).setCriteria("Autopet equipped your [${level}] ${pet}!${*}");
 
 register("chat", (pet, event) => {
+    cancel(event);
     let msg = ChatLib.getChatMessage(event, true);
     let basePet = pet.includes("✦") ? pet.slice(0, -2) : pet;
 

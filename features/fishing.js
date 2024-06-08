@@ -243,7 +243,6 @@ register("chat", (expression, event) => {
             break;
         case "yeti":
             catchMythicCreature(mobName);
-            playerData.COUNTER["yeti"] += 1;
             break;
         default:
             if (fileData.doubleHook && settings.sendDoubleHook) {
@@ -252,6 +251,7 @@ register("chat", (expression, event) => {
             playerData.COUNTER["grim_reaper"] += 1;
             playerData.COUNTER["phantom_fisherman"] += 1;
             playerData.COUNTER["sea_emperor"] += 1;
+            playerData.COUNTER["yeti"] += 1;
             playerData.COUNTER["carrot_king"] += 1;
             break;
     };
