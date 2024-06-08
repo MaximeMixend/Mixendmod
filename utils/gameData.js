@@ -1,5 +1,5 @@
 import settings from "../settings";
-import { RED, BLUE, DARK_BLUE, DARK_GRAY, DARK_PURPLE, DARK_RED, GOLD, LIGHT_PURPLE, itemDrop, AQUA } from "./constants";
+import { RED, DARK_BLUE, DARK_GRAY, DARK_PURPLE, DARK_RED, GOLD, LIGHT_PURPLE, AQUA } from "./constants";
 
 /**
  * Return relevant data about the drop
@@ -29,17 +29,9 @@ export function dropData(itemName) {
         }
         default:
             return false;
-
     }
 }
 
-export const entitiesList = {
-    FishHook: Java.type("net.minecraft.entity.projectile.EntityFishHook"),
-    Jawbus: Java.type("net.minecraft.entity.monster.EntityIronGolem"),
-    Thunder: Java.type("net.minecraft.entity.monster.EntityGuardian"),
-    Vanquisher: Java.type("net.minecraft.entity.boss.EntityWither"),
-    Plhlegblast: Java.type("net.minecraft.entity.passive.EntitySquid")
-}
 /**
  * Settings when catching a mob
  * @param {String} mobName 
@@ -136,36 +128,14 @@ export const crimsonIsleCatch = {
     "You have angered a legendary creature... Lord Jawbus has arrived.": "lord_jawbus"
 };
 
-export const lavaDict = {
-    0: { id: "magma_slug", name: "Magma slug" },
-    1: { id: "moogma", name: "Moogma cow" },
-    2: { id: "lava_leech", name: "Lava leech" },
-    3: { id: "pyroclastic_worm", name: "Pyroclastic worm" },
-    4: { id: "lava_flame", name: "Lava flame" },
-    5: { id: "fire_eel", name: "Fire eel" },
-    6: { id: "taurus", name: "Taurus" },
-    7: { id: "thunder", name: "Thunder" },
-    8: { id: "lord_jawbus", name: "Lord Jawbus" },
+export const crystalHollowCatch = {
+    "A Water Worm surfaces!": "water_worm",
+    "A Poisoned Water Worm surfaces!": "poison_worm",
+    "An Abyssal Miner breaks out of the water!": "abyssal_miner",
+    "A Flaming Worm surfaces from the depths!": "flaming_worm",
+    "A Lava Blaze has surfaced from the depths!": "lava_blaze",
+    "A Lava Pigman arose from the depths!": "lava_pigman"
 }
-
-export const waterDict = {
-    0: { id: "squid", name: "Squid" },
-    1: { id: "night_squid", name: "Night Squid" },
-    2: { id: "sea_walker", name: "Sea Walker" },
-    3: { id: "sea_witch", name: "Sea Witch" },
-    4: { id: "sea_guardian", name: "Sea Guardian" },
-    5: { id: "sea_archer", name: "Sea Archer" },
-    6: { id: "rider_of_the_deep", name: "Rider of the Deep" },
-    7: { id: "catfish", name: "Catfish" },
-    8: { id: "sea_leech", name: "Sea Leech" },
-    9: { id: "guardian_defender", name: "Guardian Defender" },
-    10: { id: "deep_sea_protector", name: "Deep Sea Protector" },
-    11: { id: "agarimoo", name: "Agarimoo" },
-    12: { id: "carrot_king", name: "Carrot King" },
-    13: { id: "water_hydra", name: "Water Hydra" },
-    14: { id: "sea_emperor", name: "Sea Emperor" },
-};
-
 
 export const waterCatch = {
     "A Squid appeared.": "squid",
@@ -183,13 +153,138 @@ export const waterCatch = {
     "The Water Hydra has come to test your strength.": "water_hydra",
     "The Sea Emperor arises from the depths.": "sea_emperor",
     "Your Chumcap Bucket trembles, it's an Agarimoo.": "agarimoo",
+};
+
+export const spookyCatch = {
     "Phew! It's only a Scarecrow.": "scarecrow",
     "You hear trotting from beneath the waves, you caught a Nightmare.": "nightmare",
     "It must be a full moon, a Werewolf appears.": "werewolf",
     "The spirit of a long lost Phantom Fisher has come to haunt you.": "phantom_fisherman",
-    "This can't be! The manifestation of death himself!": "grim_reaper",
-    "What is this creature!?": "yeti"
+    "This can't be! The manifestation of death himself!": "grim_reaper"
 };
 
+export const festivalCatch = {
+    "A tiny fin emerges from the water, you've caught a Nurse Shark.": "nurse_shark",
+    "You spot a fin as blue as the water it came from, it's a Blue Shark.": "blue_shark",
+    "A striped beast bounds from the depths, the wild Tiger Shark!": "tiger_shark",
+    "Hide no longer, a Great White Shark has tracked your scent and thirsts for your blood!": "great_white_shark"
+};
+
+export const jerryWorkshopCatch = {
+    "Frozen Steve fell into the pond long ago, never to resurface...until now!": "frozen_steve",
+    "It's a snowman! He looks harmless.": "frosty",
+    "The Grinch stole Jerry's Gifts...get them back!": "grinch",
+    "What is this creature!?": "yeti",
+    "You found a forgotten Nutcracker laying beneath the ice.": "nutcracker",
+    "A Reindrake forms from the depths.": "reindrake"
+};
 
 export const doubleHookCatch = /^(It\'s a Double Hook\! Woot woot\!|It's a Double Hook\!|Double Hook\!)$/;
+
+export const waterSeaCreature = [
+    "squid",
+    "sea_walker",
+    "night_squid",
+    "sea_guardian",
+    "sea_witch",
+    "sea_archer",
+    "rider_of_the_deep",
+    "catfish",
+    "carrot_king",
+    "sea_leech",
+    "guardian_defender",
+    "deep_sea_protector",
+    "water_hydra",
+    "sea_emperor",
+    "agarimoo",
+    "scarecrow",
+    "nightmare",
+    "werewolf",
+    "phantom_fisherman",
+    "grim_reaper",
+    "nurse_shark",
+    "blue_shark",
+    "tiger_shark",
+    "great_white_shark",
+    "frozen_steve",
+    "frosty",
+    "grinch",
+    "yeti",
+    "nutcracker",
+    "reindrake",
+    "water_worm",
+    "poison_worm",
+    "abyssal_miner"
+];
+
+export const lavaSeaCreature = [
+    "plhlegblast",
+    "magma_slug",
+    "moogma",
+    "lava_leech",
+    "pyroclastic_worm",
+    "lava_flame",
+    "fire_eel",
+    "taurus",
+    "thunder",
+    "lord_jawbus",
+    "flaming_worm",
+    "lava_blaze",
+    "lava_pigman"
+];
+
+export const seaCreatureConst = {
+    "squid": "Squid",
+    "sea_walker": "Sea Walker",
+    "night_squid": "Night Squid",
+    "sea_guardian": "Sea Guardian",
+    "sea_witch": "Sea Witch",
+    "sea_archer": "Sea Archer",
+    "rider_of_the_deep": "Rider of the Deep",
+    "catfish": "Catfish",
+    "carrot_king": "Carrot King",
+    "sea_leech": "Sea Leech",
+    "guardian_defender": "Guardian Defender",
+    "deep_sea_protector": "Deep Sea Protector",
+    "water_hydra": "Water Hydra",
+    "sea_emperor": "Sea Emperor",
+    "agarimoo": "Agarimoo",
+    "scarecrow": "Scarecrow",
+    "nightmare": "Nightmare",
+    "werewolf": "Werewolf",
+    "phantom_fisherman": "Phantom Fisherman",
+    "grim_reaper": "Grim Reaper",
+    "nurse_shark": "Nurse Shark",
+    "blue_shark": "Blue Shark",
+    "tiger_shark": "Tiger Shark",
+    "great_white_shark": "Great White Shark",
+    "frozen_steve": "Frozen Steve",
+    "frosty": "Frosty",
+    "grinch": "Grinch",
+    "yeti": "Yeti",
+    "nutcracker": "Nutcracker",
+    "reindrake": "Reindrake",
+    "plhlegblast": "Plhlegblast",
+    "magma_slug": "Magma Slug",
+    "moogma": "Moogma",
+    "lava_leech": "Lava Leech",
+    "pyroclastic_worm": "Pyroclastic Worm",
+    "lava_flame": "Lava Flame",
+    "fire_eel": "Fire Eel",
+    "taurus": "Taurus",
+    "thunder": "Thunder",
+    "lord_jawbus": "Lord Jawbus",
+    "water_worm": "Water Worm",
+    "poison_worm": "Poison Worm",
+    "abyssal_miner": "Abyssal Miner",
+    "flaming_worm": "Flaming Worm",
+    "lava_blaze": "Lava Blaze",
+    "lava_pigman": "Lava Pigman"
+};
+
+export const itemDrop = {
+    luckyCloverCore: "Lucky Clover Core",
+    radioactiveVial: "Radioactive Vial",
+    deepSeaOrb: "Deep Sea Orb",
+    daedalusStick: "Daedalus Stick"
+}

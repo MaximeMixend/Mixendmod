@@ -1,7 +1,6 @@
 import settings from "../settings";
 import { BOLD, LIGHT_PURPLE, GOLD } from "./constants";
-import { dropData } from "./gameData";
-import RenderLib from "../../RenderLib/index.js";
+import { crimsonIsleCatch, crystalHollowCatch, festivalCatch, spookyCatch, waterCatch, jerryWorkshopCatch, dropData } from "../utils/gameData";
 
 /**
  * For logging purposes
@@ -25,7 +24,7 @@ export function announceMob(partyMsg, counter, interval) {
 
 export function announceDrop(item, mf, count, time, spam) {
     if (settings.partyPingDrops) {
-        sendCommand(`pc RARE DROP! ${item} (+${mf}% α Mixend Luck) [${count} in ${formatMilliseconds(Date.now() - time)}]`);
+        sendCommand(`pc RARE DROP! ${item} (+${mf}% α Mixend Luck) [${count} in ${formatMilliseconds(time)}]`);
         if (spam) {
             sendCommand(`gc RARE DROP! ${item} (+${mf}% α Mixend Luck)`);
             sendCommand(`ac RARE DROP! ${item} (+${mf}% α Mixend Luck)`);
@@ -53,7 +52,7 @@ export function formatMilliseconds(ms) {
     const seconds = Math.floor((ms % (60 * 1000)) / 1000);
 
     const result = [];
-    if (years > 5) return "wait too long ago...";
+    if (years > 5) return "way too long ago...";
     if (years > 0) result.push(`${years}y`);
     if (weeks > 0) result.push(`${weeks % 52}w`);
     if (days > 0) result.push(`${days}d`);
@@ -62,8 +61,6 @@ export function formatMilliseconds(ms) {
     if (seconds > 0) result.push(`${seconds}s`);
 
     if (ms < 1000) return "0s";
-
-
 
     return result.join(' ');
 };
@@ -83,10 +80,84 @@ export function calcAvg(list) {
     return sum / list.length;
 }
 
-/**
-* Get area info
-*/
 export function getArea() {
-    return TabList.getNames()?.find(tab => tab.startsWith("§r§b§lArea:") || tab.startsWith("§r§b§lDungeon:"))
-        .split("Area: ")[1];
+    let areaMsg = TabList.getNames()?.find(tab => tab.startsWith("§r§b§lArea:") || tab.startsWith("§r§b§lDungeon:"));
+    if (!(areaMsg == undefined)) {
+        return areaMsg.split("Area: ")[1].replace(/§./g, '');
+    }
+    else return;
+}
+
+export function getDate() {
+    let now = (new Date().getTime() - 1560275700000) / 1000; // Current time in seconds
+    let hourDuration = 50; // There are 50 real seconds in a skyblock hour
+    let dayDuration = hourDuration * 24; // There are 24 skyblock hours in a day
+    let monthDuration = dayDuration * 31; // There are 31 skyblock days in a month
+    let seasonDuration = monthDuration * 3; // There are 3 months in a skyblock season
+    let yearDuration = seasonDuration * 4; // There are 4 seasons in a skyblock year
+
+    // Calculate the current year, season, month, day, hour, and minute
+    let year = Math.floor(now / yearDuration);
+    now %= yearDuration;
+    let raw = now;
+
+    let seasonNames = ["Spring", "Summer", "Autumn", "Winter"];
+    let seasonStageNames = ["Early", "", "Late"];
+
+    let seasonIndex = Math.floor(now / seasonDuration);
+    now %= seasonDuration;
+
+    let monthIndex = Math.floor(now / monthDuration);
+    now %= monthDuration;
+
+    let dayIndex = Math.floor(now / dayDuration);
+    now %= dayDuration;
+
+    let hour = Math.floor(now / hourDuration);
+    let minute = Math.floor((now % hourDuration) * 6 / hourDuration) * 10; // Convert seconds to minutes and display in increments of 10
+
+    return {
+        raw: raw,
+        year: year,
+        season: seasonNames[seasonIndex],
+        stage: seasonStageNames[monthIndex],
+        day: dayIndex + 1, // Days start from 1
+        hour: hour,
+        minute: minute
+    };
+}
+
+export function isSpooky() {
+    let hourDuration = 50; // There are 50 real seconds in a skyblock hour
+    let dayDuration = hourDuration * 24; // There are 24 skyblock hours in a day
+    let monthDuration = dayDuration * 31; // There are 31 skyblock days in a month
+    let spookyStart = 7 * monthDuration + 25 * dayDuration;
+    let spookyEnd = 8 * monthDuration + 3 * dayDuration;
+    let time = getDate().raw
+    return (time < spookyEnd && time > spookyStart)
+}
+
+// Function to get catch options based on the area
+export function getCatchOptions() {
+    area = getArea();
+    // Zone specific
+    let mobs = { "": "" };
+    switch (area) {
+        case 'Crimson Isle':
+            mobs = { ...crimsonIsleCatch, ...waterCatch };
+            break;
+        case 'Crystal Hollows':
+            mobs = { ...crystalHollowCatch, ...waterCatch };
+            break;
+        case 'Jerry\'s Workshop':
+            mobs = { ...jerryWorkshopCatch, ...waterCatch };
+            break;
+        default:
+            mobs = { ...waterCatch };
+            break;
+    }
+    if (isSpooky() && area != "Crimson Isle") {
+        mobs = { ...mobs, ...spookyCatch }
+    }
+    return mobs
 }

@@ -37,9 +37,8 @@ export const entitiesList = {
     Plhlegblast: Java.type("net.minecraft.entity.passive.EntitySquid")
 }
 
-
-export const itemDrop = {
-    luckyCloverCore: "Lucky Clover Core",
-    radioactiveVial: "Radioactive Vial",
-    deepSeaOrb: "Deep Sea Orb"
+export const hypixelAreas = {
+    crimsonIsle: "Crimson Isle",
+    cystalHollows: "Crystal Hollows",
+    jerryWorkshop: "Jerry's Workshop"
 }

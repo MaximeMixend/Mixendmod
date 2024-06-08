@@ -1,5 +1,7 @@
 # Ongoing changes
 
+- Organize catch for counting better (detect spooky shark and winter ig)
+
 # Released
 
 ## 0.7.0

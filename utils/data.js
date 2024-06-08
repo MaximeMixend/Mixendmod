@@ -1,4 +1,5 @@
 import PogObject from "../../PogData";
+import { itemDrop, seaCreatureConst } from "./gameData";
 
 export let fileData = new PogObject("MixendMod", {
     "doubleHook": false,
@@ -16,35 +17,6 @@ export let catchHistory = new PogObject("MixendMod", {
 }, "data/catchHistory.json");
 
 export let playerData = new PogObject("MixendMod", {
-    "WATER_SC": {
-        "squid": 0,
-        "sea_walker": 0,
-        "night_squid": 0,
-        "sea_guardian": 0,
-        "sea_witch": 0,
-        "sea_archer": 0,
-        "rider_of_the_deep": 0,
-        "catfish": 0,
-        "carrot_king": 0,
-        "sea_leech": 0,
-        "guardian_defender": 0,
-        "deep_sea_protector": 0,
-        "water_hydra": 0,
-        "sea_emperor": 0,
-        "agarimoo": 0
-    },
-    "LAVA_SC": {
-        "plhlegblast": 0,
-        "magma_slug": 0,
-        "moogma": 0,
-        "lava_leech": 0,
-        "pyroclastic_worm": 0,
-        "lava_flame": 0,
-        "fire_eel": 0,
-        "taurus": 0,
-        "thunder": 0,
-        "lord_jawbus": 0
-    },
     "DIANA": {
         "minos_hunter": 0,
         "siamese_lynx": 0,
@@ -113,7 +85,7 @@ export let playerData = new PogObject("MixendMod", {
         "thunder": 0,
         "lord_jawbus": 0
     }, "TOTAL": 0,
-    "TOTAL_WATER":0
+    "TOTAL_WATER": 0
 }, "data/data.json")
 
 export let currentSession = new PogObject("MixendMod", {
@@ -173,6 +145,35 @@ export let currentSession = new PogObject("MixendMod", {
         "sea_emperor": 0,
         "agarimoo": 0
     },
-    "TOTAL_WATER":0,
+    "TOTAL_WATER": 0,
     "TOTAL": 0
 }, "data/current_session.json");
+
+let seaCreatures = {};
+Object.keys(seaCreatureConst).forEach(name => {
+    seaCreatures[name] = {
+        count: 0,
+        time: 0,
+        since: 0,
+        session: {
+            count: 0,
+            time: 0,
+            since: 0
+        }
+    };
+});
+
+let rareDrops = {};
+Object.values(itemDrop).forEach(name => {
+    rareDrops[name] = {
+        since: 0,
+        time: 0,
+        archive: [] //Contains RARE DROP! blabla (+100mf) [${since} in ${time}]
+    };
+});
+export let datav2 = new PogObject("MixendMod", {
+    "seaCreaturesGlobal": seaCreatures,
+    "rareDrops": rareDrops
+}, "data/data-v2.json");
+
+datav2.save();

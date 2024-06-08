@@ -2,11 +2,11 @@
  * Try to display tracking sea creatures via a command and a custom interface so it is not 24/7 on screen
  * 
  */
-import { announceDrop, formatMilliseconds, findFormattedKey, announceMob, calcAvg, sendCommand } from "../utils/functions";
-import { playerData, fileData, catchHistory, currentSession } from "../utils/data";
+import { announceDrop, formatMilliseconds, findFormattedKey, announceMob, calcAvg, sendCommand, getCatchOptions } from "../utils/functions";
+import { playerData, fileData, catchHistory, datav2 } from "../utils/data";
 import settings from "../settings";
 import { DARK_RED, BOLD, GOLD, RED, BLUE, RESET, GREEN, entitiesList, BLACK, WHITE } from "../utils/constants";
-import { crimsonIsleCatch, doubleHookCatch, dropData, lavaDict, waterCatch, waterDict, catchMobData } from "../utils/gameData";
+import { doubleHookCatch, dropData, catchMobData, lavaSeaCreature, waterSeaCreature, seaCreatureConst, waterCatch, crimsonIsleCatch, spookyCatch, jerryWorkshopCatch, festivalCatch, crystalHollowCatch } from "../utils/gameData";
 import { activePet } from "./pet";
 
 let textItem = new Text("", 0, 0);
@@ -20,52 +20,6 @@ let rateMobCount = 0;
 //========================================
 // Functions
 //========================================
-/**
- * Sets of instructions for mythic creatures catch
- * @param {string} mobName
- */
-function catchMythicCreature(mobName) {
-    const catchInterval = Date.now() - playerData.TIME[mobName];
-    let catchData = catchMobData(mobName);
-
-    // Custom message to player
-    if (settings.catchMessageCustom) {
-        let moreMessage = fileData.doubleHook ? "(Double) " + catchData.name : catchData.name
-        moreMessage = catchData.color + BOLD + moreMessage;
-        if (settings.catchPingMode) {
-            let value = playerData.COUNTER[mobName] / (catchInterval / 1000 / 3600);
-            ChatLib.chat(`${moreMessage} ${WHITE}[${playerData.COUNTER[mobName]} at ${value.toFixed(1)}/h]`);
-        }
-        else { ChatLib.chat(`${moreMessage} ${WHITE}[${playerData.COUNTER[mobName]} in ${formatMilliseconds(catchInterval)}]`); }
-    }
-
-    // Announce mob to party
-    if (catchData.partyPing) {
-        let baseMessage = catchData.partyMessage === ""
-            ? `${catchData.name} ┌( ಠ_ಠ)┘ Sponsored by MixendMod™ `
-            : catchData.partyMessage;
-        // Check double hook
-        let partyMsg = fileData.doubleHook ? `(Double) ${baseMessage}` : baseMessage;
-
-        announceMob(partyMsg.trim(), playerData.COUNTER[mobName], catchInterval);
-    };
-
-    // Update tracked loot
-    if (catchData.trackedLoot) {
-        playerData[catchData.trackedLoot].current_count += fileData.doubleHook ? 2 : 1;
-    };
-
-    // Update catch average
-    if (catchData.trackAverage) {
-        playerData.AVG_DATA[mobName].push(playerData.COUNTER[mobName]);
-        playerData.AVG_DATA[mobName + "_avg"] = calcAvg(playerData.AVG_DATA[mobName]).toFixed(0);
-    }
-
-    // Update tracking data
-    playerData.TIME[mobName] = Date.now();
-    playerData.COUNTER[mobName] = 0;
-    playerData.save();
-};
 
 //========================================
 // WORMS & MAGMA CORES
@@ -104,7 +58,6 @@ register("step", () => {
 let lastCaptimeWorms = Date.now();
 let isCappedWorms = false;
 register("step", () => {
-
     if (settings.wormCapPing) {
         let wormCount = 0;
         World.getAllEntities().forEach(entity => {
@@ -125,157 +78,107 @@ register("step", () => {
         else { }
     }
 }).setDelay(2);
-register("chat", () => {
-    catchHistory.history.push(Date.now());
-    rateMobCount += 1;
-    catchHistory.save();
-    fileData.doubleHook = false;
-    fileData.save();
-}).setCriteria("A Flaming Worm surfaces from the depths!");
 
-register("chat", () => {
-    catchHistory.history.push(Date.now());
-    rateMobCount += 1;
-    catchHistory.save();
-    fileData.doubleHook = false;
-    fileData.save();
-}).setCriteria("A Lava Blaze has surfaced from the depths!");
-
-register("chat", () => {
-    catchHistory.history.push(Date.now());
-    rateMobCount += 1;
-    catchHistory.save();
-    fileData.doubleHook = false;
-    fileData.save();
-}).setCriteria("A Lava Pigman arose from the depths!");
 //#endregion Worms
 
 //========================================
 // CATCH
 //========================================
+//#region CATCH
 register("chat", (text, event) => {
     fileData.doubleHook = true;
     cancel(event);
 }).setCriteria(doubleHookCatch);
 
-//#region CATCH
-// LAVA CATCH
+let catchPoolNames = [];
 register("chat", (expression, event) => {
     if (!settings.catchMessageFeedback) {
         cancel(event);
     }
-    let mobName = crimsonIsleCatch[expression.match(findFormattedKey(crimsonIsleCatch))[0]];
-    switch (mobName) {
-        case "thunder":
-            catchMythicCreature(mobName);
-            playerData.COUNTER["plhlegblast"] += 1;
-            playerData.COUNTER["lord_jawbus"] += 1;
-            break;
-        case "lord_jawbus":
-            catchMythicCreature(mobName);
-            playerData.COUNTER["plhlegblast"] += 1;
-            playerData.COUNTER["thunder"] += 1;
-            break;
-        case "plhlegblast":
-            catchMythicCreature(mobName);
-            playerData.COUNTER["lord_jawbus"] += 1;
-            playerData.COUNTER["thunder"] += 1;
-            break;
-        default:
-            if (fileData.doubleHook && settings.sendDoubleHook) {
-                sendCommand(`pc ${settings.doubleHookMsg}`);
-            };
-            playerData.COUNTER["lord_jawbus"] += 1;
-            playerData.COUNTER["plhlegblast"] += 1;
-            playerData.COUNTER["thunder"] += 1;
-            break;
-    };
-    // Update catch tracking
-    catchHistory.history.push(Date.now());
-    playerData.LAVA_SC[mobName] += 1;
+    // Get mob name
+    const _catchOptions = getCatchOptions();
+    let match = expression.match(findFormattedKey(_catchOptions));
+    let mobName = match == null ? undefined : _catchOptions[match[0]];
+    catchPoolNames = [];
+    if (mobName == undefined) return;
 
-    if (mobName != "plhlegblast") {
-        currentSession.CURRENT_TRACK[mobName] += 1;
-        currentSession.CURRENT_TRACK_TIMER[mobName] = Date.now();;
-        currentSession.TOTAL += 1;
-        playerData.TOTAL += 1;
+    // Get what other mobs are available in the catch pool based on caught mob type (lava / water) + catch options
+    const _seaCreatureNames = lavaSeaCreature.includes(mobName) ? lavaSeaCreature : waterSeaCreature;
+    catchPoolNames = _seaCreatureNames.filter(value => Object.values(_catchOptions).includes(value));
+
+    // Update catch pool
+    catchPoolNames.forEach(_mobName => {
+        datav2["seaCreaturesGlobal"][_mobName].since += 1;
+        datav2["seaCreaturesGlobal"][_mobName].session.since += 1;
+    })
+    // Correct for extra incrementation on current mob
+    datav2["seaCreaturesGlobal"][mobName].session.since -= 1;
+    datav2["seaCreaturesGlobal"][mobName].since -= 1;
+
+    // Do things based off settings (party ping, custom catch message)
+    if (catchMobData(mobName)) {
+        const catchInterval = Date.now() - datav2["seaCreaturesGlobal"][mobName].session.time;
+        const catchSince = datav2["seaCreaturesGlobal"][mobName].session.since;
+        let catchData = catchMobData(mobName);
+
+        // Custom catch message
+        if (settings.catchMessageCustom) {
+            let customMessage = fileData.doubleHook ? "(Double) " + catchData.name : catchData.name
+            customMessage = catchData.color + BOLD + customMessage;
+
+            if (settings.catchPingMode) {
+                let catchRate = catchSince / (catchInterval / 1000 / 3600);
+                ChatLib.chat(`${customMessage} ${WHITE}[${catchSince} at ${catchRate.toFixed(1)}/h]`);
+            }
+            else { ChatLib.chat(`${customMessage} ${WHITE}[${catchSince} in ${formatMilliseconds(catchInterval)}]`); }
+        }
+
+        // Announce mob to party
+        if (catchData.partyPing) {
+            let baseMessage = catchData.partyMessage === ""
+                ? `┌( ಠ_ಠ)┘ ${catchData.name} Sponsored by MixendMod™ `
+                : catchData.partyMessage;
+
+            // Check double hook
+            let partyMsg = fileData.doubleHook ? `(Double) ${baseMessage}` : baseMessage;
+            announceMob(partyMsg.trim(), catchSince, catchInterval);
+        };
+
+        // Update tracked loot
+        if (catchData.trackedLoot) {
+            datav2["rareDrops"][catchData.trackedLoot].since += fileData.doubleHook ? 2 : 1;
+        };
+
+        // Update catch average
+        if (catchData.trackAverage) {
+            playerData.AVG_DATA[mobName].push(catchSince);
+            playerData.AVG_DATA[mobName + "_avg"] = calcAvg(playerData.AVG_DATA[mobName]).toFixed(0);
+        }
     }
 
+    catchHistory.history.push(Date.now());
     rateMobCount += 1;
-
-    // Reset flags
     fileData.doubleHook = false;
 
-    // Save data
-    playerData.save();
-    currentSession.save();
+    // Update caught mob data
+    datav2["seaCreaturesGlobal"][mobName].time = Date.now();
+    datav2["seaCreaturesGlobal"][mobName].count += 1;
+    datav2["seaCreaturesGlobal"][mobName].since = 0;
+    datav2["seaCreaturesGlobal"][mobName].session.time = Date.now();
+    datav2["seaCreaturesGlobal"][mobName].session.count += 1;
+    datav2["seaCreaturesGlobal"][mobName].session.since = 0;
+    datav2.save()
     catchHistory.save();
     fileData.save();
-
-}).setCriteria(findFormattedKey(crimsonIsleCatch));
-
-//WATER CATCH
-register("chat", (expression, event) => {
-    if (!settings.catchMessageFeedback) {
-        cancel(event);
-    }
-    let mobName = waterCatch[expression.match(findFormattedKey(waterCatch))[0]];
-    switch (mobName) {
-        case "carrot_king":
-            catchMythicCreature(mobName);
-            playerData.COUNTER["grim_reaper"] += 1;
-            playerData.COUNTER["phantom_fisherman"] += 1;
-            playerData.COUNTER["sea_emperor"] += 1;
-            break;
-        case "sea_emperor":
-            catchMythicCreature(mobName);
-            playerData.COUNTER["phantom_fisherman"] += 1;
-            playerData.COUNTER["grim_reaper"] += 1;
-            playerData.COUNTER["carrot_king"] += 1;
-            break;
-        case "grim_reaper":
-            catchMythicCreature(mobName);
-            playerData.COUNTER["phantom_fisherman"] += 1;
-            break;
-        case "phantom_fisherman":
-            catchMythicCreature(mobName);
-            playerData.COUNTER["grim_reaper"] += 1;
-            break;
-        case "yeti":
-            catchMythicCreature(mobName);
-            break;
-        default:
-            if (fileData.doubleHook && settings.sendDoubleHook) {
-                sendCommand(`pc ${settings.doubleHookMsg}`);
-            };
-            playerData.COUNTER["grim_reaper"] += 1;
-            playerData.COUNTER["phantom_fisherman"] += 1;
-            playerData.COUNTER["sea_emperor"] += 1;
-            playerData.COUNTER["yeti"] += 1;
-            playerData.COUNTER["carrot_king"] += 1;
-            break;
-    };
-    // Update catch tracking
-    catchHistory.history.push(Date.now());
-    playerData.WATER_SC[mobName] += 1;
-    rateMobCount += 1;
-    if (!["grim_reaper", "phantom_fisherman", "werewolf", "nightmare", "scarecrow"].includes(mobName)) {
-        currentSession.CURRENT_WATER_SC[mobName] += 1;
-        currentSession.TIME_WATER_SC[mobName] = Date.now();;
-        currentSession.TOTAL_WATER += 1;
-        playerData.TOTAL_WATER += 1;
-    }
-
-    // Reset flags
-    fileData.doubleHook = false;
-
-    // Save data
     playerData.save();
-    currentSession.save();
-    catchHistory.save();
-    fileData.save();
-
-}).setCriteria(findFormattedKey(waterCatch));
+}).setCriteria(findFormattedKey({
+    ...waterCatch,
+    ...crimsonIsleCatch,
+    ...spookyCatch,
+    ...jerryWorkshopCatch,
+    ...festivalCatch,
+    ...crystalHollowCatch
+}));
 //#endregion CATCH
 
 //========================================
@@ -283,20 +186,21 @@ register("chat", (expression, event) => {
 //========================================
 // Chat register RARE DROPS
 register("chat", (drop, mf, event) => {
-
+    if (!datav2["rareDrops"][drop]) return;
+    let kills = datav2["rareDrops"][drop].since
+    let time = Date.now() - datav2["rareDrops"][drop].time;
     if (dropData(drop).dropPing) {
         cancel(event);
         let msg = ChatLib.getChatMessage(event, true).replace("✯ Magic Find", "α Mixend Luck");
         ChatLib.chat(msg);
-        announceDrop(drop, mf, playerData[drop]["current_count"], playerData[drop]["time_drop"], dropData(drop).spam);
+        announceDrop(drop, mf, kills, time, dropData(drop).spam);
     }
-    if (playerData[drop]) {
-        playerData[drop]["count_to_drop"].push(playerData[drop]["current_count"]);
-        playerData[drop]["magic_find"].push(parseInt(mf));
-        playerData[drop]["current_count"] = 0;
-        playerData[drop]["time_drop"] = Date.now();
-        playerData.save();
-    }
+
+    datav2["rareDrops"][drop].archive.push(`MF: ${parseInt(mf)} KILLS:${kills} TIME:${time}`)
+    datav2["rareDrops"][drop].since = 0;
+    datav2["rareDrops"][drop].time = Date.now();
+    datav2.save()
+
 
 }).setCriteria("RARE DROP! ${drop} (+${mf}% ✯ Magic Find)");
 
@@ -337,7 +241,7 @@ register("step", (event) => {
 //========================================
 // GUI
 //========================================
-//#region GUI FISH
+//#region GUI FISHING DATA
 // move graph event
 let movedisplay = new Gui();
 
@@ -372,15 +276,15 @@ register("renderoverlay", () => {
         let bobbers = World.getAllEntitiesOfType(entitiesList.FishHook).filter(dist => dist.distanceTo(Player.getPlayer()) < 30);
 
         if (settings.fishingGUIMythic) {
-            addGuiText(`${BLUE + BOLD}Thunder: ${GOLD + BOLD + playerData.COUNTER["thunder"]} [${playerData.AVG_DATA["thunder_avg"]}]`, 0, 0);
-            addGuiText(`${RED + BOLD}Jawbus: ${GOLD + BOLD + playerData.COUNTER["lord_jawbus"]} [${playerData.AVG_DATA["lord_jawbus_avg"]}]`, 2, 0);
+            addGuiText(`${BLUE + BOLD}Thunder: ${GOLD + BOLD + datav2["seaCreaturesGlobal"]["thunder"].session.since} [${playerData.AVG_DATA["thunder_avg"]}]`, 0, 0);
+            addGuiText(`${RED + BOLD}Jawbus: ${GOLD + BOLD + datav2["seaCreaturesGlobal"]["lord_jawbus"].session.since} [${playerData.AVG_DATA["lord_jawbus_avg"]}]`, 2, 0);
         }
         if (settings.fishingGUIPet) {
             addGuiText(`[${GOLD + BOLD + activePet.level + RESET}] ${activePet.color + BOLD + activePet.name} `, 0, 1);
         }
         if (settings.fishingGUIRate) {
             let rateMode = settings.fishingGUIAvgMode ? "hr" : "min";
-            addGuiText(`${GREEN + BOLD}Sc/${rateMode}: ${GOLD + BOLD + rateSc.toFixed(1)} (${rateMobCount} in ${formatMilliseconds(Date.now() - startTime)})`, 0, 2);
+            addGuiText(`${GREEN + BOLD} Sc / ${rateMode}: ${GOLD + BOLD + rateSc.toFixed(1)} (${rateMobCount} in ${formatMilliseconds(Date.now() - startTime)})`, 0, 2);
         }
 
         if (settings.fishingGUIBobbers) {
@@ -388,7 +292,7 @@ register("renderoverlay", () => {
         }
     }
 });
-//#endregion GUI FISH
+//#endregion GUI FISHING DATA
 
 //#region GUI SESSION
 // Session GUI
@@ -403,10 +307,6 @@ register("guimouseclick", (x, y, button, gui, event) => {
 })
 
 register("renderoverlay", () => {
-    let total = currentSession.TOTAL;
-    let listFish = currentSession.CURRENT_TRACK;
-    let fishDict = lavaDict;
-    let listTime = currentSession.CURRENT_TRACK_TIMER;
 
     let xPos = fileData.sessionGuiX;
     let yPos = fileData.sessionGuiY;
@@ -414,33 +314,19 @@ register("renderoverlay", () => {
         textItem.setString(`${RED + BOLD}ECHAP to save position`).setX(Renderer.screen.getWidth() / 2).setY(Renderer.screen.getHeight() / 2).setShadow(true).draw();
         textItem.setString(`${GREEN + BOLD}Click to place to left corner of GUI`).setX(Renderer.screen.getWidth() / 2).setY(10 + Renderer.screen.getHeight() / 2).setShadow(true).draw();
     }
+
     if (!settings.catchSession) { return; }
 
-    // WATER & GLOBAL
-    if (settings.catchSessionFishingType && settings.catchSessionScope) {
-        total = playerData.TOTAL_WATER;
-        listFish = playerData.WATER_SC;
-        fishDict = waterDict;
-        listTime = currentSession.TIME_WATER_SC;
-    }
-    // WATER & CURRENT
-    else if (settings.catchSessionFishingType && !settings.catchSessionScope) {
-        total = currentSession.TOTAL_WATER;
-        listFish = currentSession.CURRENT_WATER_SC;
-        fishDict = waterDict;
-        listTime = currentSession.TIME_WATER_SC;
-    }
-    // LAVA & GLOBAL
-    else if (!settings.catchSessionFishingType && settings.catchSessionScope) {
-        total = playerData.TOTAL;
-        listFish = playerData.LAVA_SC;
-    }
-    textItem.setString(`${RED + BOLD}Total: ${WHITE}${total}`).setX(xPos).setY(yPos).setShadow(true).draw();
-    let percentage = 0;
     let count = 0;
     let color = RED;
-    for (let i = 0; i < Object.keys(fishDict).length; i++) {
-        count = listFish[fishDict[i].id];
+    let i = 0;
+    let total = 0;
+    let scopeData = datav2["seaCreaturesGlobal"]
+    catchPoolNames.forEach(elem => {
+        total += scopeData[elem].session.count;
+    })
+    catchPoolNames.forEach(element => {
+        count = scopeData[element].session.count;
         if (count == 0) {
             percentage = 0;
         } else {
@@ -449,13 +335,20 @@ register("renderoverlay", () => {
         let timeFish = "";
         let percentageFish = "";
         if (settings.catchSessionTime) {
-            timeFish = ` ${WHITE}[${formatMilliseconds(Date.now() - listTime[fishDict[i].id])}]`;
+            timeFish = ` ${WHITE}[${formatMilliseconds(Date.now() - scopeData[element].session.time)}]`;
         }
         if (settings.catchSessionPercentage) {
             percentageFish = `(${percentage.toFixed(2)}%) `;
         }
-        textItem.setString(`${WHITE}${count} ${percentageFish}${color}${fishDict[i].name}${timeFish}`).setX(xPos).setY(yPos + 10 * (i + 1)).setShadow(true).draw();
-    }
+        textItem.setString(`${WHITE}${count} ${percentageFish}${color}${seaCreatureConst[element]}${timeFish}`)
+            .setX(xPos)
+            .setY(yPos + 10 * (i + 1))
+            .setShadow(true).draw();
+        i += 1;
+    });
+    if (!catchPoolNames.length)
+        textItem.setString(`${RED + BOLD}Catch a fish to display some stats!`).setX(xPos).setY(yPos + 10).setShadow(true).draw();
+    textItem.setString(`${RED + BOLD}Total: ${WHITE}${total}`).setX(xPos).setY(yPos).setShadow(true).draw();
 });
 //#endregion GUI SESSION
 
@@ -493,7 +386,7 @@ register("command", (arg, arg2) => {
             }
             break;
         default:
-            ChatLib.chat(`${GOLD + BOLD}Usage: /mixgui <session/fish> optional: <reset>`);
+            ChatLib.chat(`${GOLD + BOLD} Usage: /mixgui <session/fish > optional: <reset>`);
             break;
     }
 }).setName("mixgui");
@@ -504,3 +397,16 @@ register("worldUnload", () => {
     catchHistory.history = [];
     catchHistory.save();
 });
+
+register("command", () => {
+    ChatLib.chat(`${BOLD + RED}Resetting session data...`)
+    Object.keys(seaCreatureConst).forEach(name => {
+        datav2["seaCreaturesGlobal"][name].session = {
+            count: 0,
+            time: Date.now(),
+            since: 0
+        }
+    });
+
+    datav2.save();
+}).setName("mixsessionreset");

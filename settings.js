@@ -31,8 +31,6 @@ class Settings {
         // 1. Catch session GUI
         this.addDependency(`Catch session GUI times`, "Catch session GUI");
         this.addDependency(`Catch session GUI percentages`, "Catch session GUI");
-        this.addDependency(`Catch session GUI scope`, "Catch session GUI");
-        this.addDependency(`Catch session GUI fishing type`, "Catch session GUI");
 
         // 2. Fishing GUI
         this.addDependency(`${TABname}Mythic creature count`, "Fishing GUI");
@@ -168,22 +166,6 @@ class Settings {
         subcategory: "1. Catch session GUI",
     })
     catchSessionPercentage = false;
-
-    @SwitchProperty({
-        name: "Catch session GUI scope",
-        description: "O: current | I: global",
-        category: "Fishing",
-        subcategory: "1. Catch session GUI",
-    })
-    catchSessionScope = false;
-
-    @SwitchProperty({
-        name: "Catch session GUI fishing type",
-        description: "O: LAVA | I: WATER ",
-        category: "Fishing",
-        subcategory: "1. Catch session GUI",
-    })
-    catchSessionFishingType = false;
     //#endregion 1. Catch session GUI
 
     //#region 2. Fishing GUI
