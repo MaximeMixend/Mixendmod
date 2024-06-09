@@ -13,35 +13,35 @@ const miniBossData = {
         distance: 10,
         timer: 0,
         status: false,
-        five: false
+        streak: false
     },
     barbarian_duke_x: {
         name: "BARBARIAN DUKE X",
         distance: 10,
         timer: 0,
         status: false,
-        five: false
+        streak: false
     },
     bladesoul: {
         name: "BLADESOUL",
         distance: 10,
         timer: 0,
         status: false,
-        five: false
+        streak: false
     },
     magma_boss: {
         name: "MAGMA BOSS",
         distance: 20,
         timer: 0,
         status: false,
-        five: false
+        streak: false
     },
     mage_outlaw: {
         name: "MAGE OUTLAW",
         distance: 10,
         timer: 0,
         status: false,
-        five: false
+        streak: false
     }
 };
 const miniNameToKey = {
@@ -86,8 +86,14 @@ register("renderoverlay", () => {
     let yPos = fileData.miniGuiY;
 
     if (moveGui.isOpen()) {
-        textItem.setString(`${RED + BOLD}ECHAP to save position`).setX(Renderer.screen.getWidth() / 2).setY(20).draw();
-        textItem.setString(`${GREEN + BOLD}Click to place to left corner of GUI`).setX(Renderer.screen.getWidth() / 2).setY(30).draw();
+        textItem.setString(`${RED + BOLD}ECHAP to save position`)
+            .setX(Renderer.screen.getWidth() / 2)
+            .setY(20)
+            .draw();
+        textItem.setString(`${GREEN + BOLD}Click to place to left corner of GUI`)
+            .setX(Renderer.screen.getWidth() / 2)
+            .setY(30)
+            .draw();
     }
 
     if (!settings.guiMiniboss) { return; }
@@ -95,10 +101,10 @@ register("renderoverlay", () => {
     for (let key in miniBossData) {
         let mini = miniBossData[key];
         let color = RED;
-        let displayText = "HIT!";
+        let displayText = "HIT";
 
-        if (mini.five) {
-            displayText = 'FOUR IN A ROW!';
+        if (mini.streak) {
+            displayText = '✖';
             color = GRAY;
         }
         else if (mini.status === false && mini.timer <= 0) {
@@ -108,10 +114,13 @@ register("renderoverlay", () => {
         }
         else if (mini.status === true && mini.timer <= 0) {
             color = GREEN;
-            displayText = "✯";
+            displayText = "✔";
         }
 
-        textItem.setString(`${color + BOLD}${mini.name} ${WHITE + displayText}`).setX(xPos).setY(yPos).setShadow(true).draw();
+        textItem.setString(`${color + BOLD}${mini.name.split(" ")[0]} ${WHITE + displayText} `)
+            .setX(xPos)
+            .setY(yPos)
+            .setShadow(true).draw();
         yPos += 10;
     }
 });
@@ -124,7 +133,8 @@ register("renderoverlay", () => {
 register("step", (event) => {
     for (let key in miniBossData) {
         let mini = miniBossData[key];
-        let detectedMobs = World.getAllEntitiesOfType(Java.type("net.minecraft.entity.item.EntityArmorStand")).filter(entity => entity.getName().toLowerCase().includes(mini.name.toLowerCase()));
+        let detectedMobs = World.getAllEntitiesOfType(Java.type("net.minecraft.entity.item.EntityArmorStand"))
+            .filter(entity => entity.getName().toLowerCase().includes(mini.name.toLowerCase()));
         let nearMob = false;
         if (detectedMobs.length && Player.asPlayerMP().distanceTo(detectedMobs[0].getEntity()) < mini.distance) {
             nearMob = true;
@@ -137,6 +147,8 @@ register("step", (event) => {
             mini.status = true;
         }
     }
+    console.log(fileData.miniBossHistory)
+
 }).setFps(1);
 
 register("chat", () => {
@@ -147,28 +159,28 @@ register("chat", () => {
 register("chat", (bossName) => {
     const trimmedBossName = bossName.trim();
     const miniKey = miniNameToKey[trimmedBossName];
-    let lastFive = fileData.miniBossHistory;
+    let lastStreak = fileData.miniBossHistory;
 
     if (!miniKey) { return; }
     miniBossData[miniKey].timer = 120;
 
     // Check if killstreak has been broken
-    const allSameBefore = lastFive.every(key => key === lastFive[0]);
-    if (allSameBefore && lastFive[0] != miniKey) {
-        miniBossData[lastFive[0]].five = false;
+    const allSameBefore = lastStreak.every(key => key === lastStreak[0]);
+    if (allSameBefore && lastStreak[0] != miniKey) {
+        miniBossData[lastStreak[0]].streak = false;
     }
 
-    lastFive.push(miniKey);
-    if (lastFive.length > 4) {
-        lastFive.shift();
+    lastStreak.push(miniKey);
+    if (lastStreak.length > 3) {
+        lastStreak = lastStreak.slice(-4);
     }
 
-    // Check if killstreak is at 5
-    const allSame = lastFive.every(key => key === lastFive[0]);
+    // Check if killstreak is at 4
+    const allSame = lastStreak.every(key => key === lastStreak[0]);
     if (allSame) {
-        miniBossData[miniKey].five = true;
+        miniBossData[miniKey].streak = true;
     }
-    fileData.miniBossHistory = lastFive;
+    fileData.miniBossHistory = lastStreak;
     fileData.save()
 }
 ).setCriteria("${bossName} DOWN!");
@@ -183,7 +195,7 @@ register("worldUnload", () => {
         let mini = miniBossData[key];
         mini.timer = -1;
         mini.status = false;
-        mini.five = false;
+        mini.streak = false;
     }
 });
 //#endregion reset
@@ -201,6 +213,6 @@ register("chat", () => {
     if (settings.vanquisherPartyPing && settings.vanquisherSettings) {
         let msg = settings.vanquisherMessage == "" ? "Vanquisher spawned! Sponsored by MixendMod™" : settings.vanquisherMessage
         msg = settings.vanquisherCoords ? coords + msg : msg
-        sendCommand(`pc ${msg}`);
+        sendCommand(`pc ${msg} `);
     }
 }).setCriteria("A Vanquisher is spawning nearby!");
