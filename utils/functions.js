@@ -55,7 +55,7 @@ export function formatMilliseconds(ms) {
     const seconds = Math.floor((ms % (60 * 1000)) / 1000);
 
     const result = [];
-    if (years > 5) return "way too long ago...";
+    if (years > 5) return "way too many years...";
     if (years > 0) result.push(`${years}y`);
     if (weeks > 0) result.push(`${weeks % 52}w`);
     if (days > 0) result.push(`${days}d`);
