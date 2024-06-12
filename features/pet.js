@@ -123,6 +123,7 @@ register("chat", (pet, level, event) => {
     else {
 
     }
+    if (!settings.petPercentageProgress) { return; }
     if (ChatLib.getChatMessage(event, true).split(pet)[0].substr(-2) == "&6" && parseInt(level) <= 100) {
         let percentage = 100 * legendaryExp[parseInt(level - 1)] / legendaryExp[99]
         cancel(event);
@@ -138,7 +139,7 @@ register("chat", (pet, level, event) => {
 const regex = /Lvl (\d+)](?: \[(\d+).)?/;
 register("chat", (level, pet, event) => {
 
-    if (settings.petHideAutoPet) {
+    if (settings.petAutopetHide) {
         cancel(event);
     }
 
@@ -162,7 +163,8 @@ register("chat", (level, pet, event) => {
 }).setCriteria("Autopet equipped your [${level}] ${pet}!${*}");
 
 register("chat", (pet, event) => {
-    cancel(event);
+    if (settings.petSummonHide)
+        cancel(event);
     let msg = ChatLib.getChatMessage(event, true);
     let basePet = pet.includes("✦") ? pet.slice(0, -2) : pet;
 

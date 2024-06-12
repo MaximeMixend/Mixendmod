@@ -3,7 +3,7 @@
  * 
  */
 import { announceDrop, formatMilliseconds, findFormattedKey, announceMob, calcAvg, sendCommand, getCatchOptions } from "../utils/functions";
-import { playerData, fileData, catchHistory, datav2 } from "../utils/data";
+import { playerData, fileData, catchHistory, datav2, archive } from "../utils/data";
 import settings from "../settings";
 import { DARK_RED, BOLD, GOLD, RED, BLUE, RESET, GREEN, entitiesList, BLACK, WHITE } from "../utils/constants";
 import { doubleHookCatch, dropData, catchMobData, lavaSeaCreature, waterSeaCreature, seaCreatureConst, waterCatch, crimsonIsleCatch, spookyCatch, jerryWorkshopCatch, festivalCatch, crystalHollowCatch } from "../utils/gameData";
@@ -87,7 +87,8 @@ register("step", () => {
 //#region CATCH
 register("chat", (text, event) => {
     fileData.doubleHook = true;
-    cancel(event);
+    if (!settings.doubleHookHide)
+        cancel(event);
 }).setCriteria(doubleHookCatch);
 
 let catchPoolNames = [];
@@ -136,7 +137,7 @@ register("chat", (expression, event) => {
         // Announce mob to party
         if (catchData.partyPing) {
             let baseMessage = catchData.partyMessage === ""
-                ? `┌( ಠ_ಠ)┘ ${catchData.name} Sponsored by MixendMod™ `
+                ? `${catchData.name}! Sponsored by MixendMod™ `
                 : catchData.partyMessage;
 
             let partyMsg = fileData.doubleHook ? `(Double) ${baseMessage}` : baseMessage;
@@ -239,13 +240,25 @@ function addGuiText(text, col, row) {
 
 register("renderoverlay", () => {
     if (settings.fishingGUI & (Renderer.screen.getWidth() < fileData.baseX || Renderer.screen.getHeight() < fileData.baseY)) {
-        textItem.setString(`${BLACK + BOLD}[${DARK_RED + BOLD}MixendModGUI${BLACK + BOLD}] ${BLACK + BOLD}GUI OUT OF SCREEN`).setX(Renderer.screen.getWidth() / 10).setY(Renderer.screen.getHeight() / 3).setShadow(true).draw();
-        textItem.setString(`${BLACK + BOLD}[${DARK_RED + BOLD}MixendModGUI${BLACK + BOLD}] ${BLACK + BOLD}Use /mixgui fish and click the screen`).setX(Renderer.screen.getWidth() / 10).setY(Renderer.screen.getHeight() / 3 - 10).setShadow(true).draw();
+        textItem.setString(`${BLACK + BOLD}[${DARK_RED + BOLD}MixendModGUI${BLACK + BOLD}] ${BLACK + BOLD}GUI OUT OF SCREEN`)
+            .setX(Renderer.screen.getWidth() / 10)
+            .setY(Renderer.screen.getHeight() / 3)
+            .setShadow(true).draw();
+        textItem.setString(`${BLACK + BOLD}[${DARK_RED + BOLD}MixendModGUI${BLACK + BOLD}] ${BLACK + BOLD}Use /mixgui fish and click the screen`)
+            .setX(Renderer.screen.getWidth() / 10)
+            .setY(Renderer.screen.getHeight() / 3 - 10)
+            .setShadow(true).draw();
     }
 
     if (movedisplay.isOpen()) {
-        textItem.setString(`${RED + BOLD}ECHAP to save position`).setX(Renderer.screen.getWidth() / 2).setY(Renderer.screen.getHeight() / 2).setShadow(true).draw();
-        textItem.setString(`${GREEN + BOLD}Click to place to left corner of GUI`).setX(Renderer.screen.getWidth() / 2).setY(10 + Renderer.screen.getHeight() / 2).setShadow(true).draw();
+        textItem.setString(`${RED + BOLD}ECHAP to save position`)
+            .setX(Renderer.screen.getWidth() / 2)
+            .setY(Renderer.screen.getHeight() / 2)
+            .setShadow(true).draw();
+        textItem.setString(`${GREEN + BOLD}Click to place to left corner of GUI`)
+            .setX(Renderer.screen.getWidth() / 2)
+            .setY(10 + Renderer.screen.getHeight() / 2)
+            .setShadow(true).draw();
     }
 
     // Track bobbers
@@ -288,8 +301,14 @@ register("renderoverlay", () => {
     let yPos = fileData.sessionGuiY;
 
     if (moveGuiSession.isOpen()) {
-        textItem.setString(`${RED + BOLD}ECHAP to save position`).setX(Renderer.screen.getWidth() / 2).setY(Renderer.screen.getHeight() / 2).setShadow(true).draw();
-        textItem.setString(`${GREEN + BOLD}Click to place to left corner of GUI`).setX(Renderer.screen.getWidth() / 2).setY(10 + Renderer.screen.getHeight() / 2).setShadow(true).draw();
+        textItem.setString(`${RED + BOLD}ECHAP to save position`)
+            .setX(Renderer.screen.getWidth() / 2)
+            .setY(Renderer.screen.getHeight() / 2)
+            .setShadow(true).draw();
+        textItem.setString(`${GREEN + BOLD}Click to place to left corner of GUI`)
+            .setX(Renderer.screen.getWidth() / 2)
+            .setY(10 + Renderer.screen.getHeight() / 2)
+            .setShadow(true).draw();
     }
 
     // GUI catch session breakdown
@@ -327,8 +346,14 @@ register("renderoverlay", () => {
         i += 1;
     });
     if (!catchPoolNames.length)
-        textItem.setString(`${RED + BOLD}Catch a fish to display some stats!`).setX(xPos).setY(yPos + 10).setShadow(true).draw();
-    textItem.setString(`${RED + BOLD}Total: ${WHITE}${total}`).setX(xPos).setY(yPos).setShadow(true).draw();
+        textItem.setString(`${RED + BOLD}Catch a fish to display some stats!`)
+            .setX(xPos)
+            .setY(yPos + 10)
+            .setShadow(true).draw();
+    textItem.setString(`${RED + BOLD}Total: ${WHITE}${total}`)
+        .setX(xPos)
+        .setY(yPos)
+        .setShadow(true).draw();
 });
 //#endregion GUI SESSION
 
@@ -377,16 +402,3 @@ register("worldUnload", () => {
     catchHistory.history = [];
     catchHistory.save();
 });
-
-register("command", () => {
-    ChatLib.chat(`${BOLD + RED}Resetting session data...`)
-    Object.keys(seaCreatureConst).forEach(name => {
-        datav2["seaCreaturesGlobal"][name].session = {
-            count: 0,
-            time: Date.now(),
-            since: 0
-        }
-    });
-
-    datav2.save();
-}).setName("mixsessionreset");

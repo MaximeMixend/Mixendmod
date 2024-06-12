@@ -2,6 +2,8 @@ import settings from "../settings";
 import { BOLD, LIGHT_PURPLE, GOLD } from "./constants";
 import { crimsonIsleCatch, crystalHollowCatch, festivalCatch, spookyCatch, waterCatch, jerryWorkshopCatch, dropData } from "../utils/gameData";
 
+
+let textItem = new Text("", 0, 0);
 /**
  * For logging purposes
  */
@@ -15,24 +17,25 @@ export function sendCommand(msg, log = false) {
 export function announceMob(partyMsg, counter, interval) {
     const valuePerHour = (counter * 3600000) / interval;
     const formattedInterval = formatMilliseconds(interval);
-    const message = settings.catchPingMode
-        ? `pc ${partyMsg} [${counter} at ${valuePerHour.toFixed(1)}/h]`
-        : `pc ${partyMsg} [${counter} in ${formattedInterval}]`;
+    let message = `pc ${partyMsg}`;
+    if (settings.catchMessageInformation)
+        message += settings.catchPingMode
+            ? ` [${counter} at ${valuePerHour.toFixed(1)}/h]`
+            : ` [${counter} in ${formattedInterval}]`;
 
     sendCommand(message);
 }
 
-export function announceDrop(item, mf, count, time, spam) {
+export function announceDrop(msg, count, time, spam) {
     if (settings.partyPingDrops) {
-        sendCommand(`pc RARE DROP! ${item} (+${mf}% α Mixend Luck) [${count} in ${formatMilliseconds(time)}]`);
-        if (spam) {
-            sendCommand(`gc RARE DROP! ${item} (+${mf}% α Mixend Luck)`);
-            sendCommand(`ac RARE DROP! ${item} (+${mf}% α Mixend Luck)`);
+        sendCommand(`pc ${msg.replace(/&./g, '')} [${count} in ${formatMilliseconds(Date.now() - time)}]`);
+        if (false) {
+            sendCommand(`gc ${msg.replace(/&./g, '')} [${count} in ${formatMilliseconds(Date.now() - time)}]`);
+            sendCommand(`ac ${msg.replace(/&./g, '')} [${count} in ${formatMilliseconds(Date.now() - time)}]`);
         }
 
     }
-    let color = dropData(item).color ? dropData(item).color : GOLD;
-    Client.showTitle(`${BOLD + color} ${item}${BOLD + LIGHT_PURPLE} (+${mf}% α Mixend Luck)`, "", 5, 60, 25);
+    Client.showTitle("", `${msg}`, 5, 60, 25);
 
 };
 

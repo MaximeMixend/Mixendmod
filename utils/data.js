@@ -176,4 +176,8 @@ export let datav2 = new PogObject("MixendMod", {
     "rareDrops": rareDrops
 }, "data/data-v2.json");
 
+export let archive = new PogObject("MixendMod", {
+    sessions: {},
+}, "data/archive.json");
+
 datav2.save();
