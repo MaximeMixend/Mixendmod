@@ -331,10 +331,9 @@ register("renderoverlay", () => {
     catchPoolNames.forEach(element => {
         count = scopeData[element].session.count;
         if (count == 0) {
-            percentage = 0;
-        } else {
-            percentage = (count / total) * 100;
+            return;
         }
+        let percentage = (count / total) * 100;
         let timeFish = "";
         let percentageFish = "";
         if (settings.catchSessionTime) {
