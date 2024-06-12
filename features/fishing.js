@@ -87,7 +87,7 @@ register("step", () => {
 //#region CATCH
 register("chat", (text, event) => {
     fileData.doubleHook = true;
-    if (!settings.doubleHookHide)
+    if (settings.doubleHookHide)
         cancel(event);
 }).setCriteria(doubleHookCatch);
 
@@ -100,6 +100,7 @@ register("chat", (expression, event) => {
     const _catchOptions = getCatchOptions();
     let match = expression.match(findFormattedKey(_catchOptions));
     let mobName = match == null ? undefined : _catchOptions[match[0]];
+    let sayDoubleHook = true;
     catchPoolNames = [];
     if (mobName == undefined) return;
 
@@ -136,6 +137,7 @@ register("chat", (expression, event) => {
 
         // Announce mob to party
         if (catchData.partyPing) {
+            sayDoubleHook = false;
             let baseMessage = catchData.partyMessage === ""
                 ? `${catchData.name}! Sponsored by MixendMod™ `
                 : catchData.partyMessage;
@@ -155,6 +157,8 @@ register("chat", (expression, event) => {
             playerData.AVG_DATA[mobName + "_avg"] = calcAvg(playerData.AVG_DATA[mobName]).toFixed(0);
         }
     }
+
+    if (sayDoubleHook && fileData.doubleHook) sendCommand(`pc ${settings.doubleHookMsg}`);
 
     catchHistory.history.push(Date.now());
     rateMobCount += 1;
