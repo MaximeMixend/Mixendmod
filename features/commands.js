@@ -99,11 +99,6 @@ register("command", (command, ...arg) => {
                 return;
             }
 
-            if (sessionName == datav2.session) {
-                ChatLib.chat(`${RED + BOLD}You are already in the session "${datav2.session}"`);
-                return;
-            }
-
             // Check session name
             if (!archive.sessions.hasOwnProperty(sessionName)) {
                 ChatLib.chat(`${RED + BOLD}Session "${sessionName}" does not exist. Start it or select an existing session`);
