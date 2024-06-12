@@ -172,12 +172,14 @@ Object.values(itemDrop).forEach(name => {
     };
 });
 export let datav2 = new PogObject("MixendMod", {
+    session: "default",
     "seaCreaturesGlobal": seaCreatures,
     "rareDrops": rareDrops
 }, "data/data-v2.json");
+datav2.save();
 
 export let archive = new PogObject("MixendMod", {
     sessions: {},
 }, "data/archive.json");
 
-datav2.save();
+archive.save();
