@@ -5,3 +5,4 @@ config.toml
 private.js
 jsconfig.json
 features/beta.js
+.vscode/settings.json

@@ -8,19 +8,23 @@ import { sendCommand } from "../utils/functions";
 // -----------------------------------
 // TODO: Make a GUI status
 register("chat", () => {
-    Client.showTitle(`${DARK_RED + BOLD}SPIRIT MASK USED`, "", 10, 120, 10);
-    setTimeout(() => {
-        Client.showTitle(`${DARK_GREEN + BOLD}SPIRIT MASK BACK`, "", 10, 120, 10);
-    }, 30000)
+    if (settings.spiritMaskFeature) {
+        Client.showTitle(`${DARK_RED + BOLD}SPIRIT MASK USED`, "", 10, 120, 10);
+        setTimeout(() => {
+            Client.showTitle(`${DARK_GREEN + BOLD}SPIRIT MASK BACK`, "", 10, 120, 10);
+        }, 30000)
+    }
 }).setCriteria("Second Wind Activated! Your Spirit Mask saved your life!");
 
 // -----------------------------------
 // THUNDER BOTTLE
 // -----------------------------------
 register("chat", () => {
-    setTimeout(() => {
-        Client.showTitle(`${BLUE + BOLD}THUNDER BOTTLE FULL`, "", 0, 100, 10);
-    }, 1000);
+    if (settings.thunderBottleFeature) {
+        setTimeout(() => {
+            Client.showTitle(`${BLUE + BOLD}THUNDER BOTTLE FULL`, "", 0, 100, 10);
+        }, 1000);
+    }
 }).setCriteria("> Your bottle of thunder has fully charged!");
 
 // -----------------------------------

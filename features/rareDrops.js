@@ -2,8 +2,10 @@
 // DROPS
 //========================================
 
+import settings from "../settings";
 import { datav2 } from "../utils/data";
 import { announceDrop } from "../utils/functions";
+import { dropData } from "../utils/gameData";
 
 // Chat register RARE DROPS
 register("chat", (drop, mf, event) => {
@@ -12,12 +14,16 @@ register("chat", (drop, mf, event) => {
 
     // Ping party
     let kills = datav2["rareDrops"][drop].since
-    let time = Date.now() - datav2["rareDrops"][drop].time;
+    let time = datav2["rareDrops"][drop].time;
     if (dropData(drop).dropPing) {
-        cancel(event);
-        let msg = ChatLib.getChatMessage(event, true).replace("✯ Magic Find", "α Mixend Luck");
-        ChatLib.chat(msg);
-        announceDrop(drop, mf, kills, time, dropData(drop).spam);
+        let msg = ChatLib.getChatMessage(event, true)
+        if (settings.customMagicFind) {
+            cancel(event);
+            ChatLib.chat(msg);
+            msg = ChatLib.getChatMessage(event, true).replace("✯ Magic Find", "α Mixend Luck");
+        }
+        announceDrop(msg, kills, time, dropData(drop).spam);
+
     }
 
     // Update tracking
@@ -28,3 +34,4 @@ register("chat", (drop, mf, event) => {
 
 
 }).setCriteria("RARE DROP! ${drop} (+${mf}% ✯ Magic Find)");
+//RARE DROP! Lucky Clover Core (+69% ✯ Magic Find)

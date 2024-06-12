@@ -63,6 +63,7 @@ class Settings {
 
         // 5. Other
         this.addDependency(`${TABname}Double hook message`, "Double hook");
+        this.addDependency(`${TABname}Hide double hook message`, "Double hook");
 
         // Other 
         this.addDependency(`${TABname}Enable party transfer`, "Enable party commands");
@@ -118,13 +119,6 @@ class Settings {
     //#endregion party commands
 
     //#region Pets
-    @CheckboxProperty({
-        name: `Hide AUTOPET message`,
-        description: `Hides AUTOPET message`,
-        category: "General",
-        subcategory: "Pet",
-    })
-    petHideAutoPet = false;
 
     @CheckboxProperty({
         name: `Pet level up warning`,
@@ -133,7 +127,46 @@ class Settings {
         subcategory: "Pet",
     })
     petLevelWarning = false;
+    @CheckboxProperty({
+        name: `Add pet percentage progress`,
+        description: 'Adds Your Pet leveled up to level 0! [00.00%%]',
+        category: "General",
+        subcategory: "Pet",
+    })
+    petPercentageProgress = false;
+
+    @CheckboxProperty({
+        name: `Hide summon pet`,
+        description: `Hides "You summoned your Pet!" messages`,
+        category: "General",
+        subcategory: "Pet",
+    })
+    petSummonHide = false;
+    @CheckboxProperty({
+        name: `Hide autopet message`,
+        description: `Hides "Autopet equipped your [Lvl 0] Pet! VIEW RULE" messages`,
+        category: "General",
+        subcategory: "Pet",
+    })
+    petAutopetHide = false;
+
     //#endregion Pets
+
+    @CheckboxProperty({
+        name: `Spirit mask display`,
+        description: `Displays a screen message when spirit mask is used / ready`,
+        category: "General",
+        subcategory: "Misc",
+    })
+    spiritMaskFeature = false;
+
+    @CheckboxProperty({
+        name: `Thunder bottle display`,
+        description: `Displays a screen message when a thunder bottle is filled`,
+        category: "General",
+        subcategory: "Misc",
+    })
+    thunderBottleFeature = false;
 
     //#endregion General
 
@@ -400,7 +433,6 @@ class Settings {
     //#endregion 4. Other catch
 
     //#region 5. Other
-
     @SwitchProperty({
         name: "Double hook",
         description: "Enable double hook party ping",
@@ -416,6 +448,22 @@ class Settings {
         subcategory: "5. Other"
     })
     doubleHookMsg = "Noot noot >o<";
+
+    @CheckboxProperty({
+        name: `${TABname}Hide double hook message`,
+        description: `Hides double hook message in chat`,
+        category: "Fishing",
+        subcategory: "5. Other",
+    })
+    doubleHookHide = false;
+
+    @CheckboxProperty({
+        name: `Mob catch extra information`,
+        description: `Adds [xx in ..h..m..s] or [xx at ../h] to mob catch party pings`,
+        category: "Fishing",
+        subcategory: "5. Other",
+    })
+    catchMessageInformation = false;
 
     @SelectorProperty({
         name: "Party ping catch rate display mode",
@@ -483,6 +531,14 @@ class Settings {
     //#endregion Crimson Isle
 
     //#region Magic Find
+    @CheckboxProperty({
+        name: `Custom Magic Find`,
+        description: `Replaces "✯ Magic Find" by "α Mixend Luck"`,
+        category: "Magic Find",
+        subcategory: "Drop Party ping",
+    })
+    customMagicFind = false;
+
     @SwitchProperty({
         name: "Magic Find party ping",
         description: "Send a party message when dropping a Magic Find item",

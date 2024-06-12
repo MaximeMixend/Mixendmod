@@ -7,6 +7,7 @@ import "./features/miniboss.js";
 import "./utils/functions.js";
 import "./features/general.js";
 import "./features/beta.js";
+import "./features/rareDrops.js";
 
 import { BOLD, DARK_RED, GOLD, YELLOW } from "./utils/constants.js";
 
