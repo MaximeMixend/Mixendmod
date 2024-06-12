@@ -1,12 +1,13 @@
 import settings from "../settings";
-import { BOLD, DARK_RED, GOLD, GRAY, ITALIC, RED, WHITE } from "../utils/constants";
+import { BOLD, DARK_RED, GOLD, GRAY, GREEN, ITALIC, RED, WHITE, mixendmod } from "../utils/constants";
 import { archive, datav2 } from "../utils/data";
-import { sendCommand } from "../utils/functions";
+import { formatMilliseconds, sendCommand } from "../utils/functions";
 import { seaCreatureConst } from "../utils/gameData";
 const commands = [['/mixend /mix', "Opens settings"],
 ['/mixgui', "Moves GUI"],
 ['/mixguimini', "Moves gui for the miniboss"],
 ['/mixresetcores', "Resets magma core counter"],
+['/mixsession', "Session handling command"]
 ];
 
 register("command", () => {
@@ -42,32 +43,23 @@ register("command", (command, ...arg) => {
         case 'start':
             // Check session name
             if (sessionName == undefined) {
-                ChatLib.chat(`${RED + BOLD}Enter a session name to start in the command`);
-                ChatLib.chat(`${RED + BOLD}Example: /mixsession start cishing`);
-                ChatLib.chat(`${RED + BOLD}Available sessions:`);
-                Object.keys(archive.sessions).forEach(element => {
-                    ChatLib.chat(`${RED + BOLD + element}`);
-                });
+                sendChat(`${RED}Usage: /mixsession ${command} <session name>`);
+                availableSessionsNames();
                 return;
             }
 
             // Cannot start an existing session
             if (archive.sessions.hasOwnProperty(sessionName)) {
-                ChatLib.chat(`${RED + BOLD}Session "${sessionName}" already exists. Load or delete it.`);
+                sendChat(`${RED}Session "${sessionName}" already exists. Load or delete it.`);
                 return;
             }
 
             // Save data to current session
-            sessionObject = {}
-            Object.keys(seaCreatureConst).forEach(name => {
-                sessionObject[name] = datav2["seaCreaturesGlobal"][name].session
-            })
-            ChatLib.chat(`${GRAY + BOLD}Saving data to session "${datav2.session}"`);
-            archive.sessions[datav2.session] = sessionObject
+            saveSessionData()
 
             // Set session name
             datav2.session = sessionName
-            ChatLib.chat(`${GRAY + BOLD}Session "${sessionName}" started`)
+            sendChat(`${GOLD}Session "${sessionName}" started`)
 
             // Reset data
             Object.keys(seaCreatureConst).forEach(name => {
@@ -80,42 +72,29 @@ register("command", (command, ...arg) => {
             break;
         case 'save':
             // Save data to current session name
-            sessionObject = {}
-            Object.keys(seaCreatureConst).forEach(name => {
-                sessionObject[name] = datav2["seaCreaturesGlobal"][name].session
-            })
-            ChatLib.chat(`${GRAY + BOLD}Saving data to session "${datav2.session}"`);
-            archive.sessions[datav2.session] = sessionObject
+            saveSessionData()
             break;
         case 'load':
             // Check session name
             if (sessionName == undefined) {
-                ChatLib.chat(`${RED + BOLD}Enter a session name to load it in the command`);
-                ChatLib.chat(`${RED + BOLD}Example: /mixsession load cishing`);
-                ChatLib.chat(`${RED + BOLD}Available sessions:`);
-                Object.keys(archive.sessions).forEach(element => {
-                    ChatLib.chat(`${RED + BOLD + element}`);
-                });
+                sendChat(`${RED}Usage: /mixsession ${command} <session name>`);
+                availableSessionsNames()
                 return;
             }
 
             // Check session name
             if (!archive.sessions.hasOwnProperty(sessionName)) {
-                ChatLib.chat(`${RED + BOLD}Session "${sessionName}" does not exist. Start it or select an existing session`);
+                sendChat(`${RED}Session "${sessionName}" does not exist. Start it or select an existing session`);
+                availableSessionsNames()
                 return;
             }
 
             // Save data to session name
-            sessionObject = {}
-            Object.keys(seaCreatureConst).forEach(name => {
-                sessionObject[name] = datav2["seaCreaturesGlobal"][name].session
-            })
-            ChatLib.chat(`${GRAY + BOLD}Saving data to session "${datav2.session}"`);
-            archive.sessions[datav2.session] = sessionObject
+            saveSessionData()
 
             // Set session name
             datav2.session = sessionName
-            ChatLib.chat(`${GRAY + BOLD}Session "${sessionName}" started`)
+            sendChat(`${GOLD}Session "${sessionName}" started`)
 
             // Load given session name
             Object.keys(seaCreatureConst).forEach(name => {
@@ -124,16 +103,11 @@ register("command", (command, ...arg) => {
             break;
         case 'stop':
             // Save data to session name
-            sessionObject = {}
-            Object.keys(seaCreatureConst).forEach(name => {
-                sessionObject[name] = datav2["seaCreaturesGlobal"][name].session
-            })
-            ChatLib.chat(`${GRAY + BOLD}Saving data to session "${datav2.session}"`);
-            archive.sessions[datav2.session] = sessionObject
+            saveSessionData()
 
             // Set to default session
             datav2.session = "default"
-            ChatLib.chat(`${GRAY + BOLD}Session "default" started`)
+            sendChat(`${GOLD}Session "default" started`)
 
             // Reset data
             Object.keys(seaCreatureConst).forEach(name => {
@@ -147,34 +121,101 @@ register("command", (command, ...arg) => {
         case 'delete':
             switch (sessionName) {
                 case undefined:
-                    ChatLib.chat(`${RED + BOLD}Enter a session name to delete it in the command`);
-                    ChatLib.chat(`${RED + BOLD}Example: /mixsession delete cishing`);
-                    ChatLib.chat(`${RED + BOLD}Available sessions:`);
-                    Object.keys(archive.sessions).forEach(element => {
-                        ChatLib.chat(`${RED + BOLD + element}`);
-                    });
+                    sendChat(`${RED}Usage: /mixsession ${command} <session name>`);
+                    availableSessionsNames()
                     return;
                 case "default":
-                    ChatLib.chat(`${RED + BOLD}Cannot delete default session.`);
+                    sendChat(`${RED}Cannot delete default session.`);
                     return;
                 case datav2.session:
-                    ChatLib.chat(`${RED + BOLD}Cannot delete current session "${datav2.session}"`);
+                    sendChat(`${RED}Cannot delete current session "${datav2.session}"`);
                     return;
                 default:
                     delete archive.sessions[sessionName];
-                    ChatLib.chat(`${GRAY + BOLD}Deleted sessions "${sessionName}"`);
-                    ChatLib.chat(`${GRAY + BOLD}Available sessions:`);
-                    Object.keys(archive.sessions).forEach(element => {
-                        ChatLib.chat(`${GRAY + BOLD + element}`);
-                    });
+                    sendChat(`${GOLD}Deleted sessions "${sessionName}"`);
+                    availableSessionsNames()
                     break;
             }
             break;
+        case "display":
+            // Check session name
+            if (sessionName == undefined) {
+                sendChat(`${GOLD + BOLD}Data for "${datav2.session}"`);
+                let total = 0;
+                Object.keys(seaCreatureConst).forEach(element => {
+                    total += datav2["seaCreaturesGlobal"][element].session.count;
+                })
+                sendChat(`${GOLD + BOLD}TOTAL: ${WHITE + BOLD + total}`);
+                Object.keys(seaCreatureConst).forEach(element => {
+                    if (datav2["seaCreaturesGlobal"][element].session.count == 0) return;
+                    let count = datav2["seaCreaturesGlobal"][element].session.count
+                    let name = seaCreatureConst[element];
+                    let percentage = (count / total) * 100;
+                    sendChat(`${GOLD + name}: ${WHITE + BOLD + count} ${GOLD}[${percentage.toFixed(2)}%]`);
+                });
+                return;
+            }
+            if (!archive.sessions.hasOwnProperty(sessionName)) {
+                sendChat(`${RED}Session "${sessionName}" does not exist. Start it or select an existing session`);
+                availableSessionsNames()
+                return;
+            }
+            sendChat(`${GOLD + BOLD}Data for "${sessionName}" (${formatMilliseconds(Date.now() - archive.sessions[sessionName].lastSaved)} ago)`);
+            showSessionData(sessionName);
+            break;
+        case "list":
+            availableSessionsNames()
+            break;
+        case "rename":
+            if (sessionName == undefined) sendChat(`Select a new name for session "${datav2.session}"`)
+            archive.sessions[sessionName] = archive.sessions[datav2.session];
+            delete archive.sessions[datav2.session];
+            sendChat(`Renamed "${datav2.session}" to "${sessionName}"`)
+            datav2.session = sessionName;
+            break;
         default:
-            ChatLib.chat(`${GOLD + BOLD}Current session: ${datav2.session}`)
-            ChatLib.chat(`${GOLD + BOLD}Available an arguments: <start save load stop delete>`)
+            sendChat(`${GOLD + BOLD}Current session: ${datav2.session}`)
+            sendChat(`${RED}Available arguments: <start save load stop delete display list rename>`)
             return;
     }
     archive.save();
     datav2.save();
 }).setName("mixsession");
+
+function availableSessionsNames() {
+    sendChat(`${GOLD}Available sessions:`);
+    Object.keys(archive.sessions).forEach(element => {
+        let current = ""
+        if (element == datav2.session) current = ` ${GREEN + BOLD}(current)`;
+        sendChat(`${GOLD + element + current}`);
+    });
+};
+
+function sendChat(test) {
+    ChatLib.chat(`${mixendmod + test}`);
+}
+
+function showSessionData(sessionName) {
+    let total = 0;
+    Object.keys(seaCreatureConst).forEach(element => {
+        total += archive.sessions[sessionName][element].count;
+    })
+    sendChat(`${GOLD + BOLD}TOTAL: ${WHITE + BOLD + total}`);
+    Object.keys(seaCreatureConst).forEach(element => {
+        if (archive.sessions[sessionName][element].count == 0) return;
+        let count = archive.sessions[sessionName][element].count
+        let name = seaCreatureConst[element];
+        let percentage = (count / total) * 100;
+        sendChat(`${GOLD + name}: ${WHITE + BOLD + count} ${GOLD}[${percentage.toFixed(2)}%]`);
+    });
+}
+
+function saveSessionData() {
+    sessionObject = {}
+    Object.keys(seaCreatureConst).forEach(name => {
+        sessionObject[name] = datav2["seaCreaturesGlobal"][name].session
+    })
+    sendChat(`${GOLD}Saving data to session "${datav2.session}"`);
+    sessionObject["lastSaved"] = Date.now();
+    archive.sessions[datav2.session] = sessionObject
+}

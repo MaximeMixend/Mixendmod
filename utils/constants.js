@@ -42,3 +42,5 @@ export const hypixelAreas = {
     cystalHollows: "Crystal Hollows",
     jerryWorkshop: "Jerry's Workshop"
 }
+
+export const mixendmod = `${GOLD}[${DARK_RED + BOLD}MixendMod${GOLD}] `;
