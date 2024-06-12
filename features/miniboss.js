@@ -147,7 +147,6 @@ register("step", (event) => {
             mini.status = true;
         }
     }
-    console.log(fileData.miniBossHistory)
 
 }).setFps(1);
 

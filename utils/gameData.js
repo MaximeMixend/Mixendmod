@@ -96,7 +96,7 @@ export function catchMobData(mobName) {
         }
         case "water_hydra": return {
             color: RED,
-            name: "Sea Emperor",
+            name: "Water Hydra",
             partyPing: settings.waterHydraPartyPing,
             partyMessage: settings.waterHydraMessage,
             trackedLoot: undefined,
