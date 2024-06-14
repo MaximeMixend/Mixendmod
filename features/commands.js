@@ -149,9 +149,11 @@ register("command", (command, ...arg) => {
                 Object.keys(seaCreatureConst).forEach(element => {
                     if (datav2["seaCreaturesGlobal"][element].session.count == 0) return;
                     let count = datav2["seaCreaturesGlobal"][element].session.count
+                    let since = datav2["seaCreaturesGlobal"][element].session.since
                     let name = seaCreatureConst[element];
+                    let time = formatMilliseconds(Date.now() - datav2["seaCreaturesGlobal"][element].session.time)
                     let percentage = (count / total) * 100;
-                    sendChat(`${GOLD + name}: ${WHITE + BOLD + count} ${GOLD}[${percentage.toFixed(2)}%]`);
+                    sendChat(`${GOLD + name}: ${WHITE + BOLD + count} ${GOLD}[${since} in ${time}]`);
                 });
                 return;
             }
@@ -160,7 +162,8 @@ register("command", (command, ...arg) => {
                 availableSessionsNames()
                 return;
             }
-            sendChat(`${GOLD + BOLD}Data for "${sessionName}" (${formatMilliseconds(Date.now() - archive.sessions[sessionName].lastSaved)} ago)`);
+            let sessionSaved = formatMilliseconds(Date.now() - archive.sessions[sessionName].lastSaved);
+            sendChat(`${GOLD + BOLD}Data for "${sessionName}" (${sessionSaved} ago)`);
             showSessionData(sessionName);
             break;
         case "list":
@@ -204,9 +207,11 @@ function showSessionData(sessionName) {
     Object.keys(seaCreatureConst).forEach(element => {
         if (archive.sessions[sessionName][element].count == 0) return;
         let count = archive.sessions[sessionName][element].count
+        let since = archive.sessions[sessionName][element].since
         let name = seaCreatureConst[element];
+        let time = formatMilliseconds(Date.now() - archive.sessions[sessionName][element].time)
         let percentage = (count / total) * 100;
-        sendChat(`${GOLD + name}: ${WHITE + BOLD + count} ${GOLD}[${percentage.toFixed(2)}%]`);
+        sendChat(`${GOLD + name}: ${WHITE + BOLD + count} ${GOLD}[${since} in ${time}]`);
     });
 }
 

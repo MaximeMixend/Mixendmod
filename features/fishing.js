@@ -334,14 +334,13 @@ register("renderoverlay", () => {
             return;
         }
         let percentage = (count / total) * 100;
-        let confidenceInterval = 2.576 * Math.sqrt((percentage * (100 - percentage)) / (100 * total))
         let timeFish = "";
         let percentageFish = "";
         if (settings.catchSessionTime) {
             timeFish = ` ${WHITE}[${formatMilliseconds(Date.now() - scopeData[element].session.time)}]`;
         }
         if (settings.catchSessionPercentage) {
-            percentageFish = `(${percentage.toFixed(2)}±${confidenceInterval.toFixed(2)}%) `;
+            percentageFish = `(${percentage.toFixed(2)} %) `;
         }
         textItem.setString(`${WHITE}${count} ${percentageFish}${color}${seaCreatureConst[element]}${timeFish}`)
             .setX(xPos)
