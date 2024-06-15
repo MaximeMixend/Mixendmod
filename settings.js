@@ -38,8 +38,10 @@ class Settings {
         this.addDependency(`${TABname}Active pet`, "Fishing GUI");
 
         this.addDependency(`${TABname}Catch rate`, "Fishing GUI");
+        this.addDependency(`${TABname}Fish exp rate`, "Fishing GUI");
         this.addDependency(`${TABname}Catching rate window length`, "Fishing GUI");
         this.addDependency(`${TABname}Average mode`, "Fishing GUI");
+        this.addDependency(`${TABname}Fishing wisdom`, "Fishing GUI");
 
         // 3. Crimson Catch
         this.addDependency(`${TABname}Lord Jawbus message`, "Lord Jawbus catch");
@@ -242,6 +244,14 @@ class Settings {
     })
     fishingGUIRate = true;
 
+    @CheckboxProperty({
+        name: `${TABname}Fish exp rate`,
+        description: `Display exp rates`,
+        category: "Fishing",
+        subcategory: "2. Fishing GUI"
+    })
+    fishingGUIExpRate = true;
+
     @SliderProperty({
         name: `${TABname}Catching rate window length`,
         description: `Set window duration for moving average computation (minutes)`,
@@ -259,6 +269,16 @@ class Settings {
         subcategory: "2. Fishing GUI"
     })
     fishingGUIAvgMode = true;
+
+    @SliderProperty({
+        name: `${TABname}Fishing wisdom`,
+        description: `Your base fishing wisdom`,
+        category: "Fishing",
+        subcategory: "2. Fishing GUI",
+        min: 0,
+        max: 250
+    })
+    fishingWisdom = 5;
     //#endregion 2. Fishing GUI
 
     //#region 3. Crimson catch

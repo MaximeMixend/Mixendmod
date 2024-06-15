@@ -6,7 +6,7 @@ import { announceDrop, formatMilliseconds, findFormattedKey, announceMob, calcAv
 import { playerData, fileData, catchHistory, datav2, archive } from "../utils/data";
 import settings from "../settings";
 import { DARK_RED, BOLD, GOLD, RED, BLUE, RESET, GREEN, entitiesList, BLACK, WHITE } from "../utils/constants";
-import { doubleHookCatch, dropData, catchMobData, lavaSeaCreature, waterSeaCreature, seaCreatureConst, waterCatch, crimsonIsleCatch, spookyCatch, jerryWorkshopCatch, festivalCatch, crystalHollowCatch } from "../utils/gameData";
+import { doubleHookCatch, dropData, catchMobData, lavaSeaCreature, waterSeaCreature, seaCreatureConst, waterCatch, crimsonIsleCatch, spookyCatch, jerryWorkshopCatch, festivalCatch, crystalHollowCatch, seaCreatureData } from "../utils/gameData";
 import { activePet } from "./pet";
 
 let textItem = new Text("", 0, 0);
@@ -14,9 +14,11 @@ let textItem = new Text("", 0, 0);
 // TRACK MOBS
 // SC RATES
 let rateSc = 0;
+let rateExp = 0;
 let startTime = Date.now();
 let rateMobCount = 0;
-
+let rateMobExp = 0;
+let bobberCount = 0;
 //========================================
 // Functions
 //========================================
@@ -162,6 +164,14 @@ register("chat", (expression, event) => {
 
     catchHistory.history.push(Date.now());
     rateMobCount += 1;
+
+    // Compute exp gained
+    // baseExp * ((1+wisdom/100)) * (expertise 10 = 1.2)
+    let expGained = seaCreatureData[mobName].experience * (1 + (settings.fishingWisdom * (1 + (0.32 * bobberCount))) / 100) * 1.2
+    rateMobExp += expGained
+    if (fileData.doubleHook)
+        rateMobExp += expGained
+
     fileData.doubleHook = false;
 
     // Update caught mob data
@@ -210,11 +220,14 @@ register("step", (event) => {
     };
     if (!myList.length) {
         rateMobCount = 0;
+        rateMobExp = 0;
         rateSc = 0;
+        rateExp = 0;
         startTime = Date.now();
     }
     else {
         rateSc = (myList.length / timespan) * modeConverter;
+        rateExp = (rateMobExp / timespan) * modeConverter
     }
     catchHistory.history = myList;
     catchHistory.save()
@@ -268,7 +281,7 @@ register("renderoverlay", () => {
     // Track bobbers
     if (settings.fishingGUI) {
         let bobbers = World.getAllEntitiesOfType(entitiesList.FishHook).filter(dist => dist.distanceTo(Player.getPlayer()) < 30);
-
+        bobberCount = bobbers.length
         if (settings.fishingGUIMythic) {
             addGuiText(`${BLUE + BOLD}Thunder: ${GOLD + BOLD + datav2["seaCreaturesGlobal"]["thunder"].session.since} [${playerData.AVG_DATA["thunder_avg"]}]`, 0, 0);
             addGuiText(`${RED + BOLD}Jawbus: ${GOLD + BOLD + datav2["seaCreaturesGlobal"]["lord_jawbus"].session.since} [${playerData.AVG_DATA["lord_jawbus_avg"]}]`, 2, 0);
@@ -278,11 +291,15 @@ register("renderoverlay", () => {
         }
         if (settings.fishingGUIRate) {
             let rateMode = settings.fishingGUIAvgMode ? "hr" : "min";
-            addGuiText(`${GREEN + BOLD} Sc / ${rateMode}: ${GOLD + BOLD + rateSc.toFixed(1)} (${rateMobCount} in ${formatMilliseconds(Date.now() - startTime)})`, 0, 2);
+            let wisdomValue = settings.fishingWisdom * (1 + (0.032 * bobbers.length));
+            addGuiText(`${GREEN + BOLD}Sc/${rateMode}: ${GOLD + BOLD + rateSc.toFixed(1)} (${rateMobCount} in ${formatMilliseconds(Date.now() - startTime)})`, 0, 2);
+            if (settings.fishingGUIExpRate) {
+                addGuiText(`${GREEN + BOLD}Exp/${rateMode}: ${GOLD + BOLD + rateExp.toFixed(1)} (${rateMobExp.toFixed(1)} in ${formatMilliseconds(Date.now() - startTime)}) (${wisdomValue.toFixed(2)})`, 0, 3);
+            }
         }
 
         if (settings.fishingGUIBobbers) {
-            addGuiText(`${GREEN + BOLD} Bobber: ${GOLD + BOLD + bobbers.length} `, 2, 1);
+            addGuiText(`${GREEN + BOLD} Bobber: ${GOLD + BOLD + bobberCount} `, 2, 1);
         }
     }
 });
@@ -402,6 +419,7 @@ register("command", (arg, arg2) => {
 register("worldUnload", () => {
     startTime = Date.now();
     rateMobCount = 0;
+    rateMobExp = 0;
     catchHistory.history = [];
     catchHistory.save();
 });
