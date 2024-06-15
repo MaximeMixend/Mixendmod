@@ -101,6 +101,30 @@ register("command", (command, ...arg) => {
                 datav2["seaCreaturesGlobal"][name].session = archive.sessions[sessionName][name]
             });
             break;
+        case 'forceload':
+            // Check session name
+            if (sessionName == undefined) {
+                sendChat(`${RED}Usage: /mixsession ${command} <session name>`);
+                availableSessionsNames()
+                return;
+            }
+
+            // Check session name
+            if (!archive.sessions.hasOwnProperty(sessionName)) {
+                sendChat(`${RED}Session "${sessionName}" does not exist. Start it or select an existing session`);
+                availableSessionsNames()
+                return;
+            }
+
+            // Set session name
+            datav2.session = sessionName
+            sendChat(`${GOLD}Session "${sessionName}" started`)
+
+            // Load given session name
+            Object.keys(seaCreatureConst).forEach(name => {
+                datav2["seaCreaturesGlobal"][name].session = archive.sessions[sessionName][name]
+            });
+            break;
         case 'stop':
             // Save data to session name
             saveSessionData()
