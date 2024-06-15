@@ -10,17 +10,23 @@ import { dropData } from "../utils/gameData";
 // Chat register RARE DROPS
 register("chat", (drop, mf, event) => {
     // Check if item tracked
-    if (!datav2["rareDrops"][drop]) return;
-
+    if (!dropData(drop)) return;
+    if (!datav2["rareDrops"][drop]) {
+        datav2["rareDrops"][drop] = {
+            since: 0,
+            time: 0,
+            archive: []
+        }
+    }
     // Ping party
     let kills = datav2["rareDrops"][drop].since
-    let time = datav2["rareDrops"][drop].time;
+    let time = datav2["rareDrops"][drop].time
     if (dropData(drop).dropPing) {
         let msg = ChatLib.getChatMessage(event, true)
         if (settings.customMagicFind) {
             cancel(event);
-            ChatLib.chat(msg);
             msg = ChatLib.getChatMessage(event, true).replace("✯ Magic Find", "α Mixend Luck");
+            ChatLib.chat(msg)
         }
         announceDrop(msg, kills, time, dropData(drop).spam);
 

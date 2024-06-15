@@ -1,5 +1,5 @@
 import settings from "../settings";
-import { RED, DARK_BLUE, DARK_GRAY, DARK_PURPLE, DARK_RED, GOLD, LIGHT_PURPLE, AQUA } from "./constants";
+import { RED, DARK_BLUE, DARK_GRAY, DARK_PURPLE, DARK_RED, GOLD, LIGHT_PURPLE, AQUA, GREEN } from "./constants";
 
 /**
  * Return relevant data about the drop
@@ -25,6 +25,11 @@ export function dropData(itemName) {
         case "Daedalus Stick": return {
             color: GOLD,
             dropPing: settings.sendDaedalusStickPing,
+            spam: false
+        }
+        case "Test Item 123": return {
+            color: GREEN,
+            dropPing: settings.sendRadioactiveVialPing,
             spam: false
         }
         default:
@@ -287,4 +292,237 @@ export const itemDrop = {
     radioactiveVial: "Radioactive Vial",
     deepSeaOrb: "Deep Sea Orb",
     daedalusStick: "Daedalus Stick"
+}
+
+export const seaCreatureData = {
+    "squid": {
+        name: "Squid",
+        experience: 41,
+        weight: 1200
+    },
+    "sea_walker": {
+        name: "Sea Walker",
+        experience: 68,
+        weight: 800
+    },
+    "night_squid": {
+        name: "Night Squid",
+        experience: 270,
+        weight: 1100
+    },
+    "sea_guardian": {
+        name: "Sea Guardian",
+        experience: 101,
+        weight: 600
+    },
+    "sea_witch": {
+        name: "Sea Witch",
+        experience: 338,
+        weight: 700
+    },
+    "sea_archer": {
+        name: "Sea Archer",
+        experience: 169,
+        weight: 550
+    },
+    "rider_of_the_deep": {
+        name: "Rider of the Deep",
+        experience: 338,
+        weight: 400
+    },
+    "catfish": {
+        name: "Catfish",
+        experience: 405,
+        weight: 250
+    },
+    "carrot_king": {
+        name: "Carrot King",
+        experience: 810,
+        weight: 300
+    },
+    "sea_leech": {
+        name: "Sea Leech",
+        experience: 675,
+        weight: 160
+    },
+    "guardian_defender": {
+        name: "Guardian Defender",
+        experience: 10113,
+        weight: 130
+    },
+    "deep_sea_protector": {
+        name: "Deep Sea Protector",
+        experience: 1350,
+        weight: 88
+    },
+    "water_hydra": {
+        name: "Water Hydra",
+        experience: 2025,
+        weight: 18
+    },
+    "sea_emperor": {
+        name: "Sea Emperor",
+        experience: 3375,
+        weight: 10
+    },
+    "agarimoo": {
+        name: "Agarimoo",
+        experience: 80,
+        weight: 950
+    },
+    "scarecrow": {
+        name: "Scarecrow",
+        experience: 420,
+        weight: 1000
+    },
+    "nightmare": {
+        name: "Nightmare",
+        experience: 820,
+        weight: 550
+    },
+    "werewolf": {
+        name: "Werewolf",
+        experience: 1235,
+        weight: 250
+    },
+    "phantom_fisherman": {
+        name: "Phantom Fisherman",
+        experience: 2525,
+        weight: 90
+    },
+    "grim_reaper": {
+        name: "Grim Reaper",
+        experience: 3950,
+        weight: 25
+    },
+    "nurse_shark": {
+        name: "Nurse Shark",
+        experience: 405,
+        weight: 1100
+    },
+    "blue_shark": {
+        name: "Blue Shark",
+        experience: 810,
+        weight: 550
+    },
+    "tiger_shark": {
+        name: "Tiger Shark",
+        experience: 1013,
+        weight: 300
+    },
+    "great_white_shark": {
+        name: "Great White Shark",
+        experience: 2025,
+        weight: 150
+    },
+    "frozen_steve": {
+        name: "Frozen Steve",
+        experience: 101,
+        weight: 1100
+    },
+    "frosty": {
+        name: "Frosty",
+        experience: 203,
+        weight: 800
+    },
+    "grinch": {
+        name: "Grinch",
+        experience: 405,
+        weight: 50
+    },
+    "yeti": {
+        name: "Yeti",
+        experience: 4050,
+        weight: 30
+    },
+    "nutcracker": {
+        name: "Nutcracker",
+        experience: 950,
+        weight: 60
+    },
+    "reindrake": {
+        name: "Reindrake",
+        experience: 0,
+        weight: 6
+    },
+    "plhlegblast": {
+        name: "Plhlegblast",
+        experience: 5000,
+        weight: 0
+    },
+    "magma_slug": {
+        name: "Magma Slug",
+        experience: 730,
+        weight: 1600
+    },
+    "moogma": {
+        name: "Moogma",
+        experience: 950,
+        weight: 1200
+    },
+    "lava_leech": {
+        name: "Lava Leech",
+        experience: 1400,
+        weight: 600
+    },
+    "pyroclastic_worm": {
+        name: "Pyroclastic Worm",
+        experience: 1100,
+        weight: 400
+    },
+    "lava_flame": {
+        name: "Lava Flame",
+        experience: 2100,
+        weight: 360
+    },
+    "fire_eel": {
+        name: "Fire Eel",
+        experience: 2200,
+        weight: 280
+    },
+    "taurus": {
+        name: "Taurus",
+        experience: 4300,
+        weight: 160
+    },
+    "thunder": {
+        name: "Thunder",
+        experience: 12000,
+        weight: 40
+    },
+    "lord_jawbus": {
+        name: "Lord Jawbus",
+        experience: 40000,
+        weight: 8
+    },
+    "water_worm": {
+        name: "Water Worm",
+        experience: 240,
+        weight: 300
+    },
+    "poison_worm": {
+        name: "Poison Worm",
+        experience: 270,
+        weight: 300
+    },
+    "abyssal_miner": {
+        name: "Abyssal Miner",
+        experience: 770,
+        weight: 90
+    },
+    "flaming_worm": {
+        name: "Flaming Worm",
+        experience: 240,
+        weight: 180
+    },
+    "lava_blaze": {
+        name: "Lava Blaze",
+        experience: 548,
+        weight: 36
+    },
+    "lava_pigman": {
+        name: "Lava Pigman",
+        experience: 548,
+        weight: 36
+    }
 }
