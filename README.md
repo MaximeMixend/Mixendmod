@@ -1,6 +1,10 @@
 # Ongoing changes
 
-- Organize catch for counting better (detect spooky shark and winter ig)
+## 0.8.0
+
+- BIG changes how data are stored and handled.
+- Fishing session with /mixsession
+- More toggles (spirit mask, rare drops custom messages, and probably more i forgot to wrote down)
 
 # Released
 

@@ -171,10 +171,20 @@ Object.values(itemDrop).forEach(name => {
         archive: [] //Contains RARE DROP! blabla (+100mf) [${since} in ${time}]
     };
 });
+
+let average = {};
+Object.keys(seaCreatureConst).forEach(name => {
+    average[name] = {
+        all: [],
+        value: 0,
+    }
+})
+
 export let datav2 = new PogObject("MixendMod", {
     session: "default",
     "seaCreaturesGlobal": seaCreatures,
-    "rareDrops": rareDrops
+    "rareDrops": rareDrops,
+    "average": average
 }, "data/data-v2.json");
 datav2.save();
 

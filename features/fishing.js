@@ -155,8 +155,8 @@ register("chat", (expression, event) => {
 
         // Update catch average
         if (catchData.trackAverage) {
-            playerData.AVG_DATA[mobName].push(catchSince);
-            playerData.AVG_DATA[mobName + "_avg"] = calcAvg(playerData.AVG_DATA[mobName]).toFixed(0);
+            datav2.average[mobName].all.push(catchSince);
+            datav2.average[mobName].value = calcAvg(datav2.average[mobName].all).toFixed(0);
         }
     }
 
@@ -283,8 +283,8 @@ register("renderoverlay", () => {
         let bobbers = World.getAllEntitiesOfType(entitiesList.FishHook).filter(dist => dist.distanceTo(Player.getPlayer()) < 30);
         bobberCount = bobbers.length
         if (settings.fishingGUIMythic) {
-            addGuiText(`${BLUE + BOLD}Thunder: ${GOLD + BOLD + datav2["seaCreaturesGlobal"]["thunder"].session.since} [${playerData.AVG_DATA["thunder_avg"]}]`, 0, 0);
-            addGuiText(`${RED + BOLD}Jawbus: ${GOLD + BOLD + datav2["seaCreaturesGlobal"]["lord_jawbus"].session.since} [${playerData.AVG_DATA["lord_jawbus_avg"]}]`, 2, 0);
+            addGuiText(`${BLUE + BOLD}Thunder: ${GOLD + BOLD + datav2["seaCreaturesGlobal"]["thunder"].session.since} [${datav2.average["thunder"].value}]`, 0, 0);
+            addGuiText(`${RED + BOLD}Jawbus: ${GOLD + BOLD + datav2["seaCreaturesGlobal"]["lord_jawbus"].session.since} [${datav2.average["lord_jawbus"].value}]`, 2, 0);
         }
         if (settings.fishingGUIPet) {
             addGuiText(`[${GOLD + BOLD + activePet.level + RESET}] ${activePet.color + BOLD + activePet.name} `, 0, 1);
