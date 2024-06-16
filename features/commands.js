@@ -7,7 +7,8 @@ const commands = [['/mixend /mix', "Opens settings"],
 ['/mixgui', "Moves GUI"],
 ['/mixguimini', "Moves gui for the miniboss"],
 ['/mixresetcores', "Resets magma core counter"],
-['/mixsession', "Session handling command"]
+['/mixsession', "Session handling commands"]
+['/mixtimers', "Show some timers (beta)"]
 ];
 
 register("command", () => {
@@ -205,6 +206,7 @@ register("command", (command, ...arg) => {
             sendChat(`${RED}Available arguments: <start save load stop delete display list rename>`)
             return;
     }
+
     archive.save();
     datav2.save();
 }).setName("mixsession");

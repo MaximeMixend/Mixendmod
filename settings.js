@@ -645,13 +645,6 @@ class Settings {
     // Mining
     // -----------------------------------
     //#region Mining
-    @SwitchProperty({
-        name: `Mining speed boost screen alert`,
-        description: "Screen alert when Mining speed boost is used/available",
-        category: "Mining"
-    })
-    alertMiningSpeedBoost = false;
-
     @TextProperty({
         name: `Mineshaft discovery message`,
         description: `Custom message sent to the party when finding a mineshaft`,
