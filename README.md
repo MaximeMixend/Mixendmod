@@ -1,12 +1,14 @@
 # Ongoing changes
 
+# Released
+
 ## 0.8.0
 
 - BIG changes how data are stored and handled.
 - Fishing session with /mixsession
-- More toggles (spirit mask, rare drops custom messages, and probably more i forgot to wrote down)
-
-# Released
+- More toggles (spirit mask, rare drops custom messages, thunder bottles)
+- Removed mining speed boost (better things coming)
+- (BETA) /mixtimers
 
 ## 0.7.0
 
