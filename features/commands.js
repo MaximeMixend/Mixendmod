@@ -194,6 +194,19 @@ register("command", (command, ...arg) => {
         case "list":
             availableSessionsNames()
             break;
+        // case "edit":
+        //     if (sessionName == undefined) { return; }
+        //     archive.sessions[datav2.session][sessionName] = {
+        //         count: 0,
+        //         time: 0,
+        //         since: 0
+        //     }
+        //     datav2["seaCreaturesGlobal"][sessionName].session = {
+        //         count: 0,
+        //         time: 0,
+        //         since: 0
+        //     }
+        //     break;
         case "rename":
             if (sessionName == undefined) sendChat(`Select a new name for session "${datav2.session}"`)
             archive.sessions[sessionName] = archive.sessions[datav2.session];

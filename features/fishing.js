@@ -121,8 +121,8 @@ register("chat", (expression, event) => {
 
     // Do things based off settings (party ping, custom catch message)
     if (catchMobData(mobName)) {
-        const catchInterval = Date.now() - datav2["seaCreaturesGlobal"][mobName].session.time;
-        const catchSince = datav2["seaCreaturesGlobal"][mobName].session.since;
+        const catchInterval = Date.now() - datav2["seaCreaturesGlobal"][mobName].time;
+        const catchSince = datav2["seaCreaturesGlobal"][mobName].since;
         let catchData = catchMobData(mobName);
 
         // Custom catch message
