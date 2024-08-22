@@ -68,17 +68,3 @@ register("chat", () => {
     }
 }).setCriteria("Party ${*}: !warp");
 
-register("chat", (mf) => {
-    if (!fileData.magmacores) {
-        fileData.magmacores = 0
-    }
-    fileData.magmacores += 1;
-    sendCommand(`pc core #${fileData.magmacores}! [+${mf}% ✯]`);
-    fileData.save();
-}).setCriteria("RARE DROP! Magma Core (+${mf}% ✯ Magic Find)");
-
-register("command", () => {
-    fileData.magmacores = 0;
-    fileData.save();
-}).setName("mixresetcores");
-
