@@ -19,6 +19,9 @@ let startTime = Date.now();
 let rateMobCount = 0;
 let rateMobExp = 0;
 let bobberCount = 0;
+let totalCoreMobs = 0;
+let coreDrySeconds = 0;
+let leftoverSeconds = 0;
 //========================================
 // Functions
 //========================================
@@ -26,7 +29,29 @@ let bobberCount = 0;
 //========================================
 // WORMS & MAGMA CORES
 //========================================
-//#region Worms
+//#region Worms and Core
+
+register("chat", () => {
+    totalCoreMobs += 1;
+    if(!fileData.totalCoreMobs) {
+        fileData.totalCoreMobs = 1
+    } else {
+        fileData.totalCoreMobs += 1;
+    }
+    fileData.save()
+}).setCriteria("A Lava Blaze has surfaced from the depths!")
+
+register("chat", () => {
+    totalCoreMobs += 1;
+    if(!fileData.totalCoreMobs) {
+        fileData.totalCoreMobs = 1
+    } else {
+        fileData.totalCoreMobs += 1;
+    }
+    fileData.save()
+}).setCriteria("A Lava Pigman arose from the depths!")
+
+
 let lastCaptimeMagma = Date.now();
 let isCappedCores = false;
 register("step", () => {
@@ -56,6 +81,31 @@ register("step", () => {
         else { }
     }
 }).setDelay(2);
+
+register("step", () => {
+    coreDrySeconds += 1;
+}).setFps(1)
+
+register("chat", (mf) => {
+    if (!fileData.magmacores) {
+        fileData.magmacores = 0;
+    }
+    fileData.magmacores += 1;
+    sendCommand(`pc core #${fileData.magmacores}! [+${mf}% ✯]`);
+
+    leftoverSeconds = coreDrySeconds - Math.floor(coreDrySeconds / 60) * 60
+    if(leftoverSeconds < 10) leftoverSeconds = "0" + leftoverSeconds.toString();
+
+    ChatLib.chat(`&5&lAverage of ${Math.round(fileData.totalCoreMobs / fileData.magmacores)} scs per core in ${fileData.totalCoreMobs} scs\n&6Dry Timer: ${Math.floor(coreDrySeconds / 60)}:${leftoverSeconds} minutes`);
+    coreDrySeconds = 0;
+    fileData.save();
+}).setCriteria("RARE DROP! Magma Core (+${mf}% ✯ Magic Find)");
+
+register("command", () => {
+    fileData.magmacores = 0;
+    fileData.save();
+}).setName("mixresetcores");
+
 
 let lastCaptimeWorms = Date.now();
 let isCappedWorms = false;
@@ -121,8 +171,8 @@ register("chat", (expression, event) => {
 
     // Do things based off settings (party ping, custom catch message)
     if (catchMobData(mobName)) {
-        const catchInterval = Date.now() - datav2["seaCreaturesGlobal"][mobName].time;
-        const catchSince = datav2["seaCreaturesGlobal"][mobName].since;
+        const catchInterval = Date.now() - datav2["seaCreaturesGlobal"][mobName].session.time;
+        const catchSince = datav2["seaCreaturesGlobal"][mobName].session.since;
         let catchData = catchMobData(mobName);
 
         // Custom catch message
