@@ -55,11 +55,15 @@ register("chat", (playername) => {
 }).setCriteria("Party > ${*} ${playername}: !ptme");
 
 register("chat", (playername) => {
-    sendCommand(`p settings allinvite`);
+    if (settings.enablePartyCommands) {
+        sendCommand(`p settings allinvite`);
+    }
 }).setCriteria("Party > ${*} ${playername}: !allinvite");
 
 register("chat", (playername) => {
-    sendCommand(`p settings allinvite`);
+    if (settings.enablePartyCommands) {
+        sendCommand(`p settings allinvite`);
+    }
 }).setCriteria("Party > ${*} ${playername}: !allinv");
 
 register("chat", () => {
