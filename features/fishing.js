@@ -2,11 +2,11 @@
  * Try to display tracking sea creatures via a command and a custom interface so it is not 24/7 on screen
  * 
  */
-import { announceDrop, formatMilliseconds, findFormattedKey, announceMob, calcAvg, sendCommand, getCatchOptions, sendChat } from "../utils/functions";
-import { playerData, fileData, catchHistory, datav2, archive } from "../utils/data";
+import { formatMilliseconds, findFormattedKey, announceMob, calcAvg, sendCommand, getCatchOptions } from "../utils/functions";
+import { fileData, catchHistory, datav2 } from "../utils/data";
 import settings from "../settings";
 import { DARK_RED, BOLD, GOLD, RED, BLUE, RESET, GREEN, entitiesList, BLACK, WHITE } from "../utils/constants";
-import { doubleHookCatch, dropData, catchMobData, lavaSeaCreature, waterSeaCreature, seaCreatureConst, waterCatch, crimsonIsleCatch, spookyCatch, jerryWorkshopCatch, festivalCatch, crystalHollowCatch, seaCreatureData } from "../utils/gameData";
+import { doubleHookCatch, catchMobData, lavaSeaCreature, waterSeaCreature, seaCreatureConst, waterCatch, crimsonIsleCatch, spookyCatch, jerryWorkshopCatch, festivalCatch, crystalHollowCatch } from "../utils/gameData";
 import { activePet } from "./pet";
 
 let textItem = new Text("", 0, 0);
@@ -119,7 +119,6 @@ register("chat", (expression, event) => {
     datav2.save()
     catchHistory.save();
     fileData.save();
-    playerData.save();
 
 }).setCriteria(findFormattedKey({
     ...waterCatch,

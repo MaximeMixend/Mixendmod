@@ -24,7 +24,7 @@
  *      Feather -> total
  * 
 */
-import { datav2, playerData } from "../utils/data";
+import { dianaData } from "../utils/data";
 import { formatMilliseconds, sendCommand } from "../utils/functions";
 import settings from "../settings";
 import { BOLD, RED, RESET, WHITE, YELLOW } from "../utils/constants";
@@ -42,7 +42,6 @@ const dianaMapping = {
 //##########################
 // BURROW
 //##########################
-
 register("chat", (whatever, mob) => {
     if (!settings.enableDiana) { return; }
     let mobKey = dianaMapping[mob];
@@ -54,29 +53,25 @@ register("chat", (whatever, mob) => {
             let z = Math.round(Player.getZ());
             coord = `x: ${x}, y: ${y}, z: ${z}`;
             setTimeout(() => {
-                sendCommand(`pc ${coord} INQUISITOR [${playerData.COUNTER["minos_inquisitor"]} in ${formatMilliseconds(Date.now() - playerData.TIME["minos_inquisitor"])}]`);
-                playerData.COUNTER["minos_inquisitor"] = 0;
-                playerData.TIME["minos_inquisitor"] = Date.now();
+                sendCommand(`pc ${coord} INQUISITOR [took ${dianaData[mobKey].since} mobs in ${formatMilliseconds(Date.now() - dianaData[mobKey].time)}]`);
+                dianaData[mobKey].since = 0;
+                dianaData[mobKey].time = Date.now();
             }, 500);
-            break;
-        case "minotaur":
-            datav2.rareDrops["Daedalus Stick"].since += 1;
-            ChatLib.chat(`&6&lLast STICK: ${datav2.rareDrops["Daedalus Stick"].since}`)
             break;
         default:
             break;
     }
-    playerData.DIANA[mobKey] += intValue;
+    dianaData[mobKey].count += intValue;
 
     if (whatever == "RARE DROP") {
     }
     else if (whatever == "Wow") {
     }
     else {
-        playerData.COUNTER["minos_inquisitor"] += 1;
-        let count = playerData.COUNTER["minos_inquisitor"];
-        let time = formatMilliseconds(Date.now() - playerData.TIME["minos_inquisitor"]);
+        dianaData[mobKey].since += 1;
+        let count = dianaData[mobKey].since;
+        let time = formatMilliseconds(Date.now() - dianaData[mobKey].time);
         ChatLib.chat(`${YELLOW}${count < 2 ? "Burrow" : "Burrows"} since ${BOLD + RED}INQUISITOR${RESET + WHITE}[${YELLOW}${count} in ${time}${WHITE}]`)
     }
-    playerData.save()
+    dianaData.save()
 }).setCriteria("${whatever}! You dug out ${mob}!");;

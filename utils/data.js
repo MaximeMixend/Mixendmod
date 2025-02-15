@@ -16,77 +16,13 @@ export let catchHistory = new PogObject("MixendMod", {
     "history": []
 }, "data/catchHistory.json");
 
-export let playerData = new PogObject("MixendMod", {
-    "DIANA": {
-        "minos_hunter": 0,
-        "siamese_lynx": 0,
-        "minotaur": 0,
-        "gaia_construct": 0,
-        "minos_champion": 0,
-        "minos_inquisitor": 0,
-        "griffin_feather": 0,
-        "coins": 0
-    },
-    "Radioactive Vial": {
-        "time_drop": 0,
-        "current_count": 0,
-        "count_to_drop": [],
-        "magic_find": []
-    },
-    "Lucky Clover Core": {
-        "time_drop": 0,
-        "current_count": 0,
-        "count_to_drop": [],
-        "magic_find": []
-    },
-    "Daedalus Stick": {
-        "time_drop": 0,
-        "current_count": 0,
-        "count_to_drop": [],
-        "magic_find": []
-    },
-    "Deep Sea Orb": {
-        "time_drop": 0,
-        "current_count": 0,
-        "count_to_drop": [],
-        "magic_find": []
-    },
-    "COUNTER": {
-        "lord_jawbus": 0,
-        "plhlegblast": 0,
-        "thunder": 0,
-        "carrot_king": 0,
-        "sea_emperor": 0,
-        "minos_inquisitor": 13
-    },
-    "TIME": {
-        "lord_jawbus": 0,
-        "plhlegblast": 0,
-        "thunder": 0,
-        "carrot_king": 0,
-        "sea_emperor": 0,
-        "minos_inquisitor": 0
-    },
-    "AVG_DATA": {
-        "lord_jawbus": [],
-        "thunder": [],
-        "lord_jawbus_avg": 0,
-        "thunder_avg": 0
-    },
-    "CURRENT_TRACK": {
-        "plhlegblast": 0,
-        "magma_slug": 0,
-        "moogma": 0,
-        "lava_leech": 0,
-        "pyroclastic_worm": 0,
-        "lava_flame": 0,
-        "fire_eel": 0,
-        "taurus": 0,
-        "thunder": 0,
-        "lord_jawbus": 0
-    }, "TOTAL": 0,
-    "TOTAL_WATER": 0
-}, "data/data.json")
+export let dianaData = new PogObject("MixendMod", {
+    "minos_inquisitor": {
+        count: 0,
+        time: Date.now(),
+        since: 0
+    }
+}, "data/diana.json")
 
 export let currentSession = new PogObject("MixendMod", {
     "CURRENT_TRACK": {

@@ -553,7 +553,9 @@ export const seaCreatureData = {
     }
 }
 
-export const legendaryExp = [0, 660,
+export const legendaryExp = [
+    0,
+    660,
     1390,
     2190,
     3070,
@@ -651,4 +653,14 @@ export const legendaryExp = [0, 660,
     20103130,
     21719830,
     23466530,
-    25353230]
+    25353230
+]
+
+export const dianaMobs = {
+    "minos_hunter": {},
+    "siamese_lynx": {},
+    "minotaur": {},
+    "gaia_construct": {},
+    "minos_champion": {},
+    "minos_inquisitor": {},
+}
