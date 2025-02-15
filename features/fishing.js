@@ -2,7 +2,7 @@
  * Try to display tracking sea creatures via a command and a custom interface so it is not 24/7 on screen
  * 
  */
-import { announceDrop, formatMilliseconds, findFormattedKey, announceMob, calcAvg, sendCommand, getCatchOptions } from "../utils/functions";
+import { announceDrop, formatMilliseconds, findFormattedKey, announceMob, calcAvg, sendCommand, getCatchOptions, sendChat } from "../utils/functions";
 import { playerData, fileData, catchHistory, datav2, archive } from "../utils/data";
 import settings from "../settings";
 import { DARK_RED, BOLD, GOLD, RED, BLUE, RESET, GREEN, entitiesList, BLACK, WHITE } from "../utils/constants";
@@ -14,125 +14,9 @@ let textItem = new Text("", 0, 0);
 // TRACK MOBS
 // SC RATES
 let rateSc = 0;
-let rateExp = 0;
 let startTime = Date.now();
 let rateMobCount = 0;
-let rateMobExp = 0;
 let bobberCount = 0;
-let totalCoreMobs = 0;
-let coreDrySeconds = 0;
-let leftoverSeconds = 0;
-//========================================
-// Functions
-//========================================
-
-//========================================
-// WORMS & MAGMA CORES
-//========================================
-//#region Worms and Core
-
-register("chat", () => {
-    totalCoreMobs += 1;
-    if(!fileData.totalCoreMobs) {
-        fileData.totalCoreMobs = 1
-    } else {
-        fileData.totalCoreMobs += 1;
-    }
-    fileData.save()
-}).setCriteria("A Lava Blaze has surfaced from the depths!")
-
-register("chat", () => {
-    totalCoreMobs += 1;
-    if(!fileData.totalCoreMobs) {
-        fileData.totalCoreMobs = 1
-    } else {
-        fileData.totalCoreMobs += 1;
-    }
-    fileData.save()
-}).setCriteria("A Lava Pigman arose from the depths!")
-
-
-let lastCaptimeMagma = Date.now();
-let isCappedCores = false;
-register("step", () => {
-    if (settings.magmacoreCapPing) {
-        let pigmenCount = 0;
-        let flameCount = 0;
-        World.getAllEntities().forEach(entity => {
-            if (entity.getName().includes("Lava Pigman")) {
-                pigmenCount += 1;
-            }
-        });
-        World.getAllEntities().forEach(entity => {
-            if (entity.getName().includes("Lava Blaze")) {
-                flameCount += 1;
-            }
-        });
-        // Send ping once threshold reached, pings only once
-        if ((pigmenCount + flameCount) >= settings.magmacoreCapThreshold && !isCappedCores) {
-            sendCommand(`pc CORE CAP! [${pigmenCount} pigs & ${flameCount} blazes] [${formatMilliseconds(Date.now() - lastCaptimeMagma)}]`);
-            isCappedCores = true;
-        }
-        // Given cap was reached, if worms are cleared, starts counting until next cap
-        else if (isCappedCores && (pigmenCount + flameCount) < 2) {
-            isCappedCores = false;
-            lastCaptimeMagma = Date.now();
-        }
-        else { }
-    }
-}).setDelay(2);
-
-register("step", () => {
-    coreDrySeconds += 1;
-}).setFps(1)
-
-register("chat", (mf) => {
-    if (!fileData.magmacores) {
-        fileData.magmacores = 0;
-    }
-    fileData.magmacores += 1;
-    sendCommand(`pc core #${fileData.magmacores}! [+${mf}% ✯]`);
-
-    leftoverSeconds = coreDrySeconds - Math.floor(coreDrySeconds / 60) * 60
-    if(leftoverSeconds < 10) leftoverSeconds = "0" + leftoverSeconds.toString();
-
-    ChatLib.chat(`&5&lAverage of ${Math.round(fileData.totalCoreMobs / fileData.magmacores)} scs per core in ${fileData.totalCoreMobs} scs\n&6Dry Timer: ${Math.floor(coreDrySeconds / 60)}:${leftoverSeconds} minutes`);
-    coreDrySeconds = 0;
-    fileData.save();
-}).setCriteria("RARE DROP! Magma Core (+${mf}% ✯ Magic Find)");
-
-register("command", () => {
-    fileData.magmacores = 0;
-    fileData.save();
-}).setName("mixresetcores");
-
-
-let lastCaptimeWorms = Date.now();
-let isCappedWorms = false;
-register("step", () => {
-    if (settings.wormCapPing) {
-        let wormCount = 0;
-        World.getAllEntities().forEach(entity => {
-            if (entity.getName().includes("Flaming Worm")) {
-                wormCount += 1;
-            }
-        });
-        // Send ping once threshold reached, pings only once
-        if ((wormCount) >= settings.wormCapThreshold && !isCappedWorms) {
-            sendCommand(`pc WORM CAP! [${wormCount} in ${formatMilliseconds(Date.now() - lastCaptimeWorms)}]`);
-            isCappedWorms = true;
-        }
-        // Given cap was reached, if worms are cleared, starts counting until next cap
-        else if (isCappedWorms && (wormCount) < 2) {
-            isCappedWorms = false;
-            lastCaptimeWorms = Date.now();
-        }
-        else { }
-    }
-}).setDelay(2);
-
-//#endregion Worms
-
 //========================================
 // CATCH
 //========================================
@@ -208,19 +92,18 @@ register("chat", (expression, event) => {
             datav2.average[mobName].all.push(catchSince);
             datav2.average[mobName].value = calcAvg(datav2.average[mobName].all).toFixed(0);
         }
+
+        if (mobName == "thudner") {
+            setTimeout(() => {
+                ChatLib.chat("JUMPING!");
+            }, 5000);
+        }
     }
 
     if (settings.sendDoubleHook && sayDoubleHook && fileData.doubleHook) sendCommand(`pc ${settings.doubleHookMsg}`);
 
     catchHistory.history.push(Date.now());
     rateMobCount += 1;
-
-    // Compute exp gained
-    // baseExp * ((1+wisdom/100)) * (expertise 10 = 1.2)
-    let expGained = seaCreatureData[mobName].experience * (1 + (settings.fishingWisdom * (1 + (0.32 * bobberCount))) / 100) * 1.2
-    rateMobExp += expGained
-    if (fileData.doubleHook)
-        rateMobExp += expGained
 
     fileData.doubleHook = false;
 
@@ -246,6 +129,12 @@ register("chat", (expression, event) => {
     ...festivalCatch,
     ...crystalHollowCatch
 }));
+register("chat", () => {
+    datav2["vanquisher"].since += 1;
+    datav2.save();
+}).setCriteria(findFormattedKey({
+    ...crimsonIsleCatch
+}));
 //#endregion CATCH
 
 //========================================
@@ -256,7 +145,7 @@ register("step", (event) => {
     if (!settings.fishingGUIRate) { return; }
     let now = Date.now();
     let myList = catchHistory.history;
-    let modeConverter = settings.fishingGUIAvgMode ? 3600 : 60; // true: per hour, off: per min
+    let modeConverter = 3600; // true: per hour, off: per min
     let timespan = settings.fishingGUILength * 60; // in sec
 
     // Started less than settings.scRateWindowSec min ago
@@ -270,14 +159,11 @@ register("step", (event) => {
     };
     if (!myList.length) {
         rateMobCount = 0;
-        rateMobExp = 0;
         rateSc = 0;
-        rateExp = 0;
         startTime = Date.now();
     }
     else {
         rateSc = (myList.length / timespan) * modeConverter;
-        rateExp = (rateMobExp / timespan) * modeConverter
     }
     catchHistory.history = myList;
     catchHistory.save()
@@ -340,14 +226,9 @@ register("renderoverlay", () => {
             addGuiText(`[${GOLD + BOLD + activePet.level + RESET}] ${activePet.color + BOLD + activePet.name} `, 0, 1);
         }
         if (settings.fishingGUIRate) {
-            let rateMode = settings.fishingGUIAvgMode ? "hr" : "min";
-            let wisdomValue = settings.fishingWisdom * (1 + (0.032 * bobbers.length));
+            let rateMode = "hr";
             addGuiText(`${GREEN + BOLD}Sc/${rateMode}: ${GOLD + BOLD + rateSc.toFixed(1)} (${rateMobCount} in ${formatMilliseconds(Date.now() - startTime)})`, 0, 2);
-            if (settings.fishingGUIExpRate) {
-                addGuiText(`${GREEN + BOLD}Exp/${rateMode}: ${GOLD + BOLD + rateExp.toFixed(1)} (${rateMobExp.toFixed(1)} in ${formatMilliseconds(Date.now() - startTime)}) (${wisdomValue.toFixed(2)})`, 0, 3);
-            }
         }
-
         if (settings.fishingGUIBobbers) {
             addGuiText(`${GREEN + BOLD} Bobber: ${GOLD + BOLD + bobberCount} `, 2, 1);
         }
@@ -469,7 +350,6 @@ register("command", (arg, arg2) => {
 register("worldUnload", () => {
     startTime = Date.now();
     rateMobCount = 0;
-    rateMobExp = 0;
     catchHistory.history = [];
     catchHistory.save();
 });

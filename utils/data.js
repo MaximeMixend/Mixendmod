@@ -182,6 +182,16 @@ Object.keys(seaCreatureConst).forEach(name => {
 
 export let datav2 = new PogObject("MixendMod", {
     session: "default",
+    "vanquisher": {
+        count: 0,
+        time: 0,
+        since: 0,
+        session: {
+            count: 0,
+            time: 0,
+            since: 0
+        }
+    },
     "seaCreaturesGlobal": seaCreatures,
     "rareDrops": rareDrops,
     "average": average

@@ -1,7 +1,7 @@
 import { BOLD, GOLD, GRAY, GREEN, LIGHT_PURPLE, RED, WHITE } from "../utils/constants";
 import settings from "../settings";
-import { fileData } from "../utils/data";
-import { sendCommand } from "../utils/functions";
+import { datav2, fileData } from "../utils/data";
+import { formatMilliseconds, sendCommand } from "../utils/functions";
 
 let textItem = new Text("", 0, 0);
 
@@ -124,6 +124,7 @@ register("renderoverlay", () => {
         yPos += 10;
     }
 });
+
 //#endregion GUI
 
 // ====================================================
@@ -209,9 +210,14 @@ register("chat", () => {
     let z = Math.round(Player.getZ());
     let coords = `x: ${x}, y: ${y}, z: ${z} `
 
-    if (settings.vanquisherPartyPing && settings.vanquisherSettings) {
+    if (settings.vanquisherPartyPing) {
         let msg = settings.vanquisherMessage == "" ? "Vanquisher spawned! Sponsored by MixendMod™" : settings.vanquisherMessage
-        msg = settings.vanquisherCoords ? coords + msg : msg
+        msg = settings.vanquisherCoords ? coords + msg : msg;
+        msg = settings.catchMessageInformation ? msg + ` [${datav2["vanquisher"].since} in ${formatMilliseconds(Date.now() - datav2["vanquisher"].time)}]` : msg;
         sendCommand(`pc ${msg} `);
+        datav2["vanquisher"].time = Date.now();
+        datav2["vanquisher"].since = 0;
+        datav2["vanquisher"].count += 1;
+        datav2.save();
     }
 }).setCriteria("A Vanquisher is spawning nearby!");

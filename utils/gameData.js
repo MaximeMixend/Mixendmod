@@ -1,5 +1,5 @@
 import settings from "../settings";
-import { RED, DARK_BLUE, DARK_GRAY, DARK_PURPLE, DARK_RED, GOLD, LIGHT_PURPLE, AQUA, GREEN } from "./constants";
+import { RED, DARK_BLUE, DARK_GRAY, DARK_PURPLE, DARK_RED, GOLD, LIGHT_PURPLE, AQUA, GREEN, GRAY } from "./constants";
 
 /**
  * Return relevant data about the drop
@@ -10,27 +10,37 @@ export function dropData(itemName) {
         case "Radioactive Vial": return {
             color: LIGHT_PURPLE,
             dropPing: settings.sendRadioactiveVialPing,
-            spam: true
+            spam: true,
+            average: true,
+            mob: "lord_jawbus"
         }
         case "Lucky Clover Core": return {
             color: DARK_PURPLE,
             dropPing: settings.sendLuckyCloverCorePing,
-            spam: false
+            spam: false,
+            average: true,
+            mob: "carrot_king"
         }
         case "Deep Sea Orb": return {
             color: DARK_PURPLE,
             dropPing: settings.sendDeepSeaOrbPing,
-            spam: false
+            spam: false,
+            average: false,
+            mob: "grim_reaper"
         }
         case "Daedalus Stick": return {
             color: GOLD,
             dropPing: settings.sendDaedalusStickPing,
-            spam: false
+            spam: false,
+            average: false,
+            mob: "minotaur"
         }
         case "Test Item 123": return {
             color: GREEN,
             dropPing: settings.sendRadioactiveVialPing,
-            spam: false
+            spam: false,
+            average: false,
+            mob: "a"
         }
         default:
             return false;
@@ -65,7 +75,7 @@ export function catchMobData(mobName) {
             partyPing: settings.plhlegblastPartyPing,
             partyMessage: settings.plhlegblastMessage,
             trackedLoot: undefined,
-            trackAverage: false
+            trackAverage: true
         }
         case "grim_reaper": return {
             color: DARK_PURPLE,
@@ -112,6 +122,22 @@ export function catchMobData(mobName) {
             name: "Yeti",
             partyPing: settings.yetiPartyPing,
             partyMessage: settings.yetiMessage,
+            trackedLoot: undefined,
+            trackAverage: false
+        }
+        case "reindrake": return {
+            color: DARK_PURPLE,
+            name: "Reindrake",
+            partyPing: settings.reindrakePartyPing,
+            partyMessage: settings.reindrakeMessage,
+            trackedLoot: undefined,
+            trackAverage: false
+        }
+        case "great_white_shark": return {
+            color: GRAY,
+            name: "Great White Shark",
+            partyPing: settings.greatWhiteSharkPartyPing,
+            partyMessage: settings.greatWhiteSharkMessage,
             trackedLoot: undefined,
             trackAverage: false
         }
@@ -526,3 +552,103 @@ export const seaCreatureData = {
         weight: 36
     }
 }
+
+export const legendaryExp = [0, 660,
+    1390,
+    2190,
+    3070,
+    4030,
+    5080,
+    6230,
+    7490,
+    8870,
+    10380,
+    12030,
+    13830,
+    15790,
+    17920,
+    20230,
+    22730,
+    25430,
+    28350,
+    31510,
+    34930,
+    38630,
+    42630,
+    46980,
+    51730,
+    56930,
+    62630,
+    68930,
+    75930,
+    83730,
+    92430,
+    102130,
+    112930,
+    124930,
+    138230,
+    152930,
+    169130,
+    186930,
+    206430,
+    227730,
+    250930,
+    276130,
+    303530,
+    333330,
+    365730,
+    400930,
+    439130,
+    480530,
+    525330,
+    573730,
+    625930,
+    682130,
+    742530,
+    807330,
+    876730,
+    950930,
+    1030130,
+    1114830,
+    1205530,
+    1302730,
+    1406930,
+    1518630,
+    1638330,
+    1766530,
+    1903730,
+    2050430,
+    2207130,
+    2374830,
+    2554530,
+    2747230,
+    2953930,
+    3175630,
+    3413330,
+    3668030,
+    3940730,
+    4232430,
+    4544130,
+    4877830,
+    5235530,
+    5619230,
+    6030930,
+    6472630,
+    6949330,
+    7466030,
+    8027730,
+    8639430,
+    9306130,
+    10032830,
+    10824530,
+    11686230,
+    12622930,
+    13639630,
+    14741330,
+    15933030,
+    17219730,
+    18606430,
+    20103130,
+    21719830,
+    23466530,
+    25353230]

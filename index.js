@@ -5,9 +5,9 @@ import "./features/mining.js";
 import "./features/diana.js";
 import "./features/miniboss.js";
 import "./utils/functions.js";
-import "./features/general.js";
-import "./features/beta.js";
+import "./features/itemInfo.js";
 import "./features/rareDrops.js";
+import "./features/fishing/magmaCore.js";
 
 import { BOLD, DARK_RED, GOLD, YELLOW } from "./utils/constants.js";
 
@@ -19,5 +19,4 @@ register("command", () => {
 }).setName("mixend").setAliases("mix");
 
 ChatLib.chat(`${GOLD}[${DARK_RED + BOLD}MixendMod${GOLD}] ${GOLD + BOLD}v0.8.0`);
-ChatLib.chat(`${GOLD}[${DARK_RED + BOLD}MixendMod${GOLD}] ${GOLD + BOLD}Use ${YELLOW + BOLD}/mixhelp${GOLD + BOLD} for more info!`);
 

@@ -1,34 +1,13 @@
 import settings from "../settings";
-import { BOLD, DARK_RED, GOLD, GRAY, GREEN, ITALIC, RED, WHITE, mixendmod } from "../utils/constants";
+import { BOLD, GOLD, GREEN, RED, WHITE, mixendmod } from "../utils/constants";
 import { archive, datav2 } from "../utils/data";
 import { formatMilliseconds, sendCommand } from "../utils/functions";
 import { seaCreatureConst } from "../utils/gameData";
-const commands = [['/mixend /mix', "Opens settings"],
-['/mixgui', "Moves GUI"],
-['/mixguimini', "Moves gui for the miniboss"],
-['/mixresetcores', "Resets magma core counter"],
-['/mixsession', "Session handling commands"]
-['/mixtimers', "Show some timers (beta)"]
-];
-
-register("command", () => {
-    ChatLib.chat(`${DARK_RED + BOLD}--------------------------------`);
-    ChatLib.chat(`${DARK_RED + BOLD}---- MixendMod command helper ----`);
-    ChatLib.chat(`${DARK_RED + BOLD}--------------------------------`);
-    commands.forEach(element => {
-        ChatLib.chat(`${GOLD}${element[0]}${GRAY + ITALIC} ${element[1]}`);
-    });
-    ChatLib.chat(`${DARK_RED + BOLD}--------------------------------`);
-
-}).setName("mixhelp", true);
-
 register("chat", (player, message) => {
     // Handle rank
-    console.log(player, message)
     if (player.includes("]")) {
         player = player.split('] ')[1];
     }
-    console.log(player)
     if (message == settings.partyCode) {
         sendCommand(`p ${player}`);
     }
@@ -39,7 +18,6 @@ register("command", (command, ...arg) => {
     let sessionName = undefined;
     if (arg != undefined) { sessionName = arg.join(" "); }
 
-    let sessionObject = {}
     switch (command) {
         case 'start':
             // Check session name
@@ -263,3 +241,82 @@ function saveSessionData() {
     sessionObject["lastSaved"] = Date.now();
     archive.sessions[datav2.session] = sessionObject
 }
+
+//#region Party commands
+register("chat", () => {
+    if (settings.enablePartyCommands) {
+        sendCommand(`pc [Commands] !pt <playername> | !warp`);
+    }
+}).setCriteria("Party ${*}: !help");
+
+register("chat", () => {
+    let count = datav2["rareDrops"]["Radioactive Vial"].since;
+    let time = datav2["rareDrops"]["Radioactive Vial"].time;
+    sendCommand(`pc Last Vial ${count} Jawbus ago`);
+}).setCriteria("Party ${*}: !vi");
+
+register("chat", () => {
+    let count = datav2["seaCreaturesGlobal"]["lord_jawbus"].since;
+    let time = datav2["seaCreaturesGlobal"]["lord_jawbus"].time;
+    sendCommand(`pc Last Jawbus ${count} sc ago [${datav2.average["lord_jawbus"].value} AVG]`);
+}).setCriteria("Party ${*}: !ji");
+
+register("chat", () => {
+    let count = datav2["seaCreaturesGlobal"]["thunder"].since;
+    let time = datav2["seaCreaturesGlobal"]["thunder"].time;
+    sendCommand(`pc Last Thunder ${count} sc ago [${datav2.average["thunder"].value} AVG]`);
+}).setCriteria("Party ${*}: !ti");
+
+register("chat", (player) => {
+    if (settings.enablePartyCommands && settings.enablePartyTransfer) {
+        sendCommand(`p transfer ${player}`);
+    }
+}).setCriteria("Party ${*}: !pt ${player}");
+
+register("chat", (player) => {
+    if (settings.enablePartyCommands && settings.enablePartyTransfer) {
+        sendCommand(`p ${player}`);
+    }
+}).setCriteria("Party ${*}: !p ${player}");
+
+register("chat", (playername) => {
+    if (settings.enablePartyCommands && settings.enablePartyTransfer) {
+        sendCommand(`p transfer ${playername}`);
+    }
+}).setCriteria("Party > ${*} ${playername}: !pt");
+
+register("chat", (playername) => {
+    if (settings.enablePartyCommands && settings.enablePartyTransfer) {
+        sendCommand(`p transfer ${playername}`);
+    }
+}).setCriteria("Party > ${*} ${playername}: !ptme");
+
+register("chat", (playername) => {
+    if (settings.enablePartyCommands) {
+        sendCommand(`p settings allinvite`);
+    }
+}).setCriteria("Party > ${*} ${playername}: !allinvite");
+
+register("chat", (playername) => {
+    if (settings.enablePartyCommands) {
+        sendCommand(`p settings allinvite`);
+    }
+}).setCriteria("Party > ${*} ${playername}: !allinv");
+
+register("chat", () => {
+    if (settings.enablePartyCommands && settings.enablePartyWarp) {
+        sendCommand("p warp");
+    }
+}).setCriteria("Party ${*}: !warp");
+
+register("chat", () => {
+    if (settings.enablePartyCommands && settings.enablePartyWarp) {
+        sendCommand("p warp");
+    }
+}).setCriteria("Party ${*}: !w");
+//#endregion Party commands
+
+
+register("chat", () => {
+    Client.showTitle(`aaaaaaaa`, "", 1, 1, 1);
+}).setCriteria("Sending to server ${*}");

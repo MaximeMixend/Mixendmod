@@ -38,10 +38,7 @@ class Settings {
         this.addDependency(`${TABname}Active pet`, "Fishing GUI");
 
         this.addDependency(`${TABname}Catch rate`, "Fishing GUI");
-        this.addDependency(`${TABname}Fish exp rate`, "Fishing GUI");
         this.addDependency(`${TABname}Catching rate window length`, "Fishing GUI");
-        this.addDependency(`${TABname}Average mode`, "Fishing GUI");
-        this.addDependency(`${TABname}Fishing wisdom`, "Fishing GUI");
 
         // 3. Crimson Catch
         this.addDependency(`${TABname}Lord Jawbus message`, "Lord Jawbus catch");
@@ -63,9 +60,12 @@ class Settings {
 
         this.addDependency(`${TABname}Yeti message`, "Yeti catch");
 
+        this.addDependency(`${TABname}Reindrake message`, "Reindrake catch");
+
+        this.addDependency(`${TABname}Great White Shark message`, "Great White Shark catch");
+
         // 5. Other
         this.addDependency(`${TABname}Double hook message`, "Double hook");
-        this.addDependency(`${TABname}Hide double hook message`, "Double hook");
 
         // Other 
         this.addDependency(`${TABname}Enable party transfer`, "Enable party commands");
@@ -101,7 +101,7 @@ class Settings {
         category: "General",
         subcategory: "Party commands",
     })
-    enablePartyCommands = true;
+    enablePartyCommands = false;
 
     @CheckboxProperty({
         name: `${TABname}Enable party warp`,
@@ -109,7 +109,7 @@ class Settings {
         category: "General",
         subcategory: "Party commands",
     })
-    enablePartyWarp = true;
+    enablePartyWarp = false;
 
     @CheckboxProperty({
         name: `${TABname}Enable party transfer`,
@@ -117,7 +117,7 @@ class Settings {
         category: "General",
         subcategory: "Party commands",
     })
-    enablePartyTransfer = true;
+    enablePartyTransfer = false;
     //#endregion party commands
 
     //#region Pets
@@ -129,6 +129,7 @@ class Settings {
         subcategory: "Pet",
     })
     petLevelWarning = false;
+
     @CheckboxProperty({
         name: `Add pet percentage progress`,
         description: 'Adds Your Pet leveled up to level 0! [00.00%%]',
@@ -144,6 +145,7 @@ class Settings {
         subcategory: "Pet",
     })
     petSummonHide = false;
+
     @CheckboxProperty({
         name: `Hide autopet message`,
         description: `Hides "Autopet equipped your [Lvl 0] Pet! VIEW RULE" messages`,
@@ -153,7 +155,6 @@ class Settings {
     petAutopetHide = false;
 
     //#endregion Pets
-
     @CheckboxProperty({
         name: `Spirit mask display`,
         description: `Displays a screen message when spirit mask is used / ready`,
@@ -169,9 +170,7 @@ class Settings {
         subcategory: "Misc",
     })
     thunderBottleFeature = false;
-
     //#endregion General
-
 
     // ====================================================
 
@@ -218,7 +217,7 @@ class Settings {
         category: "Fishing",
         subcategory: "2. Fishing GUI"
     })
-    fishingGUIMythic = true;
+    fishingGUIMythic = false;
 
     @CheckboxProperty({
         name: `${TABname}Bobber`,
@@ -226,7 +225,7 @@ class Settings {
         category: "Fishing",
         subcategory: "2. Fishing GUI"
     })
-    fishingGUIBobbers = true;
+    fishingGUIBobbers = false;
 
     @CheckboxProperty({
         name: `${TABname}Active pet`,
@@ -234,7 +233,7 @@ class Settings {
         category: "Fishing",
         subcategory: "2. Fishing GUI"
     })
-    fishingGUIPet = true;
+    fishingGUIPet = false;
 
     @CheckboxProperty({
         name: `${TABname}Catch rate`,
@@ -242,15 +241,7 @@ class Settings {
         category: "Fishing",
         subcategory: "2. Fishing GUI"
     })
-    fishingGUIRate = true;
-
-    @CheckboxProperty({
-        name: `${TABname}Fish exp rate`,
-        description: `Display exp rates`,
-        category: "Fishing",
-        subcategory: "2. Fishing GUI"
-    })
-    fishingGUIExpRate = true;
+    fishingGUIRate = false;
 
     @SliderProperty({
         name: `${TABname}Catching rate window length`,
@@ -261,24 +252,6 @@ class Settings {
         max: 60
     })
     fishingGUILength = 5;
-
-    @SwitchProperty({
-        name: `${TABname}Average mode`,
-        description: `ON: per hour, OFF: per minute`,
-        category: "Fishing",
-        subcategory: "2. Fishing GUI"
-    })
-    fishingGUIAvgMode = true;
-
-    @SliderProperty({
-        name: `${TABname}Fishing wisdom`,
-        description: `Your base fishing wisdom`,
-        category: "Fishing",
-        subcategory: "2. Fishing GUI",
-        min: 0,
-        max: 250
-    })
-    fishingWisdom = 5;
     //#endregion 2. Fishing GUI
 
     //#region 3. Crimson catch
@@ -295,7 +268,7 @@ class Settings {
         category: "Fishing",
         subcategory: "3. Crimson catch",
     })
-    jawbusPartyPing = true;
+    jawbusPartyPing = false;
 
     @TextProperty({
         name: `${TABname}Lord Jawbus message`,
@@ -312,7 +285,7 @@ class Settings {
         category: "Fishing",
         subcategory: "3. Crimson catch",
     })
-    thunderPartyPing = true;
+    thunderPartyPing = false;
 
     @TextProperty({
         name: `${TABname}Thunder message`,
@@ -329,7 +302,7 @@ class Settings {
         category: "Fishing",
         subcategory: "3. Crimson catch",
     })
-    plhlegblastPartyPing = true;
+    plhlegblastPartyPing = false;
 
     @TextProperty({
         name: `${TABname}Plhlegblast message`,
@@ -355,7 +328,7 @@ class Settings {
         category: "Fishing",
         subcategory: "4. Other catch",
     })
-    carrotKingPartyPing = true;
+    carrotKingPartyPing = false;
 
     @TextProperty({
         name: `${TABname}Carrot King message`,
@@ -372,7 +345,7 @@ class Settings {
         category: "Fishing",
         subcategory: "4. Other catch",
     })
-    seaEmperorPartyPing = true;
+    seaEmperorPartyPing = false;
 
     @TextProperty({
         name: `${TABname}Sea Emperor message`,
@@ -389,7 +362,7 @@ class Settings {
         category: "Fishing",
         subcategory: "4. Other catch",
     })
-    waterHydraPartyPing = true;
+    waterHydraPartyPing = false;
 
     @TextProperty({
         name: `${TABname}Water Hydra message`,
@@ -406,7 +379,7 @@ class Settings {
         category: "Fishing",
         subcategory: "4. Other catch",
     })
-    phantomFishermanPartyPing = true;
+    phantomFishermanPartyPing = false;
 
     @TextProperty({
         name: `${TABname}Phantom Fisherman message`,
@@ -423,7 +396,7 @@ class Settings {
         category: "Fishing",
         subcategory: "4. Other catch",
     })
-    grimReaperPartyPing = true;
+    grimReaperPartyPing = false;
 
     @TextProperty({
         name: `${TABname}Grim Reaper message`,
@@ -440,7 +413,7 @@ class Settings {
         category: "Fishing",
         subcategory: "4. Other catch",
     })
-    yetiPartyPing = true;
+    yetiPartyPing = false;
 
     @TextProperty({
         name: `${TABname}Yeti message`,
@@ -450,6 +423,40 @@ class Settings {
     })
     yetiMessage = "";
     //#endregion Yeti
+    //#region Reindrake
+    @CheckboxProperty({
+        name: `Reindrake catch`,
+        description: "Enables a party message when reeling the mob.",
+        category: "Fishing",
+        subcategory: "4. Other catch",
+    })
+    reindrakePartyPing = false;
+
+    @TextProperty({
+        name: `${TABname}Reindrake message`,
+        description: `Changes the message sent to the party when reeling the mob.\nNeeds the corresponding mob message setting enabled.\nLeave blank for default message`,
+        category: "Fishing",
+        subcategory: "4. Other catch"
+    })
+    reindrakeMessage = "";
+    //#endregion Reindrake
+    //#region Great White Shark
+    @CheckboxProperty({
+        name: `Great White Shark catch`,
+        description: "Enables a party message when reeling the mob.",
+        category: "Fishing",
+        subcategory: "4. Other catch",
+    })
+    greatWhiteSharkPartyPing = false;
+
+    @TextProperty({
+        name: `${TABname}Great White Shark message`,
+        description: `Changes the message sent to the party when reeling the mob.\nNeeds the corresponding mob message setting enabled.\nLeave blank for default message`,
+        category: "Fishing",
+        subcategory: "4. Other catch"
+    })
+    greatWhiteSharkMessage = "";
+    //#endregion Great White Shark
     //#endregion 4. Other catch
 
     //#region 5. Other
@@ -459,7 +466,7 @@ class Settings {
         category: "Fishing",
         subcategory: "5. Other"
     })
-    sendDoubleHook = true;
+    sendDoubleHook = false;
 
     @TextProperty({
         name: `${TABname}Double hook message`,
@@ -565,7 +572,7 @@ class Settings {
         category: "Magic Find",
         subcategory: "Drop Party ping",
     })
-    partyPingDrops = true;
+    partyPingDrops = false;
 
     @CheckboxProperty({
         name: `${TABname}Radioactive Vial`,
@@ -573,7 +580,7 @@ class Settings {
         category: "Magic Find",
         subcategory: "Drop Party ping",
     })
-    sendRadioactiveVialPing = true;
+    sendRadioactiveVialPing = false;
 
     @CheckboxProperty({
         name: `${TABname}Lucky Clover Core`,
@@ -581,7 +588,7 @@ class Settings {
         category: "Magic Find",
         subcategory: "Drop Party ping",
     })
-    sendLuckyCloverCorePing = true;
+    sendLuckyCloverCorePing = false;
 
     @CheckboxProperty({
         name: `${TABname}Deep Sea Orb`,
@@ -589,7 +596,7 @@ class Settings {
         category: "Magic Find",
         subcategory: "Drop Party ping",
     })
-    sendDeepSeaOrbPing = true;
+    sendDeepSeaOrbPing = false;
 
     @CheckboxProperty({
         name: `${TABname}Daedalus Stick`,
@@ -597,7 +604,7 @@ class Settings {
         category: "Magic Find",
         subcategory: "Drop Party ping",
     })
-    sendDaedalusStickPing = true;
+    sendDaedalusStickPing = false;
     //#endregion Magic Find
 
     // -----------------------------------
@@ -610,17 +617,17 @@ class Settings {
         category: "Crystal Hollows",
         subcategory: "Worm fishing"
     })
-    wormCapPing = true;
+    wormCapPing = false;
 
     @SliderProperty({
         name: `${TABname}Worm cap threshold`,
         description: "Set worm count at which mob cap ping starts",
         category: "Crystal Hollows",
         subcategory: "Worm fishing",
-        min: 30,
+        min: 1,
         max: 60
     })
-    wormCapThreshold = 59;
+    wormCapThreshold = 19;
 
     @SwitchProperty({
         name: `Ping magma core cap`,
@@ -628,17 +635,27 @@ class Settings {
         category: "Crystal Hollows",
         subcategory: "Magma core fishing",
     })
-    magmacoreCapPing = true;
+    magmacoreCapPing = false;
 
     @SliderProperty({
         name: `${TABname}Magma core cap threshold`,
         description: "Set lava flame+pigmen count at which mob cap ping starts",
         category: "Crystal Hollows",
         subcategory: "Magma core fishing",
-        min: 30,
+        min: 1,
         max: 60
     })
-    magmacoreCapThreshold = 59;
+    magmacoreCapThreshold = 19;
+
+    @SwitchProperty({
+        name: `Magma core information`,
+        description: "Adds some statistics in the chat when dropping a Magma Core\n\
+        \"Average of x scs per core in x scs\n\
+        Dry Timer: xm xxs\"",
+        category: "Crystal Hollows",
+        subcategory: "Magma core fishing",
+    })
+    magmaCoreStats = false;
     //#endregion Crystal Hollows
 
     // -----------------------------------

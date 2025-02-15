@@ -24,7 +24,7 @@
  *      Feather -> total
  * 
 */
-import { playerData } from "../utils/data";
+import { datav2, playerData } from "../utils/data";
 import { formatMilliseconds, sendCommand } from "../utils/functions";
 import settings from "../settings";
 import { BOLD, RED, RESET, WHITE, YELLOW } from "../utils/constants";
@@ -57,23 +57,11 @@ register("chat", (whatever, mob) => {
                 sendCommand(`pc ${coord} INQUISITOR [${playerData.COUNTER["minos_inquisitor"]} in ${formatMilliseconds(Date.now() - playerData.TIME["minos_inquisitor"])}]`);
                 playerData.COUNTER["minos_inquisitor"] = 0;
                 playerData.TIME["minos_inquisitor"] = Date.now();
-            }, 250);
+            }, 500);
             break;
         case "minotaur":
-            playerData["Daedalus Stick"].current_count += 1;
-            ChatLib.chat(`&6&lLast STICK: ${playerData["Daedalus Stick"].current_count}`)
-            break;
-
-        // This is for coins, need to make it specific
-        case undefined:
-            var match = mob.match(/(\d+,\d+|\d+)/);
-            if (match) {
-                var numericValue = match[0];
-                numericValue = numericValue.replace(/,/g, '');
-                intValue = parseInt(numericValue, 10);
-                mobKey = "coins";
-                ChatLib.chat(`&6&lTOTAL: ${playerData.DIANA[mobKey] + intValue}`)
-            }
+            datav2.rareDrops["Daedalus Stick"].since += 1;
+            ChatLib.chat(`&6&lLast STICK: ${datav2.rareDrops["Daedalus Stick"].since}`)
             break;
         default:
             break;
@@ -83,7 +71,6 @@ register("chat", (whatever, mob) => {
     if (whatever == "RARE DROP") {
     }
     else if (whatever == "Wow") {
-
     }
     else {
         playerData.COUNTER["minos_inquisitor"] += 1;

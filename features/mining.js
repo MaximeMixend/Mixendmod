@@ -1,12 +1,6 @@
 import settings from "../settings";
 import { sendCommand } from "../utils/functions";
 
-
-// -----------------------------------
-// ABILITY
-// -----------------------------------
-// TODO: Make a GUI status
-
 register("chat", () => {
     if (settings.mineshaftMessage) {
         sendCommand(`pc ${settings.mineshaftMessage}`);

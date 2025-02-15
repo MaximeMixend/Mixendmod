@@ -14,6 +14,12 @@ export function sendCommand(msg, log = false) {
     }
 }
 
+export function sendChat(msg, condition = true) {
+    if (condition) {
+        ChatLib.chat(msg);
+    }
+}
+
 export function announceMob(partyMsg, counter, interval) {
     const valuePerHour = (counter * 3600000) / interval;
     const formattedInterval = formatMilliseconds(interval);
@@ -163,4 +169,50 @@ export function getCatchOptions() {
         mobs = { ...mobs, ...spookyCatch }
     }
     return mobs
+}
+
+// Parse string time like 5m 30s into the equivalent integer number of seconds
+export function parseTimeToSeconds(timeStr) {
+    let totalSeconds = 0;
+
+    // Match minutes (e.g., "5m") or seconds (e.g., "60s") with optional spaces
+    const minutesMatch = timeStr.match(/(\d+)m/);
+    const secondsMatch = timeStr.match(/(\d+)s/);
+
+    // If minutes are found, convert to seconds and add to total
+    if (minutesMatch) {
+        const minutes = parseInt(minutesMatch[1], 10);
+        totalSeconds += minutes * 60;
+    }
+
+    // If seconds are found, add directly to total
+    if (secondsMatch) {
+        const seconds = parseInt(secondsMatch[1], 10);
+        totalSeconds += seconds;
+    }
+
+    return totalSeconds;
+}
+
+
+export function numeralToRoman(num) {
+    if (isNaN(num))
+        return NaN;
+    var digits = String(+num).split(""),
+        key = ["", "C", "CC", "CCC", "CD", "D", "DC", "DCC", "DCCC", "CM",
+            "", "X", "XX", "XXX", "XL", "L", "LX", "LXX", "LXXX", "XC",
+            "", "I", "II", "III", "IV", "V", "VI", "VII", "VIII", "IX"],
+        roman = "",
+        i = 3;
+    while (i--)
+        roman = (key[+digits.pop() + (i * 10)] || "") + roman;
+    return Array(+digits.join("") + 1).join("M") + roman;
+}
+
+export function formatKeyAttribute(str) {
+    return str
+        .replace(/_/g, ' ') // Replace underscores with spaces
+        .split(' ') // Split the string into words
+        .map(word => word.charAt(0).toUpperCase() + word.slice(1)) // Capitalize the first letter of each word
+        .join(' '); // Join the words back into a single string
 }
