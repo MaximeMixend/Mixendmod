@@ -1,109 +1,14 @@
 import settings from "../settings";
-import { BOLD, DARK_GREEN, GOLD, GRAY, RED } from "../utils/constants";
+import { BOLD, DARK_GREEN, DARK_RED, GOLD, GRAY, GREEN, RED } from "../utils/constants";
+import { sendChat } from "../utils/functions";
+import { legendaryExp } from "../utils/gameData";
 
 export let activePet = {
     level: "Lvl 0", name: "undefined", color: GRAY
 };
 
-const legendaryExp = [0, 660,
-    1390,
-    2190,
-    3070,
-    4030,
-    5080,
-    6230,
-    7490,
-    8870,
-    10380,
-    12030,
-    13830,
-    15790,
-    17920,
-    20230,
-    22730,
-    25430,
-    28350,
-    31510,
-    34930,
-    38630,
-    42630,
-    46980,
-    51730,
-    56930,
-    62630,
-    68930,
-    75930,
-    83730,
-    92430,
-    102130,
-    112930,
-    124930,
-    138230,
-    152930,
-    169130,
-    186930,
-    206430,
-    227730,
-    250930,
-    276130,
-    303530,
-    333330,
-    365730,
-    400930,
-    439130,
-    480530,
-    525330,
-    573730,
-    625930,
-    682130,
-    742530,
-    807330,
-    876730,
-    950930,
-    1030130,
-    1114830,
-    1205530,
-    1302730,
-    1406930,
-    1518630,
-    1638330,
-    1766530,
-    1903730,
-    2050430,
-    2207130,
-    2374830,
-    2554530,
-    2747230,
-    2953930,
-    3175630,
-    3413330,
-    3668030,
-    3940730,
-    4232430,
-    4544130,
-    4877830,
-    5235530,
-    5619230,
-    6030930,
-    6472630,
-    6949330,
-    7466030,
-    8027730,
-    8639430,
-    9306130,
-    10032830,
-    10824530,
-    11686230,
-    12622930,
-    13639630,
-    14741330,
-    15933030,
-    17219730,
-    18606430,
-    20103130,
-    21719830,
-    23466530,
-    25353230]
+let petReached100 = false
+let timeAlertPet100 = 0;
 
 // ====================================================
 // Pet level up
@@ -112,16 +17,21 @@ const legendaryExp = [0, 660,
 register("chat", (pet, level, event) => {
     if (!settings.petLevelWarning) { return; }
 
-    let color = GOLD;
     if (level == "100") {
-        color = DARK_GREEN;
-        Client.showTitle(`${color + BOLD + pet.toUpperCase()} LEVEL ${level}`, "", 10, 140, 10);
+        // Make this screal until stopped
+        petReached100 = true;
+        timeAlertPet100 = 30;
+        new Message(
+            new TextComponent(`${GOLD}[MIX] ${RED}Pet reached Level 100. ${DARK_GREEN}${BOLD}[Click to remove the alert]`)
+                .setClickAction('run_command')
+                .setClickValue('/mixpet100 ')
+        ).chat();
+        Client.showTitle(`${DARK_GREEN + BOLD + pet.toUpperCase()} LEVEL ${level}`, "", 10, 100, 10);
     }
     else if (parseInt(level) > 94 && parseInt(level) < 100) {
-        Client.showTitle(`${color + BOLD + pet.toUpperCase()} LEVEL ${level}`, "", 10, 120, 10);
+        Client.showTitle(`${GOLD + BOLD + pet.toUpperCase()} LEVEL ${level}`, "", 10, 100, 10);
     }
     else {
-
     }
     if (!settings.petPercentageProgress) { return; }
     if (ChatLib.getChatMessage(event, true).split(pet)[0].substr(-2) == "&6" && parseInt(level) <= 100) {
@@ -131,6 +41,40 @@ register("chat", (pet, level, event) => {
     }
 }).setCriteria("Your ${pet} leveled up to level ${level}!");
 //#endregion Level up
+
+register("command", (...args) => {
+    petReached100 = false;
+    timeAlertPet100 = 0;
+    sendChat(`${GREEN}Removed the pet alert.`);
+}).setName("mixpet100");
+
+// register("command", (...args) => {
+//     petReached100 = true;
+//     timeAlertPet100 = 30;
+//     Client.showTitle(`${DARK_GREEN + BOLD} LEVEL`, "", 10, 100, 10);
+//     new Message(
+//         new TextComponent(`${GOLD}[MIX] ${RED}Pet reached Level 100. ${DARK_GREEN}${BOLD}[Click to remove the alert]`)
+//             .setClickAction('run_command')
+//             .setClickValue('/mixpet100 ')
+//     ).chat();
+// }).setName("mixtestpet100");
+
+register("step", (event) => {
+    if (!petReached100) { return; } 
+
+    if (timeAlertPet100 == 0) {
+        Client.showTitle(`${DARK_GREEN + BOLD} PET LEVEL 100`, "", 10, 40, 10);
+        new Message(
+            new TextComponent(`${GOLD}[MIX] ${RED}Pet reached Level 100. ${DARK_GREEN}${BOLD}[Click to remove the alert]`)
+                .setClickAction('run_command')
+                .setClickValue('/mixpet100 ')
+        ).chat();
+        timeAlertPet100 = 20;
+    }
+    else {
+        timeAlertPet100 -= 1;
+    }
+}).setFps(2);
 
 // ====================================================
 // Active pet
@@ -178,3 +122,9 @@ register("chat", (pet, event) => {
     activePet.level = "?";
 }).setCriteria("You summoned your ${pet}!");
 //#endregion Active pet
+
+
+register("chat", (kills, bonus, event) => {
+    cancel(event);
+    // console.log("&");
+}).setCriteria("+${kills} Kill Combo ${bonus}")
