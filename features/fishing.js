@@ -352,3 +352,9 @@ register("worldUnload", () => {
     catchHistory.history = [];
     catchHistory.save();
 });
+
+
+register("chat", () => {
+    let oldestFish = Date.now() - catchHistory.history[0];
+    sendCommand(`pc ${rateSc.toFixed(1)} sc/hr in the past ${formatMilliseconds(oldestFish)} (${rateMobCount} sc in ${formatMilliseconds(Date.now() - startTime)})`)
+}).setCriteria("Party ${*}: !mixrates");
