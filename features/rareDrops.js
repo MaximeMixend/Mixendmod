@@ -1,7 +1,7 @@
 import settings from "../settings";
-import { AQUA, BOLD, GOLD, LIGHT_PURPLE, WHITE, YELLOW } from "../utils/constants";
+import { AQUA, BOLD, GOLD, LIGHT_PURPLE } from "../utils/constants";
 import { datav2 } from "../utils/data";
-import { announceDrop, calcAvg, formatKeyAttribute, formatMilliseconds, numeralToRoman, sendCommand } from "../utils/functions";
+import { announceDrop, formatKeyAttribute, getSeaCreatureArmors, numeralToRoman } from "../utils/functions";
 import { dropData } from "../utils/gameData";
 
 // Chat register RARE DROPS
@@ -179,8 +179,8 @@ function handleItemDropped(item) {
         case "FLAMING_CHESTPLATE":
             // if attribute MF or BF
             let keys = getSkyblock(item, "attributes").keySet;
-            let attrName = ['magic_find', 'blazing_fortune', 'fishing_experience']
-                .filter(attr => keys.includes(attr))
+            let attribList = getSeaCreatureArmors();
+            let attrName = attribList.filter(attr => keys.includes(attr))
                 .map(attr => {
                     let value = getSkyblock(item, "attributes").get(attr);
                     return `${attr.replace('_', ' ').replace(/\b\w/g, char => char.toUpperCase())} ${numeralToRoman(parseInt(value))}`;

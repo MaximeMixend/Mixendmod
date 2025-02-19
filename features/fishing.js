@@ -2,7 +2,7 @@
  * Try to display tracking sea creatures via a command and a custom interface so it is not 24/7 on screen
  * 
  */
-import { formatMilliseconds, findFormattedKey, announceMob, calcAvg, sendCommand, getCatchOptions } from "../utils/functions";
+import { formatMilliseconds, findFormattedKey, announceMob, calcAvg, sendCommand, getCatchOptions, sendChat } from "../utils/functions";
 import { fileData, catchHistory, datav2 } from "../utils/data";
 import settings from "../settings";
 import { DARK_RED, BOLD, GOLD, RED, BLUE, RESET, GREEN, entitiesList, BLACK, WHITE } from "../utils/constants";
@@ -55,8 +55,8 @@ register("chat", (expression, event) => {
 
     // Do things based off settings (party ping, custom catch message)
     if (catchMobData(mobName)) {
-        const catchInterval = Date.now() - datav2["seaCreaturesGlobal"][mobName].session.time;
-        const catchSince = datav2["seaCreaturesGlobal"][mobName].session.since;
+        const catchInterval = Date.now() - datav2["seaCreaturesGlobal"][mobName].time;
+        const catchSince = datav2["seaCreaturesGlobal"][mobName].since;
         let catchData = catchMobData(mobName);
 
         // Custom catch message

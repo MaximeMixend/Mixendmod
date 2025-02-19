@@ -216,3 +216,13 @@ export function formatKeyAttribute(str) {
         .map(word => word.charAt(0).toUpperCase() + word.slice(1)) // Capitalize the first letter of each word
         .join(' '); // Join the words back into a single string
 }
+
+export function getSeaCreatureArmors() {
+    let attrib = {
+        "magic_find": settings.seaCreatureAmorMagicFind,
+        "blazing_fortune": settings.seaCreatureAmorBlazingFortune,
+        "fishing_experience": settings.seaCreatureAmorFishingExperience,
+        "infection": settings.seaCreatureAmorInfection,
+    }
+    return Object.keys(attrib).filter(key => attrib[key] && settings.seaCreatureFeedback);
+}

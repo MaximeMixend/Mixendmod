@@ -1,5 +1,5 @@
 import settings from "../settings";
-import { BOLD, DARK_GREEN, DARK_RED, GOLD, GRAY, GREEN, RED } from "../utils/constants";
+import { BOLD, DARK_GREEN, GOLD, GRAY, GREEN, RED } from "../utils/constants";
 import { sendChat } from "../utils/functions";
 import { legendaryExp } from "../utils/gameData";
 
@@ -9,6 +9,7 @@ export let activePet = {
 
 let petReached100 = false
 let timeAlertPet100 = 0;
+const TIME_ALERT_CD = 10;
 
 // ====================================================
 // Pet level up
@@ -20,16 +21,16 @@ register("chat", (pet, level, event) => {
     if (level == "100") {
         // Make this screal until stopped
         petReached100 = true;
-        timeAlertPet100 = 30;
+        timeAlertPet100 = TIME_ALERT_CD;
         new Message(
             new TextComponent(`${GOLD}[MIX] ${RED}Pet reached Level 100. ${DARK_GREEN}${BOLD}[Click to remove the alert]`)
                 .setClickAction('run_command')
                 .setClickValue('/mixpet100 ')
         ).chat();
-        Client.showTitle(`${DARK_GREEN + BOLD + pet.toUpperCase()} LEVEL ${level}`, "", 10, 100, 10);
+        Client.showTitle(`${DARK_GREEN + BOLD + pet.toUpperCase()} LEVEL ${level}`, "", 5, 50, 5);
     }
     else if (parseInt(level) > 94 && parseInt(level) < 100) {
-        Client.showTitle(`${GOLD + BOLD + pet.toUpperCase()} LEVEL ${level}`, "", 10, 100, 10);
+        Client.showTitle(`${GOLD + BOLD + pet.toUpperCase()} LEVEL ${level}`, "", 5, 50, 5);
     }
     else {
     }
@@ -48,10 +49,11 @@ register("command", (...args) => {
     sendChat(`${GREEN}Removed the pet alert.`);
 }).setName("mixpet100");
 
+// // Uncomment for debug
 // register("command", (...args) => {
 //     petReached100 = true;
-//     timeAlertPet100 = 30;
-//     Client.showTitle(`${DARK_GREEN + BOLD} LEVEL`, "", 10, 100, 10);
+//     timeAlertPet100 = TIME_ALERT_CD;
+//     Client.showTitle(`${DARK_GREEN + BOLD} LEVEL`, "", 10, 50, 10);
 //     new Message(
 //         new TextComponent(`${GOLD}[MIX] ${RED}Pet reached Level 100. ${DARK_GREEN}${BOLD}[Click to remove the alert]`)
 //             .setClickAction('run_command')
@@ -60,16 +62,16 @@ register("command", (...args) => {
 // }).setName("mixtestpet100");
 
 register("step", (event) => {
-    if (!petReached100) { return; } 
+    if (!petReached100) { return; }
 
     if (timeAlertPet100 == 0) {
-        Client.showTitle(`${DARK_GREEN + BOLD} PET LEVEL 100`, "", 10, 40, 10);
+        Client.showTitle(`${DARK_GREEN + BOLD} PET LEVEL 100`, "", 10, 50, 10);
         new Message(
             new TextComponent(`${GOLD}[MIX] ${RED}Pet reached Level 100. ${DARK_GREEN}${BOLD}[Click to remove the alert]`)
                 .setClickAction('run_command')
                 .setClickValue('/mixpet100 ')
         ).chat();
-        timeAlertPet100 = 20;
+        timeAlertPet100 = TIME_ALERT_CD;
     }
     else {
         timeAlertPet100 -= 1;

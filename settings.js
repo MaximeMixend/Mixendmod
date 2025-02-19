@@ -17,7 +17,7 @@ const TABname = "   ▪ ";
 
 @Vigilant("MixendMod", "MixendMod", {
     getCategoryComparator: () => (a, b) => {
-        const categories = ["General", "Fishing", "Crimson Isle", "Magic Find", "Crystal Hollows", "Mining", "Diana"];
+        const categories = ["General", "Fishing", "Crimson Isle", "Sea Creature Armor", "Magic Find", "Magma Core", "Diana", "Party", "Pet", "Catch session", "Fishing GUI"];
         return categories.indexOf(a.name) - categories.indexOf(b.name);
     }
 })
@@ -28,11 +28,11 @@ class Settings {
         this.setCategoryDescription(`General information about MixendMod`);
         this.setCategoryDescription("Fishing", `Fishing related settings`);
 
-        // 1. Catch session GUI
+        // Catch session GUI
         this.addDependency(`Catch session GUI times`, "Catch session GUI");
         this.addDependency(`Catch session GUI percentages`, "Catch session GUI");
 
-        // 2. Fishing GUI
+        // Fishing GUI
         this.addDependency(`${TABname}Mythic creature count`, "Fishing GUI");
         this.addDependency(`${TABname}Bobber`, "Fishing GUI");
         this.addDependency(`${TABname}Active pet`, "Fishing GUI");
@@ -40,14 +40,14 @@ class Settings {
         this.addDependency(`${TABname}Catch rate`, "Fishing GUI");
         this.addDependency(`${TABname}Catching rate window length`, "Fishing GUI");
 
-        // 3. Crimson Catch
+        // Crimson catch
         this.addDependency(`${TABname}Lord Jawbus message`, "Lord Jawbus catch");
 
         this.addDependency(`${TABname}Thunder message`, "Thunder catch");
 
         this.addDependency(`${TABname}Plhlegblast message`, "Plhlegblast catch");
 
-        // 4. Other catch
+        // Other catch
         this.addDependency(`${TABname}Sea Emperor message`, "Sea Emperor catch");
 
         this.addDependency(`${TABname}Water Hydra message`, "Water Hydra catch");
@@ -64,7 +64,7 @@ class Settings {
 
         this.addDependency(`${TABname}Great White Shark message`, "Great White Shark catch");
 
-        // 5. Other
+        // Other
         this.addDependency(`${TABname}Double hook message`, "Double hook");
 
         // Other 
@@ -82,6 +82,12 @@ class Settings {
         // VANQUISHER
         this.addDependency(`${TABname}Vanquisher coords`, "Vanquisher spawn");
         this.addDependency(`${TABname}Vanquisher message`, "Vanquisher spawn");
+
+        this.addDependency(`${TABname}Blazing Fortune`, "Sea creature armor attribute");
+        this.addDependency(`${TABname}Magic Find`, "Sea creature armor attribute");
+        this.addDependency(`${TABname}Fishing Experience`, "Sea creature armor attribute");
+        this.addDependency(`${TABname}Infection`, "Sea creature armor attribute");
+
     }
 
     // ====================================================
@@ -90,7 +96,7 @@ class Settings {
     @TextProperty({
         name: `Party code invite`,
         description: `People who DM you this will get invited to your party\nLeave blank to disable`,
-        category: "General",
+        category: "Party",
         subcategory: "Party commands",
     })
     partyCode = "sendmeinvite";
@@ -98,7 +104,7 @@ class Settings {
     @SwitchProperty({
         name: "Enable party commands",
         description: "Allows other party members to access some party commands",
-        category: "General",
+        category: "Party",
         subcategory: "Party commands",
     })
     enablePartyCommands = false;
@@ -106,7 +112,7 @@ class Settings {
     @CheckboxProperty({
         name: `${TABname}Enable party warp`,
         description: `Enable !warp to warp the party to the leader lobby`,
-        category: "General",
+        category: "Party",
         subcategory: "Party commands",
     })
     enablePartyWarp = false;
@@ -114,18 +120,17 @@ class Settings {
     @CheckboxProperty({
         name: `${TABname}Enable party transfer`,
         description: `Enable !pt <PlayerName> to transfer the party to the specified player\n!pt and !ptme also available`,
-        category: "General",
+        category: "Party",
         subcategory: "Party commands",
     })
     enablePartyTransfer = false;
     //#endregion party commands
 
     //#region Pets
-
     @CheckboxProperty({
         name: `Pet level up warning`,
         description: `Displays a message on screen when a pet levels to 95 or higher`,
-        category: "General",
+        category: "Pet",
         subcategory: "Pet",
     })
     petLevelWarning = false;
@@ -133,7 +138,7 @@ class Settings {
     @CheckboxProperty({
         name: `Add pet percentage progress`,
         description: 'Adds Your Pet leveled up to level 0! [00.00%%]',
-        category: "General",
+        category: "Pet",
         subcategory: "Pet",
     })
     petPercentageProgress = false;
@@ -141,7 +146,7 @@ class Settings {
     @CheckboxProperty({
         name: `Hide summon pet`,
         description: `Hides "You summoned your Pet!" messages`,
-        category: "General",
+        category: "Pet",
         subcategory: "Pet",
     })
     petSummonHide = false;
@@ -149,7 +154,7 @@ class Settings {
     @CheckboxProperty({
         name: `Hide autopet message`,
         description: `Hides "Autopet equipped your [Lvl 0] Pet! VIEW RULE" messages`,
-        category: "General",
+        category: "Pet",
         subcategory: "Pet",
     })
     petAutopetHide = false;
@@ -176,89 +181,85 @@ class Settings {
 
     //#region Fishing
 
-    //#region 1. Catch session GUI
+    //#region Catch session GUI
     @SwitchProperty({
         name: "Catch session GUI",
         description: "Display catch session for crimson isle fishing. /mixgui session to move",
-        category: "Fishing",
-        subcategory: "1. Catch session GUI",
+        category: "Catch session",
+        subcategory: "Catch session GUI",
     })
     catchSession = false;
 
     @CheckboxProperty({
         name: "Catch session GUI times",
         description: "Display times since last sc in the catch session GUI",
-        category: "Fishing",
-        subcategory: "1. Catch session GUI",
+        category: "Catch session",
+        subcategory: "Catch session GUI",
     })
     catchSessionTime = false;
 
     @CheckboxProperty({
         name: "Catch session GUI percentages",
         description: "Display percentages in the catch session GUI",
-        category: "Fishing",
-        subcategory: "1. Catch session GUI",
+        category: "Catch session",
+        subcategory: "Catch session GUI",
     })
     catchSessionPercentage = false;
-    //#endregion 1. Catch session GUI
+    //#endregion Catch session GUI
 
-    //#region 2. Fishing GUI
+    //#region Fishing GUI
     @SwitchProperty({
         name: "Fishing GUI",
         description: "Display fishing GUI. /mixgui fish to move",
-        category: "Fishing",
-        subcategory: "2. Fishing GUI"
+        category: "Fishing GUI",
+        subcategory: "Fishing GUI"
     })
     fishingGUI = false;
 
     @CheckboxProperty({
         name: `${TABname}Mythic creature count`,
         description: `Display creature catch since mythic. Jawbus & Thunder`,
-        category: "Fishing",
-        subcategory: "2. Fishing GUI"
+        category: "Fishing GUI",
+        subcategory: "Fishing GUI"
     })
     fishingGUIMythic = false;
 
     @CheckboxProperty({
         name: `${TABname}Bobber`,
         description: `Display bobber count. Requires bobbers to be rendered in your game`,
-        category: "Fishing",
-        subcategory: "2. Fishing GUI"
+        category: "Fishing GUI",
+        subcategory: "Fishing GUI"
     })
     fishingGUIBobbers = false;
 
     @CheckboxProperty({
         name: `${TABname}Active pet`,
         description: `Display active pet. Requires to summon your pet again, or trigger a pet rule to activate`,
-        category: "Fishing",
-        subcategory: "2. Fishing GUI"
+        category: "Fishing GUI",
+        subcategory: "Fishing GUI"
     })
     fishingGUIPet = false;
 
     @CheckboxProperty({
         name: `${TABname}Catch rate`,
         description: `Display sea creature catch rate. Value is sea creature per minutes over the last 20 minutes by default.`,
-        category: "Fishing",
-        subcategory: "2. Fishing GUI"
+        category: "Fishing GUI",
+        subcategory: "Fishing GUI"
     })
     fishingGUIRate = false;
 
     @SliderProperty({
         name: `${TABname}Catching rate window length`,
         description: `Set window duration for moving average computation (minutes)`,
-        category: "Fishing",
-        subcategory: "2. Fishing GUI",
+        category: "Fishing GUI",
+        subcategory: "Fishing GUI",
         min: 1,
         max: 60
     })
     fishingGUILength = 5;
-    //#endregion 2. Fishing GUI
+    //#endregion Fishing GUI
 
-    //#region 3. Crimson catch
-    //
-    //
-    //
-    //
+    //#region Crimson catch
     //
     //
     //#region Lord Jawbus
@@ -266,7 +267,7 @@ class Settings {
         name: `Lord Jawbus catch`,
         description: "Enables a party message when reeling the mob.",
         category: "Fishing",
-        subcategory: "3. Crimson catch",
+        subcategory: "Crimson catch",
     })
     jawbusPartyPing = false;
 
@@ -274,7 +275,7 @@ class Settings {
         name: `${TABname}Lord Jawbus message`,
         description: `Changes the message sent to the party when reeling the mob.\nNeeds the corresponding mob message setting enabled.\nLeave blank for default message`,
         category: "Fishing",
-        subcategory: "3. Crimson catch"
+        subcategory: "Crimson catch"
     })
     jawbusMessage = "";
     //#endregion Lord Jawbus
@@ -283,7 +284,7 @@ class Settings {
         name: `Thunder catch`,
         description: "Enables a party message when reeling the mob.",
         category: "Fishing",
-        subcategory: "3. Crimson catch",
+        subcategory: "Crimson catch",
     })
     thunderPartyPing = false;
 
@@ -291,7 +292,7 @@ class Settings {
         name: `${TABname}Thunder message`,
         description: `Changes the message sent to the party when reeling the mob.\nNeeds the corresponding mob message setting enabled.\nLeave blank for default message`,
         category: "Fishing",
-        subcategory: "3. Crimson catch"
+        subcategory: "Crimson catch"
     })
     thunderMessage = "";
     //#endregion Thunder
@@ -300,7 +301,7 @@ class Settings {
         name: `Plhlegblast catch`,
         description: "Enables a party message when reeling the mob.",
         category: "Fishing",
-        subcategory: "3. Crimson catch",
+        subcategory: "Crimson catch",
     })
     plhlegblastPartyPing = false;
 
@@ -308,13 +309,53 @@ class Settings {
         name: `${TABname}Plhlegblast message`,
         description: `Changes the message sent to the party when reeling the mob.\nNeeds the corresponding mob message setting enabled.\nLeave blank for default message`,
         category: "Fishing",
-        subcategory: "3. Crimson catch"
+        subcategory: "Crimson catch"
     })
     plhlegblastMessage = "";
     //#endregion Plhlegblast
-    //#endregion 3. Crimson catch
 
-    //#region 4. Other catch
+    @CheckboxProperty({
+        name: `Sea creature armor attribute`,
+        description: "Enables a chat feedback when dropping sea creature armor pieces with certain attributes",
+        category: "Sea Creature Armor",
+        subcategory: "Crimson catch",
+    })
+    seaCreatureFeedback = false;
+
+    @CheckboxProperty({
+        name: `${TABname}Blazing Fortune`,
+        description: "Enables a chat feedback when dropping sea creature armor pieces with Blazing Fortune",
+        category: "Sea Creature Armor",
+        subcategory: "Crimson catch",
+    })
+    seaCreatureAmorBlazingFortune = false;
+
+    @CheckboxProperty({
+        name: `${TABname}Magic Find`,
+        description: "Enables a chat feedback when dropping sea creature armor pieces with Magic find",
+        category: "Sea Creature Armor",
+        subcategory: "Crimson catch",
+    })
+    seaCreatureAmorMagicFind = false;
+
+    @CheckboxProperty({
+        name: `${TABname}Fishing Experience`,
+        description: "Enables a chat feedback when dropping sea creature armor pieces with Fishing Experience",
+        category: "Sea Creature Armor",
+        subcategory: "Crimson catch",
+    })
+    seaCreatureAmorFishingExperience = false;
+
+    @CheckboxProperty({
+        name: `${TABname}Infection`,
+        description: "Enables a chat feedback when dropping sea creature armor pieces with Infection",
+        category: "Sea Creature Armor",
+        subcategory: "Crimson catch",
+    })
+    seaCreatureAmorInfection = false;
+    //#endregion Crimson catch
+
+    //#region Other catch
     //
     //
     //
@@ -326,7 +367,7 @@ class Settings {
         name: `Carrot King catch`,
         description: "Enables a party message when reeling the mob.",
         category: "Fishing",
-        subcategory: "4. Other catch",
+        subcategory: "Other catch",
     })
     carrotKingPartyPing = false;
 
@@ -334,7 +375,7 @@ class Settings {
         name: `${TABname}Carrot King message`,
         description: `Changes the message sent to the party when reeling the mob.\nNeeds the corresponding mob message setting enabled.\nLeave blank for default message`,
         category: "Fishing",
-        subcategory: "4. Other catch"
+        subcategory: "Other catch"
     })
     carrotKingMessage = "";
     //#endregion Carrot King
@@ -343,7 +384,7 @@ class Settings {
         name: `Sea Emperor catch`,
         description: "Enables a party message when reeling the mob.",
         category: "Fishing",
-        subcategory: "4. Other catch",
+        subcategory: "Other catch",
     })
     seaEmperorPartyPing = false;
 
@@ -351,7 +392,7 @@ class Settings {
         name: `${TABname}Sea Emperor message`,
         description: `Changes the message sent to the party when reeling the mob.\nNeeds the corresponding mob message setting enabled.\nLeave blank for default message`,
         category: "Fishing",
-        subcategory: "4. Other catch"
+        subcategory: "Other catch"
     })
     seaEmperorMessage = "";
     //#endregion Sea Emperor
@@ -360,7 +401,7 @@ class Settings {
         name: `Water Hydra catch`,
         description: "Enables a party message when reeling the mob.",
         category: "Fishing",
-        subcategory: "4. Other catch",
+        subcategory: "Other catch",
     })
     waterHydraPartyPing = false;
 
@@ -368,7 +409,7 @@ class Settings {
         name: `${TABname}Water Hydra message`,
         description: `Changes the message sent to the party when reeling the mob.\nNeeds the corresponding mob message setting enabled.\nLeave blank for default message`,
         category: "Fishing",
-        subcategory: "4. Other catch"
+        subcategory: "Other catch"
     })
     waterHydraMessage = "";
     //#endregion Water Hydra
@@ -377,7 +418,7 @@ class Settings {
         name: `Phantom Fisherman catch`,
         description: "Enables a party message when reeling the mob.",
         category: "Fishing",
-        subcategory: "4. Other catch",
+        subcategory: "Other catch",
     })
     phantomFishermanPartyPing = false;
 
@@ -385,7 +426,7 @@ class Settings {
         name: `${TABname}Phantom Fisherman message`,
         description: `Changes the message sent to the party when reeling the mob.\nNeeds the corresponding mob message setting enabled.\nLeave blank for default message`,
         category: "Fishing",
-        subcategory: "4. Other catch"
+        subcategory: "Other catch"
     })
     phantomFishermanMessage = "";
     //#endregion Phantom Fisherman
@@ -394,7 +435,7 @@ class Settings {
         name: `Grim Reaper catch`,
         description: "Enables a party message when reeling the mob.",
         category: "Fishing",
-        subcategory: "4. Other catch",
+        subcategory: "Other catch",
     })
     grimReaperPartyPing = false;
 
@@ -402,7 +443,7 @@ class Settings {
         name: `${TABname}Grim Reaper message`,
         description: `Changes the message sent to the party when reeling the mob.\nNeeds the corresponding mob message setting enabled.\nLeave blank for default message`,
         category: "Fishing",
-        subcategory: "4. Other catch"
+        subcategory: "Other catch"
     })
     grimReaperMessage = "";
     //#endregion Grim Reaper
@@ -411,7 +452,7 @@ class Settings {
         name: `Yeti catch`,
         description: "Enables a party message when reeling the mob.",
         category: "Fishing",
-        subcategory: "4. Other catch",
+        subcategory: "Other catch",
     })
     yetiPartyPing = false;
 
@@ -419,7 +460,7 @@ class Settings {
         name: `${TABname}Yeti message`,
         description: `Changes the message sent to the party when reeling the mob.\nNeeds the corresponding mob message setting enabled.\nLeave blank for default message`,
         category: "Fishing",
-        subcategory: "4. Other catch"
+        subcategory: "Other catch"
     })
     yetiMessage = "";
     //#endregion Yeti
@@ -428,7 +469,7 @@ class Settings {
         name: `Reindrake catch`,
         description: "Enables a party message when reeling the mob.",
         category: "Fishing",
-        subcategory: "4. Other catch",
+        subcategory: "Other catch",
     })
     reindrakePartyPing = false;
 
@@ -436,7 +477,7 @@ class Settings {
         name: `${TABname}Reindrake message`,
         description: `Changes the message sent to the party when reeling the mob.\nNeeds the corresponding mob message setting enabled.\nLeave blank for default message`,
         category: "Fishing",
-        subcategory: "4. Other catch"
+        subcategory: "Other catch"
     })
     reindrakeMessage = "";
     //#endregion Reindrake
@@ -445,7 +486,7 @@ class Settings {
         name: `Great White Shark catch`,
         description: "Enables a party message when reeling the mob.",
         category: "Fishing",
-        subcategory: "4. Other catch",
+        subcategory: "Other catch",
     })
     greatWhiteSharkPartyPing = false;
 
@@ -453,18 +494,18 @@ class Settings {
         name: `${TABname}Great White Shark message`,
         description: `Changes the message sent to the party when reeling the mob.\nNeeds the corresponding mob message setting enabled.\nLeave blank for default message`,
         category: "Fishing",
-        subcategory: "4. Other catch"
+        subcategory: "Other catch"
     })
     greatWhiteSharkMessage = "";
     //#endregion Great White Shark
-    //#endregion 4. Other catch
+    //#endregion Other catch
 
-    //#region 5. Other
+    //#region Other
     @SwitchProperty({
         name: "Double hook",
         description: "Enable double hook party ping",
         category: "Fishing",
-        subcategory: "5. Other"
+        subcategory: "Other"
     })
     sendDoubleHook = false;
 
@@ -472,7 +513,7 @@ class Settings {
         name: `${TABname}Double hook message`,
         description: `Custom message sent to the party`,
         category: "Fishing",
-        subcategory: "5. Other"
+        subcategory: "Other"
     })
     doubleHookMsg = "Noot noot >o<";
 
@@ -480,7 +521,7 @@ class Settings {
         name: `${TABname}Hide double hook message`,
         description: `Hides double hook message in chat`,
         category: "Fishing",
-        subcategory: "5. Other",
+        subcategory: "Other",
     })
     doubleHookHide = false;
 
@@ -488,7 +529,7 @@ class Settings {
         name: `Mob catch extra information`,
         description: `Adds [xx in ..h..m..s] or [xx at ../h] to mob catch party pings`,
         category: "Fishing",
-        subcategory: "5. Other",
+        subcategory: "Other",
     })
     catchMessageInformation = false;
 
@@ -496,7 +537,7 @@ class Settings {
         name: "Party ping catch rate display mode",
         description: "Change the catch rate display\nO: 32 in 5m | I: 32 at 750/h",
         category: "Fishing",
-        subcategory: "5. Other",
+        subcategory: "Other",
         options: ["32 in 5m", "32 at 750/h"]
     })
     catchPingMode = 0;
@@ -505,7 +546,7 @@ class Settings {
         name: "Hypixel fishing catch message",
         description: "Display Hypixel default catch message feedback",
         category: "Fishing",
-        subcategory: "5. Other",
+        subcategory: "Other",
     })
     catchMessageFeedback = true;
 
@@ -513,11 +554,11 @@ class Settings {
         name: "Custom fishing catch message",
         description: "Add a custom fishing catch feedback for mythic creatures",
         category: "Fishing",
-        subcategory: "5. Other",
+        subcategory: "Other",
     })
     catchMessageCustom = false;
 
-    //#endregion 5. Other
+    //#endregion Other
 
     //#endregion Fishing
 
@@ -608,13 +649,13 @@ class Settings {
     //#endregion Magic Find
 
     // -----------------------------------
-    // Crystal Hollows
+    // Magma Core
     // -----------------------------------
-    //#region Crystal Hollows
+    //#region Magma Core
     @SwitchProperty({
         name: `Ping worm cap`,
         description: "Party ping when worm cap is hit",
-        category: "Crystal Hollows",
+        category: "Magma Core",
         subcategory: "Worm fishing"
     })
     wormCapPing = false;
@@ -622,7 +663,7 @@ class Settings {
     @SliderProperty({
         name: `${TABname}Worm cap threshold`,
         description: "Set worm count at which mob cap ping starts",
-        category: "Crystal Hollows",
+        category: "Magma Core",
         subcategory: "Worm fishing",
         min: 1,
         max: 60
@@ -632,7 +673,7 @@ class Settings {
     @SwitchProperty({
         name: `Ping magma core cap`,
         description: "Party ping when magam core mobs cap is hit",
-        category: "Crystal Hollows",
+        category: "Magma Core",
         subcategory: "Magma core fishing",
     })
     magmacoreCapPing = false;
@@ -640,7 +681,7 @@ class Settings {
     @SliderProperty({
         name: `${TABname}Magma core cap threshold`,
         description: "Set lava flame+pigmen count at which mob cap ping starts",
-        category: "Crystal Hollows",
+        category: "Magma Core",
         subcategory: "Magma core fishing",
         min: 1,
         max: 60
@@ -652,32 +693,11 @@ class Settings {
         description: "Adds some statistics in the chat when dropping a Magma Core\n\
         \"Average of x scs per core in x scs\n\
         Dry Timer: xm xxs\"",
-        category: "Crystal Hollows",
+        category: "Magma Core",
         subcategory: "Magma core fishing",
     })
     magmaCoreStats = false;
-    //#endregion Crystal Hollows
-
-    // -----------------------------------
-    // Mining
-    // -----------------------------------
-    //#region Mining
-    @TextProperty({
-        name: `Mineshaft discovery message`,
-        description: `Custom message sent to the party when finding a mineshaft`,
-        category: "Mining",
-        subcategory: "Mineshaft"
-    })
-    mineshaftMessage = "!pt";
-
-    @TextProperty({
-        name: `Mineshaft scrap message`,
-        description: `Custom message sent to the party when finding a scrap`,
-        category: "Mining",
-        subcategory: "Mineshaft"
-    })
-    mineshaftScrapMessage = "[SCRAP] Got one";
-    //#region Mining
+    //#endregion Magma Core
 
     // -----------------------------------
     // DIANA

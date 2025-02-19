@@ -1,13 +1,15 @@
 import settings from "./settings";
 import "./features/fishing.js";
 import "./features/commands.js";
-import "./features/mining.js";
 import "./features/diana.js";
 import "./features/miniboss.js";
 import "./utils/functions.js";
 import "./features/itemInfo.js";
 import "./features/rareDrops.js";
+
+// Fishing
 import "./features/fishing/magmaCore.js";
+import "./features/fishing/crimsonIsle.js";
 
 import { BOLD, DARK_RED, GOLD, YELLOW } from "./utils/constants.js";
 

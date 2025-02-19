@@ -1,4 +1,4 @@
-import { BOLD, GOLD, GRAY, GREEN, LIGHT_PURPLE, RED, WHITE } from "../utils/constants";
+import { BOLD, GOLD, GRAY, GREEN, RED, WHITE } from "../utils/constants";
 import settings from "../settings";
 import { datav2, fileData } from "../utils/data";
 import { formatMilliseconds, sendCommand } from "../utils/functions";

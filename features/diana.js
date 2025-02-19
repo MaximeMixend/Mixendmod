@@ -1,29 +1,3 @@
-/**
- * TODO
- * Chimera detection
- * Minos relic, and other drops
- * Add GUI and track EVERYTHING (coins, burrows, mobs, crowns, burrow timer?? EVERYTHING)
- * Burrow items: mob, coin, washed-up, crown, feather
- * Mobs: Minos Hunter, Siamese Lynx (count as 2 mobs for tracker), Minotaur, Gaia construct, minos champion, minos inquisitor
- * Check if inquisitor died and then check if new chimera book in inventory
- * 
- * Session system for tracking ? -> Indicate year and mayor (if Jerry make it different I guess)
- *      Need a session tracking system
- * 
- * Track mob kills
- *      Detail mobs
- * Track number of burrows
- *      detail items and coins
- * Track mob drops
- *      Check when close to a mob, scan inventory before and after mob death
- * 
- * Party message when summoning inquisitor + coordinates
- * Chat message when digging a burrow with information
- *      Gold -> amount dug + new total
- *      Mob -> Count since last inquisitor
- *      Feather -> total
- * 
-*/
 import { dianaData } from "../utils/data";
 import { formatMilliseconds, sendCommand } from "../utils/functions";
 import settings from "../settings";
