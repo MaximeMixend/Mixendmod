@@ -1,6 +1,6 @@
 import settings from "../settings";
 import { BOLD, LIGHT_PURPLE, GOLD } from "./constants";
-import { crimsonIsleCatch, crystalHollowCatch, festivalCatch, spookyCatch, waterCatch, jerryWorkshopCatch, dropData } from "../utils/gameData";
+import { crimsonIsleCatch, crystalHollowCatch, festivalCatch, spookyCatch, waterCatch, jerryWorkshopCatch, dropData, oasisCatch } from "../utils/gameData";
 
 
 let textItem = new Text("", 0, 0);
@@ -26,9 +26,8 @@ export function announceMob(partyMsg, counter, interval) {
     let message = `pc ${partyMsg}`;
     if (settings.catchMessageInformation)
         message += settings.catchPingMode
-            ? ` [${counter} at ${valuePerHour.toFixed(1)}/h]`
-            : ` [${counter} in ${formattedInterval}]`;
-
+            ? ` [${counter} - ${valuePerHour.toFixed(1)}/h]`
+            : ` [${counter} - ${formattedInterval}]`;
     sendCommand(message);
 }
 
@@ -160,6 +159,9 @@ export function getCatchOptions() {
             break;
         case 'Jerry\'s Workshop':
             mobs = { ...jerryWorkshopCatch, ...waterCatch };
+            break;
+        case 'The Farming Islands':
+            mobs = { ...waterCatch, ...oasisCatch };
             break;
         default:
             mobs = { ...waterCatch };

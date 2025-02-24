@@ -6,7 +6,7 @@ import { formatMilliseconds, findFormattedKey, announceMob, calcAvg, sendCommand
 import { fileData, catchHistory, datav2 } from "../utils/data";
 import settings from "../settings";
 import { DARK_RED, BOLD, GOLD, RED, BLUE, RESET, GREEN, entitiesList, BLACK, WHITE } from "../utils/constants";
-import { doubleHookCatch, catchMobData, lavaSeaCreature, waterSeaCreature, seaCreatureConst, waterCatch, crimsonIsleCatch, spookyCatch, jerryWorkshopCatch, festivalCatch, crystalHollowCatch } from "../utils/gameData";
+import { doubleHookCatch, catchMobData, lavaSeaCreature, waterSeaCreature, seaCreatureConst, waterCatch, crimsonIsleCatch, spookyCatch, jerryWorkshopCatch, festivalCatch, crystalHollowCatch, oasisCatch } from "../utils/gameData";
 import { activePet } from "./pet";
 
 let textItem = new Text("", 0, 0);
@@ -47,10 +47,10 @@ register("chat", (expression, event) => {
     // Update catch pool
     catchPoolNames.forEach(_mobName => {
         datav2["seaCreaturesGlobal"][_mobName].since += 1;
-        datav2["seaCreaturesGlobal"][_mobName].session.since += 1;
+        // datav2["seaCreaturesGlobal"][_mobName].session.since += 1;
     })
     // Correct for extra incrementation on current mob
-    datav2["seaCreaturesGlobal"][mobName].session.since -= 1;
+    // datav2["seaCreaturesGlobal"][mobName].session.since -= 1;
     datav2["seaCreaturesGlobal"][mobName].since -= 1;
 
     // Do things based off settings (party ping, custom catch message)
@@ -61,24 +61,24 @@ register("chat", (expression, event) => {
 
         // Custom catch message
         if (settings.catchMessageCustom) {
-            let customMessage = fileData.doubleHook ? "(Double) " + catchData.name : catchData.name
+            let customMessage = fileData.doubleHook ? "(DH) " + catchData.name : catchData.name
             customMessage = catchData.color + BOLD + customMessage;
 
             if (settings.catchPingMode) {
                 let catchRate = catchSince / (catchInterval / 1000 / 3600);
-                ChatLib.chat(`${customMessage} ${WHITE}[${catchSince} at ${catchRate.toFixed(1)}/h]`);
+                ChatLib.chat(`${customMessage} ${WHITE}[${catchSince}- ${catchRate.toFixed(1)}/h]`);
             }
-            else { ChatLib.chat(`${customMessage} ${WHITE}[${catchSince} in ${formatMilliseconds(catchInterval)}]`); }
+            else { ChatLib.chat(`${customMessage} ${WHITE}[${catchSince} - ${formatMilliseconds(catchInterval)}]`); }
         }
 
         // Announce mob to party
         if (catchData.partyPing) {
             sayDoubleHook = false;
             let baseMessage = catchData.partyMessage === ""
-                ? `${catchData.name}! Sponsored by MixendMod™ `
+                ? `${catchData.name}! By MixendMod™ `
                 : catchData.partyMessage;
 
-            let partyMsg = fileData.doubleHook ? `(Double) ${baseMessage}` : baseMessage;
+            let partyMsg = fileData.doubleHook ? `(DH) ${baseMessage}` : baseMessage;
             announceMob(partyMsg.trim(), catchSince, catchInterval);
         };
 
@@ -111,9 +111,9 @@ register("chat", (expression, event) => {
     datav2["seaCreaturesGlobal"][mobName].time = Date.now();
     datav2["seaCreaturesGlobal"][mobName].count += 1;
     datav2["seaCreaturesGlobal"][mobName].since = 0;
-    datav2["seaCreaturesGlobal"][mobName].session.time = Date.now();
-    datav2["seaCreaturesGlobal"][mobName].session.count += 1;
-    datav2["seaCreaturesGlobal"][mobName].session.since = 0;
+    // datav2["seaCreaturesGlobal"][mobName].session.time = Date.now();
+    // datav2["seaCreaturesGlobal"][mobName].session.count += 1;
+    // datav2["seaCreaturesGlobal"][mobName].session.since = 0;
 
     // Save changes
     datav2.save()
@@ -126,7 +126,8 @@ register("chat", (expression, event) => {
     ...spookyCatch,
     ...jerryWorkshopCatch,
     ...festivalCatch,
-    ...crystalHollowCatch
+    ...crystalHollowCatch,
+    ...oasisCatch
 }));
 register("chat", () => {
     datav2["vanquisher"].since += 1;
@@ -218,8 +219,8 @@ register("renderoverlay", () => {
         let bobbers = World.getAllEntitiesOfType(entitiesList.FishHook).filter(dist => dist.distanceTo(Player.getPlayer()) < 30);
         bobberCount = bobbers.length
         if (settings.fishingGUIMythic) {
-            addGuiText(`${BLUE + BOLD}Thunder: ${GOLD + BOLD + datav2["seaCreaturesGlobal"]["thunder"].session.since} [${datav2.average["thunder"].value}]`, 0, 0);
-            addGuiText(`${RED + BOLD}Jawbus: ${GOLD + BOLD + datav2["seaCreaturesGlobal"]["lord_jawbus"].session.since} [${datav2.average["lord_jawbus"].value}]`, 2, 0);
+            addGuiText(`${BLUE + BOLD}Thunder: ${GOLD + BOLD + datav2["seaCreaturesGlobal"]["thunder"].since} [${datav2.average["thunder"].value}]`, 0, 0);
+            addGuiText(`${RED + BOLD}Jawbus: ${GOLD + BOLD + datav2["seaCreaturesGlobal"]["lord_jawbus"].since} [${datav2.average["lord_jawbus"].value}]`, 2, 0);
         }
         if (settings.fishingGUIPet) {
             addGuiText(`[${GOLD + BOLD + activePet.level + RESET}] ${activePet.color + BOLD + activePet.name} `, 0, 1);
@@ -263,7 +264,7 @@ register("renderoverlay", () => {
     }
 
     // GUI catch session breakdown
-    if (!settings.catchSession) { return; }
+    if (!settings.catchSession | true) { return; }
 
     let count = 0;
     let color = RED;
@@ -352,7 +353,6 @@ register("worldUnload", () => {
     catchHistory.history = [];
     catchHistory.save();
 });
-
 
 register("chat", () => {
     let oldestFish = Date.now() - catchHistory.history[0];
