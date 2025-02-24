@@ -76,9 +76,21 @@ register("chat", () => {
         sendCommand("p warp");
     }
 }).setCriteria("Party ${*}: !w");
+
+
+register("chat", () => {
+    if (settings.enablePartyCommands) {
+        let x = Math.round(Player.getX());
+        let y = Math.round(Player.getY());
+        let z = Math.round(Player.getZ());
+        let coords = `x: ${x}, y: ${y}, z: ${z} `
+        sendCommand(`pc ${coords}`);
+    }
+}).setCriteria("Party ${*}: !coords");
+
 //#endregion Party commands
 
-
+// Quick fix for screen alert when changing lobby not working.
 register("chat", () => {
     Client.showTitle(`aaaaaaaa`, "", 1, 1, 1);
 }).setCriteria("Sending to server ${*}");
