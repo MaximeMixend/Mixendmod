@@ -6,6 +6,7 @@ import "./features/miniboss.js";
 import "./utils/functions.js";
 import "./features/itemInfo.js";
 import "./features/rareDrops.js";
+import "./features/toOrganize.js";
 
 // Fishing
 import "./features/fishing/magmaCore.js";

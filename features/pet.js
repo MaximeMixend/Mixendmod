@@ -18,7 +18,7 @@ const TIME_ALERT_CD = 10;
 register("chat", (pet, level, event) => {
     if (!settings.petLevelWarning) { return; }
 
-    if (level == "100") {
+    if (parseInt(level) == 100) {
         // Make this screal until stopped
         petReached100 = true;
         timeAlertPet100 = TIME_ALERT_CD;
@@ -124,9 +124,3 @@ register("chat", (pet, event) => {
     activePet.level = "?";
 }).setCriteria("You summoned your ${pet}!");
 //#endregion Active pet
-
-
-register("chat", (kills, bonus, event) => {
-    cancel(event);
-    // console.log("&");
-}).setCriteria("+${kills} Kill Combo ${bonus}")

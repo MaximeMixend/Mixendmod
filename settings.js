@@ -167,6 +167,23 @@ class Settings {
         subcategory: "Misc",
     })
     thunderBottleFeature = false;
+
+    @CheckboxProperty({
+        name: `Tribe Member filter`,
+        description: `Filters out the Tribe Member yap in the jungle`,
+        category: "General",
+        subcategory: "Other",
+    })
+    removeTribeYap = false;
+
+    
+    @CheckboxProperty({
+        name: `Combo filter`,
+        description: `Filters out the Combo yap`,
+        category: "General",
+        subcategory: "Other",
+    })
+    removeComboYap = false;
     //#endregion General
 
     // ====================================================
