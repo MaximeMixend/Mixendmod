@@ -49,21 +49,27 @@ register("step", () => {
                 wormCount += 1;
             }
         });
+
         // Send ping once threshold reached, pings only once
         if ((pigmenCount + flameCount) >= settings.magmacoreCapThreshold && !isCappedCores) {
             sendCommand(`pc CORE CAP! [${pigmenCount} pigs & ${flameCount} blazes] [${formatMilliseconds(Date.now() - lastCaptimeMagma)}]`);
             isCappedCores = true;
         }
-        else if ((wormCount) >= settings.wormCapThreshold && !isCappedWorms) {
-            sendCommand(`pc WORM CAP! [${wormCount} in ${formatMilliseconds(Date.now() - lastCaptimeWorms)}]`);
-            isCappedWorms = true;
-        }
         // Given cap was reached, if worms are cleared, starts counting until next cap
-        else if (isCappedCores && (pigmenCount + flameCount) < 2) {
+        else if (isCappedCores && (pigmenCount + flameCount) == 0) {
             isCappedCores = false;
             lastCaptimeMagma = Date.now();
         }
         else { }
+        if ((wormCount) >= settings.wormCapThreshold && !isCappedWorms) {
+            sendCommand(`pc WORM CAP! [${wormCount} in ${formatMilliseconds(Date.now() - lastCaptimeWorms)}]`);
+            isCappedWorms = true;
+        }
+        // Given cap was reached, if worms are cleared, starts counting until next cap
+        else if (isCappedWorms && wormCount == 0) {
+            isCappedWorms = false;
+            lastCaptimeWorms = Date.now();
+        }
     }
 }).setDelay(1);
 
