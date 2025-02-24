@@ -42,26 +42,18 @@ class Settings {
 
         // Crimson catch
         this.addDependency(`${TABname}Lord Jawbus message`, "Lord Jawbus catch");
-
         this.addDependency(`${TABname}Thunder message`, "Thunder catch");
-
         this.addDependency(`${TABname}Plhlegblast message`, "Plhlegblast catch");
 
         // Other catch
         this.addDependency(`${TABname}Sea Emperor message`, "Sea Emperor catch");
-
         this.addDependency(`${TABname}Water Hydra message`, "Water Hydra catch");
-
+        this.addDependency(`${TABname}Abyssal Miner message`, "Abyssal Miner catch");
         this.addDependency(`${TABname}Carrot King message`, "Carrot King catch");
-
         this.addDependency(`${TABname}Phantom Fisherman message`, "Phantom Fisherman catch");
-
         this.addDependency(`${TABname}Grim Reaper message`, "Grim Reaper catch");
-
         this.addDependency(`${TABname}Yeti message`, "Yeti catch");
-
         this.addDependency(`${TABname}Reindrake message`, "Reindrake catch");
-
         this.addDependency(`${TABname}Great White Shark message`, "Great White Shark catch");
 
         // Other
@@ -413,6 +405,23 @@ class Settings {
     })
     waterHydraMessage = "";
     //#endregion Water Hydra
+    //#region Abyssal Miner
+    @CheckboxProperty({
+        name: `Abyssal Miner catch`,
+        description: "Enables a party message when reeling the mob.",
+        category: "Fishing",
+        subcategory: "Other catch",
+    })
+    abyssalMinerPartyPing = false;
+
+    @TextProperty({
+        name: `${TABname}Abyssal Miner message`,
+        description: `Changes the message sent to the party when reeling the mob.\nNeeds the corresponding mob message setting enabled.\nLeave blank for default message`,
+        category: "Fishing",
+        subcategory: "Other catch"
+    })
+    abyssalMinerMessage = "";
+    //#endregion Abyssal Miner
     //#region Phantom Fisherman
     @CheckboxProperty({
         name: `Phantom Fisherman catch`,

@@ -141,6 +141,15 @@ export function catchMobData(mobName) {
             trackedLoot: undefined,
             trackAverage: false
         }
+        case "abyssal_miner": return {
+            color: GREEN,
+            name: "Abyssal Miner",
+            partyPing: settings.abyssalMinerPartyPing,
+            partyMessage: settings.abyssalMinerMessage,
+            trackedLoot: undefined,
+            trackAverage: false
+        }
+
         default:
             return false;
     }
@@ -165,8 +174,13 @@ export const crystalHollowCatch = {
     "An Abyssal Miner breaks out of the water!": "abyssal_miner",
     "A Flaming Worm surfaces from the depths!": "flaming_worm",
     "A Lava Blaze has surfaced from the depths!": "lava_blaze",
-    "A Lava Pigman arose from the depths!": "lava_pigman"
+    "A Lava Pigman arose from the depths!": "lava_pigman",
 }
+
+export const oasisCatch = {
+    "An Oasis Sheep appears from the water.": "oasis_sheep",
+    "An Oasis Rabbit appears from the water.": "oasis_rabbit"
+};
 
 export const waterCatch = {
     "A Squid appeared.": "squid",
@@ -228,6 +242,8 @@ export const waterSeaCreature = [
     "water_hydra",
     "sea_emperor",
     "agarimoo",
+    "oasis_rabbit",
+    "oasis_sheep",
     "scarecrow",
     "nightmare",
     "werewolf",
@@ -280,6 +296,8 @@ export const seaCreatureConst = {
     "water_hydra": "Water Hydra",
     "sea_emperor": "Sea Emperor",
     "agarimoo": "Agarimoo",
+    "oasis_sheep": "Oasis Sheep",
+    "oasis_rabbit": "Oasis Rabbit",
     "scarecrow": "Scarecrow",
     "nightmare": "Nightmare",
     "werewolf": "Werewolf",
