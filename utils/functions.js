@@ -33,10 +33,10 @@ export function announceMob(partyMsg, counter, interval) {
 
 export function announceDrop(msg, count, time, spam) {
     if (settings.partyPingDrops) {
-        sendCommand(`pc ${msg.replace(/&./g, '')} [${count} in ${formatMilliseconds(Date.now() - time)}]`);
+        sendCommand(`pc ${msg.replace(/&./g, '')} [${count} - ${formatMilliseconds(Date.now() - time)}]`);
         if (false) {
-            sendCommand(`gc ${msg.replace(/&./g, '')} [${count} in ${formatMilliseconds(Date.now() - time)}]`);
-            sendCommand(`ac ${msg.replace(/&./g, '')} [${count} in ${formatMilliseconds(Date.now() - time)}]`);
+            sendCommand(`gc ${msg.replace(/&./g, '')} [${count} - ${formatMilliseconds(Date.now() - time)}]`);
+            sendCommand(`ac ${msg.replace(/&./g, '')} [${count} - ${formatMilliseconds(Date.now() - time)}]`);
         }
 
     }
