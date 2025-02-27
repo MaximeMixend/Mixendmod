@@ -38,7 +38,6 @@ class Settings {
         this.addDependency(`${TABname}Active pet`, "Fishing GUI");
 
         this.addDependency(`${TABname}Catch rate`, "Fishing GUI");
-        this.addDependency(`${TABname}Catching rate window length`, "Fishing GUI");
 
         // Crimson catch
         this.addDependency(`${TABname}Lord Jawbus message`, "Lord Jawbus catch");
@@ -116,6 +115,14 @@ class Settings {
         subcategory: "Party commands",
     })
     enablePartyTransfer = false;
+
+    @CheckboxProperty({
+        name: `${TABname}Enable party catches rate`,
+        description: `Enable !mixrates`,
+        category: "Party",
+        subcategory: "Party commands",
+    })
+    enableMixRate = false;
     //#endregion party commands
 
     //#region Pets
@@ -176,7 +183,6 @@ class Settings {
     })
     removeTribeYap = false;
 
-    
     @CheckboxProperty({
         name: `Combo filter`,
         description: `Filters out the Combo yap`,
@@ -256,16 +262,6 @@ class Settings {
         subcategory: "Fishing GUI"
     })
     fishingGUIRate = false;
-
-    @SliderProperty({
-        name: `${TABname}Catching rate window length`,
-        description: `Set window duration for moving average computation (minutes)`,
-        category: "Fishing GUI",
-        subcategory: "Fishing GUI",
-        min: 1,
-        max: 60
-    })
-    fishingGUILength = 5;
     //#endregion Fishing GUI
 
     //#region Crimson catch

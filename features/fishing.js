@@ -63,6 +63,7 @@ register("chat", (expression, event) => {
         if (settings.catchMessageCustom) {
             let customMessage = fileData.doubleHook ? "(DH) " + catchData.name : catchData.name
             customMessage = catchData.color + BOLD + customMessage;
+            Client.showTitle(`Caught ${BOLD + catchData.color + catchData.name}`, "", 5, 60, 25);
 
             if (settings.catchPingMode) {
                 let catchRate = catchSince / (catchInterval / 1000 / 3600);
@@ -140,22 +141,23 @@ register("chat", () => {
 //========================================
 // SC TRACKER
 //========================================
+let trackLengthMin = 5;
 // Updates rates based on catch history (duration in settings)
 register("step", (event) => {
     if (!settings.fishingGUIRate) { return; }
     let now = Date.now();
     let myList = catchHistory.history;
     let modeConverter = 3600; // true: per hour, off: per min
-    let timespan = settings.fishingGUILength * 60; // in sec
+    let timespan = trackLengthMin * 60; // in sec
 
     // Started less than settings.scRateWindowSec min ago
-    if (myList[0] >= now - settings.fishingGUILength * 1000 * 60) {
+    if (myList[0] >= now - trackLengthMin * 1000 * 60) {
         // Time since first catch in seconds
         timespan = (now - myList[0]) / 1000;
     }
     else {
         // remove all entries older than settings.scRateWindowSec min ago
-        myList = myList.filter(value => value > now - settings.fishingGUILength * 1000 * 60);
+        myList = myList.filter(value => value > now - trackLengthMin * 1000 * 60);
     };
     if (!myList.length) {
         rateMobCount = 0;
@@ -355,6 +357,8 @@ register("worldUnload", () => {
 });
 
 register("chat", () => {
-    let oldestFish = Date.now() - catchHistory.history[0];
-    sendCommand(`pc ${rateSc.toFixed(1)} sc/hr in the past ${formatMilliseconds(oldestFish)} (${rateMobCount} sc in ${formatMilliseconds(Date.now() - startTime)})`)
+    if (settings.enableMixRate) {
+        let oldestFish = Date.now() - catchHistory.history[0];
+        sendCommand(`pc ${rateSc.toFixed(1)} catches/hr in the past ${formatMilliseconds(oldestFish)} (${rateMobCount} catches in ${formatMilliseconds(Date.now() - startTime)})`)
+    }
 }).setCriteria("Party ${*}: !mixrates");
